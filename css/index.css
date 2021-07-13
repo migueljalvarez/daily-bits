@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&family=Open+Sans&display=swap');
 :root {
   /* Colors */
   --color-black: #16161a;
@@ -13,11 +14,11 @@ body {
   margin: unset;
   padding: unset;
   background-color: var(--color-black);
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Nunito', sans-serif;
 }
+
 a div {
   text-align: center;
-  
 }
 a .name {
   font-size: small;
@@ -27,7 +28,7 @@ a .name {
   display: flex;
   background-color: var(--color-darkgray);
   align-items: center;
-  padding: 20px 35px;
+  padding: 15px 35px;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -44,14 +45,51 @@ a .name {
   text-decoration: none;
 }
 
-
+.text-header {
+  color:var(--color-white);
+  text-align: center;
+  padding: 5px 20px;
+}
+.title {
+  color: var(--color-white);
+  margin-left: 10px;
+}
+/* Containers */
+.container-info {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: var(--color-white);
+}
+.container-info h3 {
+  margin-block-start: unset;
+  margin-block-end: unset;
+}
+.container-info p {
+  margin-block-start: unset;
+  margin-block-end: unset;
+  font-size: small;
+}
+.container-info img {
+  margin: auto;
+  width: 100px;
+  border-radius: 50%;
+}
+/* End Containers */
+/* Bottons */
+.logout-btn {
+  color: var(--color-red);
+  background-color: unset;
+  width: fit-content;
+  margin: auto;
+  border: none;
+}
+/* End Bottons */
 @media screen and (min-width: 320px) and (max-width: 359px) {
   /* .navbar ul li {
     padding: 20px 25px;
   } */
 }
-/* @media screen and (min-width: 360px) and (max-width: 359px) {
-  .navbar ul li {
-    padding: 20px 30px;
-  }
-} */
+@media screen and (min-width: 360px) and (max-width: 639px) {
+  
+}
