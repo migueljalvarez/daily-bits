@@ -16,35 +16,6 @@ body {
   background-color: var(--color-black);
   font-family: 'Nunito', sans-serif;
 }
-
-a div {
-  text-align: center;
-}
-a .name {
-  font-size: small;
-  margin-top: 5px;
-}
-.navbar {
-  display: flex;
-  background-color: var(--color-darkgray);
-  align-items: center;
-  padding: 15px 35px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  justify-content: space-between;
-}
-
-.navbar a {
-  display: flex;
-  flex-direction: column;
-  float: left;
-  list-style: none;
-  color: var(--color-white);
-  text-decoration: none;
-}
-
 .text-header {
   color:var(--color-white);
   text-align: center;
@@ -85,6 +56,48 @@ a .name {
   border: none;
 }
 /* End Bottons */
+/* icons */
+.icon {
+  width: 24px;
+  height: 24px;
+}
+.icon path {
+  fill: var(--color-white);
+}
+.footer-link {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+#footer .footer-link:hover, #footer.footer-link:focus , .icon:hover {
+  color: var(--color-green);
+}
+.footer-link:hover svg path, .footer-link:focus svg path {
+  fill: var(--color-green)
+}
+
+/* Footer */
+#footer {
+  display: flex;
+  background-color: var(--color-darkgray);
+  align-items: center;
+  padding: 15px 35px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  justify-content: space-between;
+}
+
+#footer a {
+  display: flex;
+  flex-direction: column;
+  float: left;
+  list-style: none;
+  color: var(--color-white);
+  text-decoration: none;
+}
+/* end Footer */
 @media screen and (min-width: 320px) and (max-width: 359px) {
   /* .navbar ul li {
     padding: 20px 25px;
