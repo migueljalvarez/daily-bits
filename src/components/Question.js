@@ -6,9 +6,10 @@ class Question {
     this.loadQuestionInLocalStorages(this.category);
   }
   getRandomQuestion() {
-    let q = this.findQuestions();
-    let question = q.find((option) => !option.state);
-    return question;
+    let all = this.findQuestions();
+    let questions = all.filter((option) => !option.state);
+    const random = Math.floor(Math.random() * questions.length);
+    return questions[random];
   }
   buildQuestion(data) {
     switch (data.type) {

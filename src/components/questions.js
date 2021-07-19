@@ -8,7 +8,6 @@ let category = localStorage.getItem("categorySelected");
 var questions = new Question(category);
 
 const customClass = (id, className, method) => {
-  // console.log(document.getElementById(id));
   document.getElementById(id).classList[method](className);
 };
 
