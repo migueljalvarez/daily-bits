@@ -11,38 +11,19 @@ const customClass = (id, className, method) => {
   document.getElementById(id).classList[method](className);
 };
 
-const getQuestion = () => {
-  let q = questions.findQuestions();
-  let question = q.find((option) => !option.state);
-  return question;
-};
 const loadQuestions = () => {
   // Load Number of Life
   live.start();
   document.querySelector("#life").innerHTML = live.get();
-  // proggresbar
-  let stateProgress = progressBar.getProgress();
-  document.getElementById("bar").style.width = `${stateProgress}%`;
+  let progress = progressBar.getProgress();
+  document.getElementById("bar").style.width = `${progress}%`;
   // load question
-  let question = getQuestion();
+  questions.getQuestionWithOption()
 
-  if (!question) {
-    localStorage.setItem(`${category}-complete`, "true");
-    window.location.href="/public/index.html";
-  }
-  document.querySelector("#questions").innerHTML = `<div>
-    <img src="../src/assets/svg/${question.avatar}.svg" alt="user" width="80">
-    <h2>${question.name}</h2>
-  </div>`;
-
-  document.querySelector("#options").innerHTML = ``;
-  question.options.forEach((option) => {
-    document.querySelector("#options").innerHTML += `
-    <div id=${option.id} class="option-select-default">
-      <label>${option.label}</label>
-      <input type="radio" name="items" id=${option.item} value=${option.item}></input>
-    </div>`;
-  });
+  // if (!question) {
+  //   localStorage.setItem(`${category}-complete`, "true");
+  //   window.location.href="/public/index.html";
+  // }
 
   // Primera Opcion
   document.getElementById("first-item").onclick = function firstItem() {
@@ -92,6 +73,7 @@ const loadQuestions = () => {
   };
 };
 window.onload = loadQuestions;
+
 const nextQuestion = () => {
   document.querySelector("#notification").innerHTML = "";
   loadQuestions();
@@ -103,8 +85,10 @@ const retry = (id, life) => {
   document.querySelector("#life").innerHTML = live.get();
   loadQuestions();
 };
+
+
 const check = () => {
-  let question = getQuestion();
+  let question = questions.getRandomQuestion();
   if (questions.verify(question)) {
     document.querySelector("#notification").innerHTML = `
       <div id="notification" class="notification-success show">
@@ -124,7 +108,7 @@ const check = () => {
     let option = options.find(
       (option) => option.item === localStorage.getItem("response")
     );
-    let match = options.find((option) => option.isCorrect);
+    let match = options.find((option) => option.isTrue);
     customClass(`${option.id}`, "option-select-failed", "add");
     document.querySelector("#notification").innerHTML = `
       <div id="notification" class="notification-failed show">
