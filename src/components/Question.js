@@ -69,9 +69,9 @@ class Question {
     });
     localStorage.setItem(this.category, JSON.stringify(questions));
   }
-  reset() {
-    if (localStorage.getItem(this.category)) {
-      localStorage.removeItem(this.category);
+  static reset(category) {
+    if (localStorage.getItem(category)) {
+      localStorage.removeItem(category);
       return true;
     }
   }

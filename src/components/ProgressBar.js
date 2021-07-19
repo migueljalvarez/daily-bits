@@ -1,33 +1,29 @@
 import Question from "./Question.js";
 
-let category = localStorage.getItem("categorySelected");
-const questions = new Question(category);
 class ProgressBar {
   constructor() {}
-  load(portion) {
-    console.log(portion);
+  static load(portion) {
     let max = 100;
     let percent = max / portion;
-    let currentPercent = localStorage.getItem("stateProgress")
-      ? parseFloat(localStorage.getItem("stateProgress"))
+    let currentPercent = localStorage.getItem("progress")
+      ? parseFloat(localStorage.getItem("progress"))
       : 0;
-
     currentPercent = parseFloat(currentPercent) + parseFloat(percent);
-    console.log(currentPercent);
     document.getElementById("bar").style.width = `${currentPercent}%`;
-    let stateProgress = currentPercent;
-    localStorage.setItem("stateProgress", stateProgress);
+    let progress = currentPercent;
+    localStorage.setItem("progress", progress);
   }
-  getProgress() {
-    let stateProgress = localStorage.getItem("stateProgress")
-      ? parseFloat(localStorage.getItem("stateProgress"))
+  static getProgress() {
+    let progress = localStorage.getItem("progress")
+      ? parseFloat(localStorage.getItem("progress"))
       : 0;
-    return stateProgress;
+    return progress;
   }
-  reset() {
-    localStorage.setItem("stateProgress", 0);
+  static reset() {
+    let category = localStorage.getItem("categorySelected");
+    localStorage.setItem("progress", 0);
     document.getElementById("bar").style.width = 0;
-    return questions.reset();
+    return Question.reset(category);
   }
 }
 

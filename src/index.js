@@ -18,12 +18,4 @@ window.onload = function () {
 //   return localStorage.setItem("categorySeleted", "js");
 // };
 
-// document.getElementById('questions').onload = function getCategorySelect() {
-//   category = localStorage.getItem("categorySeleted");
-//   console.log("hola");
-//   return document.querySelector('#questions').innerHTML = `
-//                                                     <p>${"HOLA"}</p>
-
-//                                                   `
-// }
 

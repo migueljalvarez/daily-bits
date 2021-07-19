@@ -1,24 +1,62 @@
 import ProgressBar from "./ProgressBar.js";
 import Live from "./Live.js";
 import Question from "./Question.js";
-const live = new Live();
-const progressBar = new ProgressBar();
+import Notification from "./Notification.js";
+import constants from "../utils/constants.js";
 
 let category = localStorage.getItem("categorySelected");
 var questions = new Question(category);
 
 const customClass = (id, className, method) => {
+  // console.log(document.getElementById(id));
   document.getElementById(id).classList[method](className);
 };
 
-const loadQuestions = () => {
+const retry = (id, life) => {
+  Notification.clean();
+  customClass(`${id}`, "option-select-failed", "remove");
+  Live.update(life);
+  document.querySelector("#life").innerHTML = Live.get();
+  load();
+};
+
+const complete = (data) => {
+  if (questions.verify(data)) {
+    let questionsNumber = questions.findQuestions();
+    questions.setState(data, true);
+    ProgressBar.load(questionsNumber.length);
+    nextQuestion();
+  } else {
+    let { options } = data;
+    let option = options.find(
+      (option) => option.item === localStorage.getItem("response")
+    );
+    let life = Live.discount();
+    if (life > 0) {
+      retry(option.id, life);
+    } else {
+      const { type } = constants.NOTIFICATION_RESET;
+      document.querySelector("#notification").innerHTML =
+        Notification.get(type);
+      document.getElementById("complete").onclick = function () {
+        let isCleaned = Live.restart();
+        if (isCleaned) {
+          Notification.clean();
+          load();
+        }
+      };
+    }
+  }
+};
+
+const load = () => {
   // Load Number of Life
-  live.start();
-  document.querySelector("#life").innerHTML = live.get();
-  let progress = progressBar.getProgress();
+  Live.start();
+  document.querySelector("#life").innerHTML = Live.get();
+  let progress = ProgressBar.getProgress();
   document.getElementById("bar").style.width = `${progress}%`;
   // load question
-  questions.getQuestionWithOption()
+  questions.getQuestionWithOption();
 
   // if (!question) {
   //   localStorage.setItem(`${category}-complete`, "true");
@@ -72,37 +110,18 @@ const loadQuestions = () => {
     document.querySelector("#check").removeAttribute("disabled");
   };
 };
-window.onload = loadQuestions;
+window.onload = load;
 
 const nextQuestion = () => {
-  document.querySelector("#notification").innerHTML = "";
-  loadQuestions();
+  Notification.clean();
+  load();
 };
-const retry = (id, life) => {
-  document.querySelector("#notification").innerHTML = "";
-  customClass(`${id}`, "option-select-failed", "remove");
-  live.update(life);
-  document.querySelector("#life").innerHTML = live.get();
-  loadQuestions();
-};
-
 
 const check = () => {
   let question = questions.getRandomQuestion();
   if (questions.verify(question)) {
-    document.querySelector("#notification").innerHTML = `
-      <div id="notification" class="notification-success show">
-        <p id="message-title">¡Buen Trabajo!</p>
-        <input id="complete" class="complete-success" type="submit" value="Continuar">
-      </div>
-    `;
-
-    document.getElementById("complete").onclick = function () {
-      let questionsNumber = questions.findQuestions();
-      questions.setState(question, true);
-      progressBar.load(questionsNumber.length);
-      nextQuestion();
-    };
+    const { type } = constants.NOTIFICATION_SUCCESS;
+    document.querySelector("#notification").innerHTML = Notification.get(type);
   } else {
     let { options } = question;
     let option = options.find(
@@ -110,26 +129,15 @@ const check = () => {
     );
     let match = options.find((option) => option.isTrue);
     customClass(`${option.id}`, "option-select-failed", "add");
-    document.querySelector("#notification").innerHTML = `
-      <div id="notification" class="notification-failed show">
-        <p id="message-title">La respuesta es correcta es:</p>
-        <p id="message-response">${match.label}</p>
-        <input id="complete" class="complete-failed" type="submit" value="Continuar">
-      </div>
-    `;
-
-    document.getElementById("complete").onclick = function () {
-      let life = live.discount();
-      if (life > 0) {
-        retry(option.id, life);
-      } else {
-        let isCleaned = live.restart();
-        if (isCleaned) {
-          document.querySelector("#notification").innerHTML = "";
-          loadQuestions();
-        }
-      }
-    };
+    const { type } = constants.NOTIFICATION_FAILED;
+    document.querySelector("#notification").innerHTML = Notification.get(
+      type,
+      match
+    );
   }
+
+  document.getElementById("complete").onclick = function submit() {
+    return complete(question);
+  };
 };
 document.getElementById("check").onclick = check;

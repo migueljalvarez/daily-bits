@@ -1,26 +1,26 @@
 import ProgressBar from "./ProgressBar.js";
-const progressBar = new ProgressBar();
-
+import constants from "../utils/constants.js";
 class Live {
-  start() {
+  constructor(){}
+  static start() {
     let life = localStorage.getItem("life")
       ? localStorage.getItem("life")
-      : localStorage.setItem("life", 4);
+      : localStorage.setItem("life", constants.LIFE);
     return life;
   }
-  get() {
+  static get() {
     let life = localStorage.getItem("life");
     return life;
   }
-  restart() {
-    localStorage.setItem("life", 4);
+  static restart() {
+    localStorage.setItem("life", constants.LIFE);
     document.querySelector("#life").innerHTML = this.get();
-    return progressBar.reset();
+    return ProgressBar.reset();
   }
-  update(life) {
+  static update(life) {
     localStorage.setItem("life", life);
   }
-  discount() {
+  static discount() {
     let life = localStorage.getItem("life");
     if (life > 0) {
       return life - 1;

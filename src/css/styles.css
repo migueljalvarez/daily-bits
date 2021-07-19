@@ -323,11 +323,17 @@ option {
   display: flex !important;
   bottom: 0px !important;
 }
+
 .notification-success {
+  background-color: #acffcf;
+}
+.notification-reset {
+  background-color: var(--color-white);
+}
+.notification-success, .notification-reset {
   display: none;
   flex-direction: column;
   position: absolute;
-  background-color: #acffcf;
   width: 100%;
   height: 120px;
   bottom: -1000px;
@@ -353,7 +359,7 @@ option {
   margin-left: 15px;
   margin-bottom: 0px;
 }
-.notification-success #message-title {
+.notification-success #message-title, .notification-reset #message-title {
   color: #16161a;
 }
 .notification-failed #message-title,
@@ -367,4 +373,8 @@ option {
 .complete-failed {
   background-color: var(--color-red);
   box-shadow: 0 1px 1px 1px #b81e3b;
+}
+.complete-reset {
+  background-color: gray;
+  box-shadow: 0 1px 1px 1px #4a4a64;
 }
