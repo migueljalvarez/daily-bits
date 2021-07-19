@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../src/css/styles.css">
+  <title>Questions</title>
+</head>
+
+<body>
+  <main>
+    <div class="flex justify-center progress-bar-container">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M18.7071 6.70711C19.0976 6.31658 19.0976 5.68342 18.7071 5.29289C18.3166 4.90237 17.6834 4.90237 17.2929 5.29289L12 10.5858L6.70711 5.29289C6.31658 4.90237 5.68342 4.90237 5.29289 5.29289C4.90237 5.68342 4.90237 6.31658 5.29289 6.70711L10.5858 12L5.29289 17.2929C4.90237 17.6834 4.90237 18.3166 5.29289 18.7071C5.68342 19.0976 6.31658 19.0976 6.70711 18.7071L12 13.4142L17.2929 18.7071C17.6834 19.0976 18.3166 19.0976 18.7071 18.7071C19.0976 18.3166 19.0976 17.6834 18.7071 17.2929L13.4142 12L18.7071 6.70711Z"
+          fill="white" />
+      </svg>
+
+      <div id="progress" class="progress">
+        <div id="bar" class="bar"></div>
+      </div>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M19.0554 3.41708C19.7228 3.69364 20.3292 4.099 20.84 4.60999C21.351 5.12075 21.7563 5.72718 22.0329 6.39464C22.3095 7.0621 22.4518 7.77751 22.4518 8.49999C22.4518 9.22248 22.3095 9.93789 22.0329 10.6053C21.7563 11.2728 21.351 11.8792 20.84 12.39L19.78 13.45L12 21.23L4.22 13.45L3.16 12.39C2.1283 11.3583 1.54871 9.95903 1.54871 8.49999C1.54871 7.04096 2.1283 5.64169 3.16 4.60999C4.19169 3.5783 5.59096 2.9987 7.05 2.9987C8.50903 2.9987 9.9083 3.5783 10.94 4.60999L12 5.66999L13.06 4.60999C13.5708 4.099 14.1772 3.69364 14.8446 3.41708C15.5121 3.14052 16.2275 2.99817 16.95 2.99817C17.6725 2.99817 18.3879 3.14052 19.0554 3.41708Z"
+          fill="#EF4565" />
+      </svg>
+      <p id="life" class="count-life text-white">4</p>
+    </div>
+    <div id="questions" class="flex flex-row">
+      <img src="" alt="" width="80">
+      <h2>Cargando Preguntas...</h2>
+    </div>
+    <div class="container-options">
+      <div id="options" class="flex flex-col"></div>
+      <br>
+      <input id="check" type="submit" value="Comprobar" disabled>
+      <a id="redirect" href=""></a>
+      <div id="notification" class=""></div>
+    </div>
+  </main>
+  <script type="module" src="../src/components/questions.js"></script>
+</body>
+
+</html>
