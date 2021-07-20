@@ -7,6 +7,12 @@ import constants from "../utils/constants.js";
 let category = localStorage.getItem("categorySelected");
 var questions = new Question(category);
 
+const home = () => {
+  localStorage.setItem(`${category}-complete`, "true");
+  window.location.href = "/public/index.html";
+};
+var question = questions.getQuestion();
+
 const customClass = (id, className, method) => {
   document.getElementById(id).classList[method](className);
 };
@@ -21,10 +27,12 @@ const retry = (id, life) => {
 
 const complete = (data) => {
   if (questions.verify(data)) {
-    let questionsNumber = questions.findQuestions();
-    questions.setState(data, true);
-    ProgressBar.load(questionsNumber.length);
-    nextQuestion();
+    let qty = questions.qty();
+    let result = questions.setState(data);
+    if (result.state) {
+      ProgressBar.load(qty);
+      nextQuestion();
+    }
   } else {
     let { options } = data;
     let option = options.find(
@@ -48,6 +56,35 @@ const complete = (data) => {
   }
 };
 
+const nextQuestion = () => {
+  Notification.clean();
+  load();
+};
+
+const check = () => {
+  if (questions.verify(question)) {
+    const { type } = constants.NOTIFICATION_SUCCESS;
+    document.querySelector("#notification").innerHTML = Notification.get(type);
+  } else {
+    let { options } = question;
+    let option = options.find(
+      (option) => option.item === localStorage.getItem("response")
+    );
+    let match = options.find((option) => option.isTrue);
+    customClass(`${option.id}`, "option-select-failed", "add");
+    const { type } = constants.NOTIFICATION_FAILED;
+    document.querySelector("#notification").innerHTML = Notification.get(
+      type,
+      match
+    );
+  }
+
+  document.getElementById("complete").onclick = function submit() {
+    return complete(question);
+  };
+};
+document.getElementById("check").onclick = check;
+
 const load = () => {
   // Load Number of Life
   Live.start();
@@ -55,13 +92,20 @@ const load = () => {
   let progress = ProgressBar.getProgress();
   document.getElementById("bar").style.width = `${progress}%`;
   // load question
-  questions.getQuestionWithOption();
+  if (question) {
+    let data = questions.findById(question.id);
+    if (data.state) {
+      question = questions.next();
+    } 
+    if (!question) {
+      home();
+    }
+    questions.buildQuestion(question);
+  } else {
+    home();
+  }
 
-  // if (!question) {
-  //   localStorage.setItem(`${category}-complete`, "true");
-  //   window.location.href="/public/index.html";
-  // }
-
+  // Options
   // Primera Opcion
   document.getElementById("first-item").onclick = function firstItem() {
     customClass("first-item", "option-select-success", "add");
@@ -110,33 +154,3 @@ const load = () => {
   };
 };
 window.onload = load;
-
-const nextQuestion = () => {
-  Notification.clean();
-  load();
-};
-
-const check = () => {
-  let question = questions.getRandomQuestion();
-  if (questions.verify(question)) {
-    const { type } = constants.NOTIFICATION_SUCCESS;
-    document.querySelector("#notification").innerHTML = Notification.get(type);
-  } else {
-    let { options } = question;
-    let option = options.find(
-      (option) => option.item === localStorage.getItem("response")
-    );
-    let match = options.find((option) => option.isTrue);
-    customClass(`${option.id}`, "option-select-failed", "add");
-    const { type } = constants.NOTIFICATION_FAILED;
-    document.querySelector("#notification").innerHTML = Notification.get(
-      type,
-      match
-    );
-  }
-
-  document.getElementById("complete").onclick = function submit() {
-    return complete(question);
-  };
-};
-document.getElementById("check").onclick = check;

@@ -1,25 +1,32 @@
 import allQuestions from "./allQuestions.js";
-
 class Question {
   constructor(category) {
     this.category = category;
     this.loadQuestionInLocalStorages(this.category);
   }
+  qty() {
+    return this.findQuestions().length;
+  }
+  // Retorna un elemento a alzar
   getRandomQuestion() {
     let all = this.findQuestions();
-    let questions = all.filter((option) => !option.state);
-    const random = Math.floor(Math.random() * questions.length);
-    return questions[random];
+    let questions = all.filter((option) => option.state !== true);
+    if (questions.length === 0) {
+      console.log("regresando al home...");
+    } else {
+      const random = Math.floor(Math.random() * questions.length);
+      return questions[random];
+    }
   }
+
   buildQuestion(data) {
     switch (data.type) {
       case "singleSelect":
         document.querySelector("#questions").innerHTML = `
-        <div>
+        <div class="flex items-center">
           <img src="../src/assets/svg/${data.avatar}.svg" alt="user" width="80">
           <h2>${data.name}</h2>
         </div>`;
-
         document.querySelector("#options").innerHTML = ``;
         data.options.forEach((option) => {
           document.querySelector("#options").innerHTML += `
@@ -29,17 +36,20 @@ class Question {
             </div>
           `;
         });
-        break;
       case "singleSelectWithImage":
         break;
       default:
         break;
     }
   }
-  getQuestionWithOption() {
-    let data = this.getRandomQuestion();
-    return this.buildQuestion(data);
+
+  getQuestion() {
+    return this.getRandomQuestion();
   }
+  next() {
+    return this.getRandomQuestion();
+  }
+
   findQuestions() {
     let questions =
       JSON.parse(localStorage.getItem(this.category)) ||
@@ -60,15 +70,21 @@ class Question {
       return false;
     }
   }
-  setState(question, state) {
-    question.state = state;
+  findById(id) {
+    let questions = this.findQuestions();
+    let data = questions.find((item) => item.id === id);
+    return data;
+  }
+  setState(question) {
     const questions = this.findQuestions();
     questions.map((q) => {
       if (q.id === question.id) {
-        q.state = state;
+        q.state = true;
       }
     });
+
     localStorage.setItem(this.category, JSON.stringify(questions));
+    return this.findById(question.id);
   }
   static reset(category) {
     if (localStorage.getItem(category)) {

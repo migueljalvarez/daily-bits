@@ -55,4 +55,32 @@ export default [
       },
     ],
   },
+  {
+    id: 3,
+    name: "¿Qué significa DRY?",
+    avatar: "avatar3",
+    type: "singleSelect",
+    category: "html",
+    state: false,
+    options: [
+      {
+        id: "first-item",
+        label: "Don’t repeat yellow",
+        item: "dont_repeat_yellow",
+        isTrue: false,
+      },
+      {
+        id: "second-item",
+        label: "Don’t repeat yourself",
+        item: "dont_repeat_yourself",
+        isTrue: true,
+      },
+      {
+        id: "third-item",
+        label: "Don’t recicle year",
+        item: "dont_recicle_year",
+        isTrue: false,
+      },
+    ],
+  },
 ];
