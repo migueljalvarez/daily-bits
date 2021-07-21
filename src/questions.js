@@ -8,6 +8,16 @@ let category = localStorage.getItem("categorySelected");
 var questions = new Question(category);
 var question = questions.getQuestion();
 
+const {
+  ADD,
+  REMOVE,
+  SUCCESS,
+  FAILED,
+  DEFAULT,
+  NOTIFICATION_FAILED,
+  NOTIFICATION_RESET,
+  NOTIFICATION_SUCCESS,
+} = constants;
 const setTime = (type) => {
   let time = Date.now();
   localStorage.setItem(`${type}-time`, time);
@@ -23,7 +33,7 @@ const setCustomClass = (id, className, method) => {
 
 const retry = (id, life) => {
   Notification.clean();
-  setCustomClass(`${id}`, "option-select-failed", "remove");
+  setCheking(FAILED, id, REMOVE);
   Live.update(life);
   document.querySelector("#life").innerHTML = Live.get();
   let responsesFailed = parseInt(localStorage.getItem("failed"));
@@ -74,7 +84,7 @@ const nextQuestion = () => {
 
 const check = () => {
   if (questions.verify(question)) {
-    const { type } = constants.NOTIFICATION_SUCCESS;
+    const { type } = NOTIFICATION_SUCCESS;
     document.querySelector("#notification").innerHTML = Notification.get(type);
   } else {
     let { options } = question;
@@ -82,8 +92,8 @@ const check = () => {
       (option) => option.item === localStorage.getItem("response")
     );
     let match = options.find((option) => option.isTrue);
-    setCustomClass(`${option.id}`, "option-select-failed", "add");
-    const { type } = constants.NOTIFICATION_FAILED;
+    setCheking(FAILED, option.id, ADD);
+    const { type } = NOTIFICATION_FAILED;
     document.querySelector("#notification").innerHTML = Notification.get(
       type,
       match
@@ -98,11 +108,12 @@ const check = () => {
 };
 document.getElementById("check").onclick = check;
 const setResponse = (question, itemId) => {
+  console.log(question);
   switch (question.type) {
     case "1":
       localStorage.setItem(
         "response",
-        document.querySelector(`#${itemId} input`).value
+        document.querySelector(`#${itemId} span`).title
       );
       break;
     case "2":
@@ -115,6 +126,16 @@ const setResponse = (question, itemId) => {
       break;
     default:
       break;
+  }
+};
+const setCheking = (type, itemId, method) => {
+  setCustomClass(itemId, `option-select-${type}`, method);
+  type = method === REMOVE ? DEFAULT : type;
+  let span = document.querySelector(`#${itemId} span`);
+  if (span) {
+    span.innerHTML = `
+  <img src="../src/assets/svg/check-${type}.svg" alt="check">
+  `;
   }
 };
 const load = () => {
@@ -142,41 +163,43 @@ const load = () => {
 
   // Options
   // Primera Opcion
+
   document.getElementById("first-item").onclick = function firstItem() {
     let itemId = "first-item";
-    setCustomClass(itemId, "option-select-success", "add");
+    setCheking(SUCCESS, itemId, ADD);
     // Remove Success
-    setCustomClass("second-item", "option-select-success", "remove");
-    setCustomClass("third-item", "option-select-success", "remove");
+    setCheking(SUCCESS, "second-item", REMOVE);
+    setCheking(SUCCESS, "third-item", REMOVE);
     // Remove Failed
-    setCustomClass("second-item", "option-select-failed", "remove");
-    setCustomClass("third-item", "option-select-failed", "remove");
+    setCheking(FAILED, "second-item", REMOVE);
+    setCheking(FAILED, "third-item", REMOVE);
     document.querySelector("#check").removeAttribute("disabled");
     setResponse(question, itemId);
   };
   // Segunda Opcion
   document.getElementById("second-item").onclick = function secondItem() {
     let itemId = "second-item";
-    setCustomClass(itemId, "option-select-success", "add");
+
+    setCheking(SUCCESS, itemId, ADD);
     // Remove Success
-    setCustomClass("first-item", "option-select-success", "remove");
-    setCustomClass("third-item", "option-select-success", "remove");
+    setCheking(SUCCESS, "first-item", REMOVE);
+    setCheking(SUCCESS, "third-item", REMOVE);
     // Remove Failed
-    setCustomClass("first-item", "option-select-failed", "remove");
-    setCustomClass("third-item", "option-select-failed", "remove");
+    setCheking(FAILED, "first-item", REMOVE);
+    setCheking(FAILED, "third-item", REMOVE);
     document.querySelector("#check").removeAttribute("disabled");
     setResponse(question, itemId);
   };
   // Tercera Opcion
   document.getElementById("third-item").onclick = function thirdItem() {
     let itemId = "third-item";
-    setCustomClass(itemId, "option-select-success", "add");
+    setCheking(SUCCESS, itemId, ADD);
     // Remove Success
-    setCustomClass("first-item", "option-select-success", "remove");
-    setCustomClass("second-item", "option-select-success", "remove");
+    setCheking(SUCCESS, "first-item", REMOVE);
+    setCheking(SUCCESS, "second-item", REMOVE);
     // Remove Failed
-    setCustomClass("first-item", "option-select-failed", "remove");
-    setCustomClass("second-item", "option-select-failed", "remove");
+    setCheking(FAILED, "first-item", REMOVE);
+    setCheking(FAILED, "second-item", REMOVE);
     document.querySelector("#check").removeAttribute("disabled");
     setResponse(question, itemId);
   };

@@ -34,7 +34,9 @@ class Question {
           document.querySelector("#options").innerHTML += `
             <div id=${option.id} class="option-select-default">
               <label>${option.label}</label>
-              <input type="radio" name="items" id=${option.item} value=${option.item}></input>
+              <span title=${option.item}>
+                <img src="../src/assets/svg/check-default.svg" alt="radio">
+              </span>
             </div>
           `;
         });
@@ -48,7 +50,7 @@ class Question {
         document.querySelector("#options-with-images").innerHTML = ``;
         data.options.forEach((option) => {
           document.querySelector("#options-with-images").innerHTML += `
-          <div id=${option.id} class="flex flex-col option-image">
+          <div id=${option.id} class="flex flex-col option-image option-select-default">
             <img src="../src/assets/svg/${option.item}.svg" alt="angular">
             <p id=${option.item} title=${option.item}>${option.label}</p>
           </div>

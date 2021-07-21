@@ -15,5 +15,9 @@ export default {
     title: "Has Perdido, debes empezar de 0.",
     buttom: "Continuar",
   },
-
+  SUCCESS: "success",
+  FAILED: "failed",
+  ADD: "add",
+  REMOVE: "remove",
+  DEFAULT: "default",
 };

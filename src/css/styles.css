@@ -296,10 +296,10 @@ option {
 .option-image p {
   text-align: center;
   margin: 20px 0;
-
 }
 
-.option-image, .option-image img {
+.option-image,
+.option-image img {
   border-radius: 8px;
 }
 .option-select-default {
@@ -311,7 +311,34 @@ option {
 .option-select-failed {
   border: 2px solid var(--color-red);
 }
+[type="radio"] {
+  position: absolute;
+  left: -9999px;
+}
 
+[type="radio"]:checked + .item-radio:before {
+  box-shadow: inset 0 0 0 0.4375em green;
+}
+.item-radio{
+  display: flex;
+  align-items: center;
+  padding: 0.375em 0.75em 0.375em 0.375em;
+  border-radius: 99em;
+  transition: 0.25s ease;
+}
+
+.item-radio:before {
+  display: flex;
+  flex-shrink: 0;
+  content: "";
+  /* background-color: #fff; */
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  margin-right: 0.375em;
+  transition: 0.25s ease;
+  box-shadow: inset 0 0 0 0.125em #fff;
+}
 /* Button */
 #check {
   border-radius: 16px;
@@ -359,7 +386,8 @@ option {
 .notification-reset {
   background-color: var(--color-white);
 }
-.notification-success, .notification-reset {
+.notification-success,
+.notification-reset {
   display: none;
   flex-direction: column;
   position: absolute;
@@ -388,7 +416,8 @@ option {
   margin-left: 15px;
   margin-bottom: 0px;
 }
-.notification-success #message-title, .notification-reset #message-title {
+.notification-success #message-title,
+.notification-reset #message-title {
   color: #16161a;
 }
 .notification-failed #message-title,
