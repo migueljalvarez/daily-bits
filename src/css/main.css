@@ -1,0 +1,9 @@
+:root{
+  --color-background: #7F5AF0
+}
+body {
+  background-color: var(--color-background);
+}
+img {
+  margin: auto;
+}

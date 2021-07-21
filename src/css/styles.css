@@ -187,11 +187,13 @@ option {
 .response-failed span {
   margin: 0px 5px;
 }
-.times span svg,
+.times span svg {
+  fill: var(--color-gray);
+}
 .response span svg,
 .response-success span svg,
 .response-failed span svg {
-  fill: var(--color-gray);
+  stroke: var(--color-gray);
 }
 .times,
 .response,
@@ -263,7 +265,8 @@ option {
 }
 #questions h2 {
   float: right;
-  width: 70%;
+  width: -webkit-fill-available;
+  margin: 5px;
 }
 
 #options div {
@@ -274,6 +277,30 @@ option {
   padding: 15px 10px;
   border-radius: 5px;
   width: 328px;
+}
+#options-with-images {
+  justify-content: space-between;
+  display: inline-block;
+  margin: 0 32px;
+  /* padding: 20px; */
+}
+.option-image {
+  background-color: #16161a;
+  border: 2px solid var(--color-gray);
+  margin: 2px 2px;
+  width: 144px;
+  height: 200px;
+  float: left;
+  /* justify-content: center; */
+}
+.option-image p {
+  text-align: center;
+  margin: 20px 0;
+
+}
+
+.option-image, .option-image img {
+  border-radius: 8px;
 }
 .option-select-default {
   border: 2px solid var(--color-white);

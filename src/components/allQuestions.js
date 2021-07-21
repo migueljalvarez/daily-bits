@@ -3,7 +3,7 @@ export default [
     id: 1,
     name: "¿Qué etiqueta es semánticamente correcta para el contenido principal?",
     avatar: "avatar1",
-    type: "singleSelect",
+    type: "1",
     category: "html",
     state: false,
     options: [
@@ -31,7 +31,7 @@ export default [
     id: 2,
     name: "¿Qué etiqueta HTML nos sirve para incluir archivos de JavaScript?",
     avatar: "avatar2",
-    type: "singleSelect",
+    type: "1",
     category: "html",
     state: false,
     options: [
@@ -59,7 +59,7 @@ export default [
     id: 3,
     name: "¿Qué significa DRY?",
     avatar: "avatar3",
-    type: "singleSelect",
+    type: "1",
     category: "html",
     state: false,
     options: [
@@ -79,6 +79,39 @@ export default [
         id: "third-item",
         label: "Don’t recicle year",
         item: "dont_recicle_year",
+        isTrue: false,
+      },
+    ],
+  },
+  {
+    id: 4,
+    name: "¿Qué tecnologías pertenece al MEVN Stack?",
+    type: "2",
+    category: "html",
+    state: false,
+    options: [
+      {
+        id: "first-item",
+        label: "Angular",
+        item: "angular",
+        isTrue: false,
+      },
+      {
+        id: "second-item",
+        label: "Vue.js",
+        item: "vue",
+        isTrue: true,
+      },
+      {
+        id: "third-item",
+        label: "Windows",
+        item: "windows",
+        isTrue: false,
+      },
+      {
+        id: "fourth_item",
+        label: "Kotlin",
+        item: "kotlin",
         isTrue: false,
       },
     ],

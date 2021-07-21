@@ -20,13 +20,15 @@ class Question {
   }
 
   buildQuestion(data) {
+
     switch (data.type) {
-      case "singleSelect":
+      case "1":
         document.querySelector("#questions").innerHTML = `
         <div class="flex items-center">
           <img src="../src/assets/svg/${data.avatar}.svg" alt="user" width="80">
           <h2>${data.name}</h2>
         </div>`;
+        document.querySelector("#options-with-images").innerHTML = ``;
         document.querySelector("#options").innerHTML = ``;
         data.options.forEach((option) => {
           document.querySelector("#options").innerHTML += `
@@ -36,7 +38,22 @@ class Question {
             </div>
           `;
         });
-      case "singleSelectWithImage":
+        break
+      case "2":
+        document.querySelector("#questions").innerHTML = `
+        <div class="flex items-center">
+          <h2>${data.name}</h2>
+        </div>`;
+        document.querySelector("#options").innerHTML = ``;
+        document.querySelector("#options-with-images").innerHTML = ``;
+        data.options.forEach((option) => {
+          document.querySelector("#options-with-images").innerHTML += `
+          <div id=${option.id} class="flex flex-col option-image">
+            <img src="../src/assets/svg/${option.item}.svg" alt="angular">
+            <p id=${option.item} title=${option.item}>${option.label}</p>
+          </div>
+          `;
+        });
         break;
       default:
         break;
