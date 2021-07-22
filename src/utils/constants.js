@@ -20,4 +20,6 @@ export default {
   ADD: "add",
   REMOVE: "remove",
   DEFAULT: "default",
+  TOTAL_RESPONSES: "total-responses",
+  RESPONSE: "response",
 };

@@ -1,15 +1,15 @@
-import allQuestions from "./allQuestions.js";
+import questionary from "../utils/questionary.js";
 class Question {
   constructor(category) {
     this.category = category;
     this.loadQuestionInLocalStorages(this.category);
   }
-  qty() {
-    return this.findQuestions().length;
+  length() {
+    return this.find().length;
   }
   // Retorna un elemento a alzar
-  getRandomQuestion() {
-    let all = this.findQuestions();
+  random() {
+    let all = this.find();
     let questions = all.filter((option) => option.state !== true);
     if (questions.length === 0) {
       console.log("regresando al home...");
@@ -19,8 +19,7 @@ class Question {
     }
   }
 
-  buildQuestion(data) {
-
+  build(data) {
     switch (data.type) {
       case "1":
         document.querySelector("#questions").innerHTML = `
@@ -34,13 +33,13 @@ class Question {
           document.querySelector("#options").innerHTML += `
             <div id=${option.id} class="option-select-default">
               <label>${option.label}</label>
-              <span title=${option.item}>
+              <span id=${option.item} title=${option.item}>
                 <img src="../src/assets/svg/check-default.svg" alt="radio">
               </span>
             </div>
           `;
         });
-        break
+        break;
       case "2":
         document.querySelector("#questions").innerHTML = `
         <div class="flex items-center">
@@ -62,21 +61,21 @@ class Question {
     }
   }
 
-  getQuestion() {
-    return this.getRandomQuestion();
+  get() {
+    return this.random();
   }
   next() {
-    return this.getRandomQuestion();
+    return this.random();
   }
 
-  findQuestions() {
+  find() {
     let questions =
       JSON.parse(localStorage.getItem(this.category)) ||
-      allQuestions.filter((question) => question.category === this.category);
+      questionary.filter((question) => question.category === this.category);
     return questions;
   }
   loadQuestionInLocalStorages() {
-    const questions = this.findQuestions();
+    const questions = this.find();
     localStorage.setItem(this.category, JSON.stringify(questions));
   }
   verify(question) {
@@ -90,12 +89,12 @@ class Question {
     }
   }
   findById(id) {
-    let questions = this.findQuestions();
+    let questions = this.find();
     let data = questions.find((item) => item.id === id);
     return data;
   }
   setState(question) {
-    const questions = this.findQuestions();
+    const questions = this.find();
     questions.map((q) => {
       if (q.id === question.id) {
         q.state = true;

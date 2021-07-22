@@ -5,19 +5,22 @@ import Notification from "./components/Notification.js";
 import constants from "./utils/constants.js";
 
 let category = localStorage.getItem("categorySelected");
-var questions = new Question(category);
-var question = questions.getQuestion();
+var quetionary = new Question(category);
+var question = quetionary.get();
 
 const {
   ADD,
-  REMOVE,
-  SUCCESS,
-  FAILED,
   DEFAULT,
+  FAILED,
   NOTIFICATION_FAILED,
   NOTIFICATION_RESET,
   NOTIFICATION_SUCCESS,
+  REMOVE,
+  RESPONSE,
+  SUCCESS,
+  TOTAL_RESPONSES,
 } = constants;
+
 const setTime = (type) => {
   let time = Date.now();
   localStorage.setItem(`${type}-time`, time);
@@ -33,22 +36,21 @@ const setCustomClass = (id, className, method) => {
 
 const retry = (id, life) => {
   Notification.clean();
-  setCheking(FAILED, id, REMOVE);
+  setCheking(id, FAILED, REMOVE);
   Live.update(life);
   document.querySelector("#life").innerHTML = Live.get();
-  let responsesFailed = parseInt(localStorage.getItem("failed"));
-  localStorage.setItem("failed", responsesFailed ? responsesFailed + 1 : 1);
-  load();
+  let responsesFailed = parseInt(localStorage.getItem(FAILED));
+  localStorage.setItem(FAILED, responsesFailed ? responsesFailed + 1 : 1);
 };
 
 const complete = (data) => {
-  if (questions.verify(data)) {
-    let qty = questions.qty();
-    let result = questions.setState(data);
+  if (quetionary.verify(data)) {
+    let qty = quetionary.length();
+    let result = quetionary.setState(data);
     if (result.state) {
-      let responsesSuccess = parseInt(localStorage.getItem("success"));
+      let responsesSuccess = parseInt(localStorage.getItem(SUCCESS));
       localStorage.setItem(
-        "success",
+        SUCCESS,
         responsesSuccess ? responsesSuccess + 1 : 1
       );
       ProgressBar.load(qty);
@@ -57,13 +59,14 @@ const complete = (data) => {
   } else {
     let { options } = data;
     let option = options.find(
-      (option) => option.item === localStorage.getItem("response")
+      (option) => option.item === localStorage.getItem(RESPONSE)
     );
     let life = Live.discount();
     if (life > 0) {
       retry(option.id, life);
+      setCheking(option.id, SUCCESS, REMOVE);
     } else {
-      const { type } = constants.NOTIFICATION_RESET;
+      const { type } = NOTIFICATION_RESET;
       document.querySelector("#notification").innerHTML =
         Notification.get(type);
       document.getElementById("complete").onclick = function () {
@@ -83,16 +86,16 @@ const nextQuestion = () => {
 };
 
 const check = () => {
-  if (questions.verify(question)) {
+  if (quetionary.verify(question)) {
     const { type } = NOTIFICATION_SUCCESS;
     document.querySelector("#notification").innerHTML = Notification.get(type);
   } else {
     let { options } = question;
     let option = options.find(
-      (option) => option.item === localStorage.getItem("response")
+      (option) => option.item === localStorage.getItem(RESPONSE)
     );
     let match = options.find((option) => option.isTrue);
-    setCheking(FAILED, option.id, ADD);
+    setCheking(option.id, FAILED, ADD);
     const { type } = NOTIFICATION_FAILED;
     document.querySelector("#notification").innerHTML = Notification.get(
       type,
@@ -101,43 +104,60 @@ const check = () => {
   }
 
   document.getElementById("complete").onclick = function submit() {
-    let responses = parseInt(localStorage.getItem("total-responses"));
-    localStorage.setItem("total-responses", responses ? responses + 1 : 1);
+    let responses = parseInt(localStorage.getItem(TOTAL_RESPONSES));
+    localStorage.setItem(TOTAL_RESPONSES, responses ? responses + 1 : 1);
     return complete(question);
   };
 };
 document.getElementById("check").onclick = check;
-const setResponse = (question, itemId) => {
-  console.log(question);
+
+const setResponse = (question, id) => {
+  let { options } = question;
+  let opt = options.find((opt) => opt.id === id);
   switch (question.type) {
     case "1":
       localStorage.setItem(
-        "response",
-        document.querySelector(`#${itemId} span`).title
+        RESPONSE,
+        document.querySelector(`#${opt.item}`).title
       );
       break;
     case "2":
-      let { options } = question;
-      let opt = options.find((opt) => opt.id === itemId);
       localStorage.setItem(
-        "response",
-        document.querySelector(`#${opt.item}`).title
+        RESPONSE,
+        document.querySelector(`#${opt.id} p`).title
       );
       break;
     default:
       break;
   }
 };
-const setCheking = (type, itemId, method) => {
-  setCustomClass(itemId, `option-select-${type}`, method);
+
+const setCheking = (id, type, method) => {
+  setCustomClass(id, `option-select-${type}`, method);
   type = method === REMOVE ? DEFAULT : type;
-  let span = document.querySelector(`#${itemId} span`);
+  let { options } = question;
+  let opt = options.find((opt) => opt.id === id);
+  let span = document.querySelector(`#${opt.id} span`);
   if (span) {
     span.innerHTML = `
   <img src="../src/assets/svg/check-${type}.svg" alt="check">
   `;
   }
 };
+
+const clickItem = (id) => {
+  setCheking(id, SUCCESS, ADD);
+  let opts = question.options.filter((opt) => opt.id !== id);
+  for (const opt of opts) {
+    // Remove Success
+    setCheking(opt.id, SUCCESS, REMOVE);
+    // Remove Failed
+    setCheking(opt.id, FAILED, REMOVE);
+  }
+  document.querySelector("#check").removeAttribute("disabled");
+  setResponse(question, id);
+};
+
 const load = () => {
   // Load Number of Life
   Live.start();
@@ -147,61 +167,39 @@ const load = () => {
   document.getElementById("bar").style.width = `${progress}%`;
   // load question
   if (question) {
-    let data = questions.findById(question.id);
+    let data = quetionary.findById(question.id);
     if (data.state) {
-      question = questions.next();
+      question = quetionary.next();
     }
     if (!question) {
       setTime("end");
       home();
     }
-    questions.buildQuestion(question);
+    quetionary.build(question);
   } else {
     setTime("end");
     home();
   }
 
   // Options
-  // Primera Opcion
+  let firstItem = document.getElementById("first-item");
+  if (firstItem) {
+    firstItem.onclick = () => clickItem("first-item");
+  }
 
-  document.getElementById("first-item").onclick = function firstItem() {
-    let itemId = "first-item";
-    setCheking(SUCCESS, itemId, ADD);
-    // Remove Success
-    setCheking(SUCCESS, "second-item", REMOVE);
-    setCheking(SUCCESS, "third-item", REMOVE);
-    // Remove Failed
-    setCheking(FAILED, "second-item", REMOVE);
-    setCheking(FAILED, "third-item", REMOVE);
-    document.querySelector("#check").removeAttribute("disabled");
-    setResponse(question, itemId);
-  };
-  // Segunda Opcion
-  document.getElementById("second-item").onclick = function secondItem() {
-    let itemId = "second-item";
+  let secondItem = document.getElementById("second-item");
+  if (secondItem) {
+    secondItem.onclick = () => clickItem("second-item");
+  }
 
-    setCheking(SUCCESS, itemId, ADD);
-    // Remove Success
-    setCheking(SUCCESS, "first-item", REMOVE);
-    setCheking(SUCCESS, "third-item", REMOVE);
-    // Remove Failed
-    setCheking(FAILED, "first-item", REMOVE);
-    setCheking(FAILED, "third-item", REMOVE);
-    document.querySelector("#check").removeAttribute("disabled");
-    setResponse(question, itemId);
-  };
-  // Tercera Opcion
-  document.getElementById("third-item").onclick = function thirdItem() {
-    let itemId = "third-item";
-    setCheking(SUCCESS, itemId, ADD);
-    // Remove Success
-    setCheking(SUCCESS, "first-item", REMOVE);
-    setCheking(SUCCESS, "second-item", REMOVE);
-    // Remove Failed
-    setCheking(FAILED, "first-item", REMOVE);
-    setCheking(FAILED, "second-item", REMOVE);
-    document.querySelector("#check").removeAttribute("disabled");
-    setResponse(question, itemId);
-  };
+  let thirdItem = document.getElementById("third-item");
+  if (thirdItem) {
+    thirdItem.onclick = () => clickItem("third-item");
+  }
+
+  let fourthItem = document.getElementById("fourth_item");
+  if (fourthItem) {
+    fourthItem.onclick = () => clickItem("fourth_item");
+  }
 };
 window.onload = load;
