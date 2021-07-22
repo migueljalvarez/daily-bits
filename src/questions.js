@@ -1,15 +1,14 @@
-import ProgressBar from "./components/ProgressBar.js";
 import Live from "./components/Live.js";
-import Question from "./components/Question.js";
 import Notification from "./components/Notification.js";
-import constants from "./utils/constants.js";
+import ProgressBar from "./components/ProgressBar.js";
+import Question from "./components/Question.js";
 
-let category = localStorage.getItem("categorySelected");
-var quetionary = new Question(category);
-var question = quetionary.get();
+import constants from "./utils/constants.js";
+import time from "./utils/time.js";
 
 const {
   ADD,
+  CATEGORY,
   DEFAULT,
   FAILED,
   NOTIFICATION_FAILED,
@@ -19,10 +18,27 @@ const {
   RESPONSE,
   SUCCESS,
   TOTAL_RESPONSES,
+  START_TIME,
 } = constants;
 
+let category = localStorage.getItem(CATEGORY);
+let quetionary = new Question(category);
+let question = quetionary.get();
+
 const setTime = (type) => {
-  let time = Date.now();
+  let time;
+  switch (type) {
+    case "start":
+      time = localStorage.getItem(START_TIME)
+        ? parseInt(localStorage.getItem(START_TIME))
+        : Date.now();
+      break;
+    case "end":
+      time = Date.now();
+      break;
+    default:
+      break;
+  }
   localStorage.setItem(`${type}-time`, time);
 };
 const home = () => {
@@ -82,6 +98,8 @@ const complete = (data) => {
 
 const nextQuestion = () => {
   Notification.clean();
+  setTime("end");
+  time.calculate();
   load();
 };
 
