@@ -7,16 +7,16 @@ const questionary = (id) => {
 };
 
 document.getElementById("html").onclick = () => questionary("html");
-
 document.getElementById("css").onclick = () => questionary("css");
-
 document.getElementById("js").onclick = () => questionary("js");
 
 window.onload = () => {
   let htmlComplete = localStorage.getItem(HTML_COMPLETE) ? true : false;
   let cssComplete = localStorage.getItem(CSS_COMPLETE) ? true : false;
   let jsComplete = localStorage.getItem(JS_COMPLETE) ? true : false;
+
   if (htmlComplete) {
+    
     document.getElementById("html-image").classList.add("border-green");
   }
   if (cssComplete) {
