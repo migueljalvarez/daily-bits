@@ -397,7 +397,7 @@ option {
 .show {
   display: flex !important;
   bottom: 0px !important;
-  z-index: 1!important;
+  z-index: 1 !important;
 }
 
 .notification-success {
@@ -457,9 +457,9 @@ option {
 
 /* Organized */
 #organized {
-  height: 200px;
-  margin: 10px auto;
-  padding: 15px 10px;
+  height: auto;
+  min-height: 146px;
+  padding: 0px 16px;
 }
 #unorganized {
   margin: 10px auto;
@@ -470,15 +470,23 @@ option {
   position: absolute;
   width: 360px;
   height: fit-content;
+  padding: 15px 10px;
 }
 
+#organized input {
+  margin-bottom: 16px;
+  margin-top: 18px;
+  margin-left: 8px;
+}
+#unorganized input {
+  margin: 5px 3px;
+}
 #unorganized input,
 #organized input {
   display: inline-block;
   border-radius: 14px;
   color: transparent;
   padding: 0 20px;
-  margin: 5px 3px;
   content: "";
   background-position: center;
   background-color: #72757e;
@@ -490,7 +498,8 @@ option {
 #unorganized input:hover {
   cursor: pointer;
 }
-#unorganized input:focus-visible {
+#unorganized input:focus-visible,
+#organized input:focus-visible {
   outline: none;
 }
 

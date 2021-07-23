@@ -185,15 +185,6 @@ const setCheking = (id, type, method) => {
     setCustomClass(id, `option-select-${type}`, method);
   }
   setCustomClass(id, `option-select-${type}`, method);
-  // type = method === REMOVE ? DEFAULT : type;
-  // let { options } = question;
-  // let opt = options.find((opt) => opt.id === id);
-  // let span = document.querySelector(`#${opt.id} span`);
-  // if (span) {
-  //   span.innerHTML = `
-  // <img src="../src/assets/svg/check-${type}.svg" alt="check">
-  // `;
-  // }
 };
 
 const clickItem = (id) => {
@@ -220,7 +211,8 @@ const selectItem = (id) => {
   element.setAttribute("disabled", true);
   const { options } = question;
   const opt = options.find((opt) => opt.name === id);
-  document.querySelector("#organized").innerHTML += `
+  const organizator = document.querySelector("#organized");
+  organizator.innerHTML += `
   <input id=${opt.name} class=${opt.className} value=${opt.name} style="background-image: url(../src/assets/svg/${opt.name}.svg);" />
   `;
   completeSelection();

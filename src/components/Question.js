@@ -63,6 +63,8 @@ class Question {
           <h2>${data.name}</h2>
         </div>`;
         this.cleanerDiv();
+        const element = document.getElementById('organized');
+        element.style.backgroundImage = "url(../src/assets/svg/separator.svg)";
         const { options } = data;
         options.map((obj) => {
           document.querySelector("#unorganized").innerHTML += `
