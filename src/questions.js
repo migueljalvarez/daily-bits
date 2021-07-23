@@ -9,7 +9,6 @@ import time from "./utils/time.js";
 const {
   ADD,
   CATEGORY,
-  DEFAULT,
   FAILED,
   REMOVE,
   RESPONSE,
@@ -41,7 +40,7 @@ const setTime = (type) => {
 };
 const home = () => {
   localStorage.setItem(`${category}-complete`, "true");
-  window.location.href = "/public/index.html";
+  window.location.href = "/public/home.html";
 };
 
 const setCustomClass = (id, className, method) => {
@@ -177,10 +176,8 @@ const setResponse = (question, id, responses) => {
 
 const setCheking = (id, type, method) => {
   if (question.type === "1") {
-
     setCustomClass(id, `option-select-${type}`, method);
     setCustomClass(id, `radio-${type}`, method);
-
   } else {
     setCustomClass(id, `option-select-${type}`, method);
   }
