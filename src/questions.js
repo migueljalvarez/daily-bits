@@ -24,6 +24,7 @@ const {
 let category = localStorage.getItem(CATEGORY);
 let quetionary = new Question(category);
 let question = quetionary.get();
+let organized = document.getElementById("organized");
 
 const setTime = (type) => {
   let time;
@@ -49,14 +50,23 @@ const home = () => {
 const setCustomClass = (id, className, method) => {
   document.getElementById(id).classList[method](className);
 };
+const completeSelection = () => {
+  let { children } = organized;
+  if (children.length === 5) {
+    document.querySelector("#check").removeAttribute("disabled");
+  }
+};
 
 const retry = (id, life) => {
   Notification.clean();
-  setCheking(id, FAILED, REMOVE);
+  if (id) {
+    setCheking(id, FAILED, REMOVE);
+  }
   Live.update(life);
   document.querySelector("#life").innerHTML = Live.get();
   let responsesFailed = parseInt(localStorage.getItem(FAILED));
   localStorage.setItem(FAILED, responsesFailed ? responsesFailed + 1 : 1);
+  document.querySelector("#check").setAttribute("disabled", true);
 };
 
 const complete = (data) => {
@@ -73,14 +83,23 @@ const complete = (data) => {
       nextQuestion();
     }
   } else {
-    let { options } = data;
-    let option = options.find(
-      (option) => option.item === localStorage.getItem(RESPONSE)
-    );
     let life = Live.discount();
     if (life > 0) {
-      retry(option.id, life);
-      setCheking(option.id, SUCCESS, REMOVE);
+      if (question.type === "3") {
+        retry(null, life);
+        document.querySelector("#organized").innerHTML = ``;
+        question.options.map((obj) => {
+          const element = document.getElementById(obj.name);
+          element.removeAttribute("disabled");
+          element.style.backgroundImage = `url(../src/assets/svg/${obj.name}.svg`;
+        });
+      } else {
+        let { options } = data;
+        let option = options.find(
+          (option) => option.item === localStorage.getItem(RESPONSE)
+        );
+        retry(option.id, life);
+      }
     } else {
       const { type } = NOTIFICATION_RESET;
       document.querySelector("#notification").innerHTML =
@@ -108,17 +127,25 @@ const check = () => {
     const { type } = NOTIFICATION_SUCCESS;
     document.querySelector("#notification").innerHTML = Notification.get(type);
   } else {
-    let { options } = question;
-    let option = options.find(
-      (option) => option.item === localStorage.getItem(RESPONSE)
-    );
-    let match = options.find((option) => option.isTrue);
-    setCheking(option.id, FAILED, ADD);
     const { type } = NOTIFICATION_FAILED;
-    document.querySelector("#notification").innerHTML = Notification.get(
-      type,
-      match
-    );
+    if (question.type === "3") {
+      document.querySelector("#notification").innerHTML = Notification.get(
+        type,
+        question
+      );
+    } else {
+      let { options } = question;
+      let option = options.find(
+        (option) => option.item === localStorage.getItem(RESPONSE)
+      );
+      let match = options.find((option) => option.isTrue);
+      setCheking(option.id, FAILED, ADD);
+
+      document.querySelector("#notification").innerHTML = Notification.get(
+        type,
+        match
+      );
+    }
   }
 
   document.getElementById("complete").onclick = function submit() {
@@ -129,7 +156,7 @@ const check = () => {
 };
 document.getElementById("check").onclick = check;
 
-const setResponse = (question, id) => {
+const setResponse = (question, id, responses) => {
   let { options } = question;
   let opt = options.find((opt) => opt.id === id);
   switch (question.type) {
@@ -144,6 +171,9 @@ const setResponse = (question, id) => {
         RESPONSE,
         document.querySelector(`#${opt.id} p`).title
       );
+      break;
+    case "3":
+      localStorage.setItem(RESPONSE, JSON.stringify(responses));
       break;
     default:
       break;
@@ -176,8 +206,26 @@ const clickItem = (id) => {
   setResponse(question, id);
 };
 
+let responses = [];
+const selectItem = (id) => {
+  responses.push(id);
+  if (responses.length === 5) {
+    setResponse(question, null, responses);
+  }
+  const element = document.getElementById(id);
+  element.style.backgroundImage = "none";
+  element.setAttribute("disabled", true);
+  const { options } = question;
+  const opt = options.find((opt) => opt.name === id);
+  document.querySelector("#organized").innerHTML += `
+  <input id=${opt.name} class=${opt.className} value=${opt.name} style="background-image: url(../src/assets/svg/${opt.name}.svg);" />
+  `;
+  completeSelection();
+};
+
 const load = () => {
   // Load Number of Life
+  document.querySelector("#check").setAttribute("disabled", true);
   Live.start();
   setTime("start");
   document.querySelector("#life").innerHTML = Live.get();
@@ -200,24 +248,49 @@ const load = () => {
   }
 
   // Options
-  let firstItem = document.getElementById("first-item");
+  const firstItem = document.getElementById("first-item");
   if (firstItem) {
     firstItem.onclick = () => clickItem("first-item");
   }
 
-  let secondItem = document.getElementById("second-item");
+  const secondItem = document.getElementById("second-item");
   if (secondItem) {
     secondItem.onclick = () => clickItem("second-item");
   }
 
-  let thirdItem = document.getElementById("third-item");
+  const thirdItem = document.getElementById("third-item");
   if (thirdItem) {
     thirdItem.onclick = () => clickItem("third-item");
   }
 
-  let fourthItem = document.getElementById("fourth_item");
+  const fourthItem = document.getElementById("fourth_item");
   if (fourthItem) {
     fourthItem.onclick = () => clickItem("fourth_item");
+  }
+
+  const docType = document.getElementById("doctype");
+  if (docType) {
+    docType.onclick = () => selectItem("doctype");
+  }
+
+  const head = document.getElementById("head");
+  if (head) {
+    head.onclick = () => selectItem("head");
+  }
+
+  const body = document.getElementById("body");
+  if (body) {
+    body.onclick = () => selectItem("body");
+  }
+
+  const openHtml = document.getElementById("open_html");
+  if (openHtml) {
+    openHtml.onclick = () => selectItem("open_html");
+  }
+
+  const closeHtml = document.getElementById("close_html");
+  if (closeHtml) {
+    closeHtml.onclick = () => selectItem("close_html");
   }
 };
 window.onload = load;

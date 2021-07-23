@@ -32,7 +32,7 @@ class Notification {
   }
   static buildNotificationFailed(match) {
     const { type, title, buttom } = constants.NOTIFICATION_FAILED;
-    let notification = { type, title, buttom, response: match.label };
+    let notification = { type, title, buttom, response: match.label || match.validationLabel };
     return this.buildNotification(notification);
   }
   static buildNotificationReset() {
@@ -46,6 +46,7 @@ class Notification {
     return this.buildNotification(notification);
   }
   static get(type, match) {
+    console.log(match);
     let notification;
     switch (type) {
       case "success":

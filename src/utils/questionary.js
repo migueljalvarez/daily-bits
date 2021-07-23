@@ -116,4 +116,35 @@ export default [
       },
     ],
   },
+  {
+    id: 5,
+    name: "Organiza la estructura de un documento HTML5",
+    type: "3",
+    category: "html",
+    state: false,
+    options: [
+      {
+        name: "doctype",
+        className: "large",
+      },
+      {
+        name: "head",
+        className: "mid",
+      },
+      {
+        name: "body",
+        className: "mid",
+      },
+      {
+        name: "open_html",
+        className: "small",
+      },
+      {
+        name: "close_html",
+        className: "small",
+      },
+    ],
+    validatorItem: ["doctype", "open_html", "head", "body", "close_html"],
+    validationLabel: `1. &lt;!DOCTYPE html&gt; 2. &lt;html&gt; 3. &lt;head&gt; &lt;/head&gt; 4.&lt;body&gt; &lt;/body&gt; 5.&lt;/html&gt;`,
+  },
 ];

@@ -29,6 +29,8 @@ class Question {
         </div>`;
         document.querySelector("#options-with-images").innerHTML = ``;
         document.querySelector("#options").innerHTML = ``;
+        document.querySelector("#organized").innerHTML = ``;
+        document.querySelector("#unorganized").innerHTML = ``;
         data.options.forEach((option) => {
           document.querySelector("#options").innerHTML += `
             <div id=${option.id} class="option-select-default">
@@ -47,15 +49,32 @@ class Question {
         </div>`;
         document.querySelector("#options").innerHTML = ``;
         document.querySelector("#options-with-images").innerHTML = ``;
+        document.querySelector("#organized").innerHTML = ``;
+        document.querySelector("#unorganized").innerHTML = ``;
         data.options.forEach((option) => {
           document.querySelector("#options-with-images").innerHTML += `
           <div id=${option.id} class="flex flex-col option-image option-select-default">
-            <img src="../src/assets/svg/${option.item}.svg" alt="angular">
+            <img src="../src/assets/svg/${option.item}.svg" alt=${option.item}>
             <p id=${option.item} title=${option.item}>${option.label}</p>
           </div>
           `;
         });
         break;
+      case "3":
+        document.querySelector("#questions").innerHTML = `
+        <div class="flex items-center">
+          <h2>${data.name}</h2>
+        </div>`;
+        document.querySelector("#options").innerHTML = ``;
+        document.querySelector("#options-with-images").innerHTML = ``;
+        document.querySelector("#organized").innerHTML = ``;
+        document.querySelector("#unorganized").innerHTML = ``;
+        const { options } = data;
+        options.map((obj) => {
+          document.querySelector("#unorganized").innerHTML += `
+          <input id=${obj.name} class=${obj.className} value=${obj.name} style="background-image: url(../src/assets/svg/${obj.name}.svg);" />
+          `;
+        });
       default:
         break;
     }
@@ -82,10 +101,27 @@ class Question {
     let response = localStorage.getItem("response");
     let { options } = question;
     const option = options.find((option) => option.item === response);
-    if (option.isTrue) {
-      return true;
+    if (question.type === "3") {
+      var data = [5];
+      response = JSON.parse(response);
+      response.map((res, index) => {
+        if (res === question.validatorItem[index]) {
+          data.push(true);
+        } else {
+          data.push(false);
+        }
+      });
+      if (data.includes(false)) {
+        return false;
+      } else {
+        return true;
+      }
     } else {
-      return false;
+      if (option.isTrue) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
   findById(id) {
