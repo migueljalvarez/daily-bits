@@ -11,14 +11,11 @@ const {
   CATEGORY,
   DEFAULT,
   FAILED,
-  NOTIFICATION_FAILED,
-  NOTIFICATION_RESET,
-  NOTIFICATION_SUCCESS,
   REMOVE,
   RESPONSE,
+  START_TIME,
   SUCCESS,
   TOTAL_RESPONSES,
-  START_TIME,
 } = constants;
 
 let category = localStorage.getItem(CATEGORY);
@@ -61,6 +58,7 @@ const retry = (id, life) => {
   Notification.clean();
   if (id) {
     setCheking(id, FAILED, REMOVE);
+    setCheking(id, SUCCESS, REMOVE);
   }
   Live.update(life);
   document.querySelector("#life").innerHTML = Live.get();
@@ -101,12 +99,12 @@ const complete = (data) => {
         retry(option.id, life);
       }
     } else {
-      const { type } = NOTIFICATION_RESET;
+      let title = "Has Perdido, debes empezar de 0.";
+      const resetNotification = new Notification(title);
       document.querySelector("#notification").innerHTML =
-        Notification.get(type);
+        resetNotification.getNotification();
       document.getElementById("complete").onclick = function () {
-        let isCleaned = Live.restart();
-        if (isCleaned) {
+        if (Live.restart()) {
           Notification.clean();
           load();
         }
@@ -124,27 +122,24 @@ const nextQuestion = () => {
 
 const check = () => {
   if (quetionary.verify(question)) {
-    const { type } = NOTIFICATION_SUCCESS;
-    document.querySelector("#notification").innerHTML = Notification.get(type);
+    const successNotification = new Notification();
+    document.querySelector("#notification").innerHTML =
+      successNotification.getNotificationSuccess();
   } else {
-    const { type } = NOTIFICATION_FAILED;
     if (question.type === "3") {
-      document.querySelector("#notification").innerHTML = Notification.get(
-        type,
-        question
-      );
+      const failedNotification = new Notification();
+      document.querySelector("#notification").innerHTML =
+        failedNotification.getNotificationFailed(question);
     } else {
       let { options } = question;
       let option = options.find(
         (option) => option.item === localStorage.getItem(RESPONSE)
       );
-      let match = options.find((option) => option.isTrue);
+      let correctAnswer = options.find((option) => option.isTrue);
       setCheking(option.id, FAILED, ADD);
-
-      document.querySelector("#notification").innerHTML = Notification.get(
-        type,
-        match
-      );
+      const failedNotification = new Notification();
+      document.querySelector("#notification").innerHTML =
+        failedNotification.getNotificationFailed(correctAnswer);
     }
   }
 
@@ -181,16 +176,24 @@ const setResponse = (question, id, responses) => {
 };
 
 const setCheking = (id, type, method) => {
-  setCustomClass(id, `option-select-${type}`, method);
-  type = method === REMOVE ? DEFAULT : type;
-  let { options } = question;
-  let opt = options.find((opt) => opt.id === id);
-  let span = document.querySelector(`#${opt.id} span`);
-  if (span) {
-    span.innerHTML = `
-  <img src="../src/assets/svg/check-${type}.svg" alt="check">
-  `;
+  if (question.type === "1") {
+
+    setCustomClass(id, `option-select-${type}`, method);
+    setCustomClass(id, `radio-${type}`, method);
+
+  } else {
+    setCustomClass(id, `option-select-${type}`, method);
   }
+  setCustomClass(id, `option-select-${type}`, method);
+  // type = method === REMOVE ? DEFAULT : type;
+  // let { options } = question;
+  // let opt = options.find((opt) => opt.id === id);
+  // let span = document.querySelector(`#${opt.id} span`);
+  // if (span) {
+  //   span.innerHTML = `
+  // <img src="../src/assets/svg/check-${type}.svg" alt="check">
+  // `;
+  // }
 };
 
 const clickItem = (id) => {
@@ -235,7 +238,7 @@ const load = () => {
   if (question) {
     let data = quetionary.findById(question.id);
     if (data.state) {
-      question = quetionary.next();
+      question = quetionary.get();
     }
     if (!question) {
       setTime("end");

@@ -1,17 +1,27 @@
 import constants from "../utils/constants.js";
+const {
+  DEFAULT,
+  FAILED,
+  NOTIFICATION_FAILED,
+  NOTIFICATION_SUCCESS,
+  NOTIFICATION,
+  SUCCESS,
+} = constants;
 
 class Notification {
-  constructor() {}
-  static buildNotification(notification) {
+  constructor(title) {
+    this.title = title;
+  }
+  buildNotification(notification) {
     switch (notification.type) {
-      case "success":
+      case SUCCESS:
         return `
           <div id="notification" class="notification-${notification.type} show">
             <p id="message-title">${notification.title}</p>
             <input id="complete" class="complete-${notification.type}" type="submit" value=${notification.buttom}>
           </div>
         `;
-      case "failed":
+      case FAILED:
         return `
           <div id="notification" class="notification-${notification.type} show">
             <p id="message-title">${notification.title}</p>
@@ -19,7 +29,7 @@ class Notification {
             <input id="complete" class="complete-${notification.type}" type="submit" value=${notification.buttom}>
           </div>
         `;
-      case "reset":
+      case DEFAULT:
         return `
           <div id="notification" class="notification-${notification.type} show">
             <p id="message-title">${notification.title}</p>
@@ -30,33 +40,37 @@ class Notification {
         break;
     }
   }
-  static buildNotificationFailed(match) {
-    const { type, title, buttom } = constants.NOTIFICATION_FAILED;
-    let notification = { type, title, buttom, response: match.label || match.validationLabel };
-    return this.buildNotification(notification);
-  }
-  static buildNotificationReset() {
-    const { type, title, buttom } = constants.NOTIFICATION_RESET;
+
+  getNotification() {
+    const { type, buttom } = NOTIFICATION;
+    let title = this.title
     let notification = { type, title, buttom };
     return this.buildNotification(notification);
   }
-  static buildNotificationSuccess() {
-    const { type, title, buttom } = constants.NOTIFICATION_SUCCESS;
+
+  getNotificationFailed(correctAnswer) {
+    const { type, title, buttom } = NOTIFICATION_FAILED;
+    let notification = {
+      type,
+      title,
+      buttom,
+      response: correctAnswer.label || correctAnswer.validationLabel,
+    };
+    return this.buildNotification(notification);
+  }
+  getNotificationSuccess() {
+    const { type, title, buttom } = NOTIFICATION_SUCCESS;
     let notification = { type, title, buttom };
     return this.buildNotification(notification);
   }
-  static get(type, match) {
-    console.log(match);
+  get(type, correctAnswer) {
     let notification;
     switch (type) {
-      case "success":
-        notification = this.buildNotificationSuccess();
+      case SUCCESS:
+        notification = this.getNotificationSuccess();
         break;
-      case "failed":
-        notification = this.buildNotificationFailed(match);
-        break;
-      case "reset":
-        notification = this.buildNotificationReset();
+      case FAILED:
+        notification = this.getNotificationFailed(correctAnswer);
         break;
       default:
         break;

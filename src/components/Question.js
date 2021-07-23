@@ -18,7 +18,12 @@ class Question {
       return questions[random];
     }
   }
-
+  cleanerDiv() {
+    document.querySelector("#options-with-images").innerHTML = ``;
+    document.querySelector("#options").innerHTML = ``;
+    document.querySelector("#organized").innerHTML = ``;
+    document.querySelector("#unorganized").innerHTML = ``;
+  }
   build(data) {
     switch (data.type) {
       case "1":
@@ -27,17 +32,12 @@ class Question {
           <img src="../src/assets/svg/${data.avatar}.svg" alt="user" width="80">
           <h2>${data.name}</h2>
         </div>`;
-        document.querySelector("#options-with-images").innerHTML = ``;
-        document.querySelector("#options").innerHTML = ``;
-        document.querySelector("#organized").innerHTML = ``;
-        document.querySelector("#unorganized").innerHTML = ``;
+        this.cleanerDiv();
         data.options.forEach((option) => {
           document.querySelector("#options").innerHTML += `
-            <div id=${option.id} class="option-select-default">
+            <div id=${option.id} class="option-select-default radio-default">
               <label>${option.label}</label>
-              <span id=${option.item} title=${option.item}>
-                <img src="../src/assets/svg/check-default.svg" alt="radio">
-              </span>
+              <span id=${option.item} title=${option.item}></span>
             </div>
           `;
         });
@@ -47,10 +47,7 @@ class Question {
         <div class="flex items-center">
           <h2>${data.name}</h2>
         </div>`;
-        document.querySelector("#options").innerHTML = ``;
-        document.querySelector("#options-with-images").innerHTML = ``;
-        document.querySelector("#organized").innerHTML = ``;
-        document.querySelector("#unorganized").innerHTML = ``;
+        this.cleanerDiv();
         data.options.forEach((option) => {
           document.querySelector("#options-with-images").innerHTML += `
           <div id=${option.id} class="flex flex-col option-image option-select-default">
@@ -65,10 +62,7 @@ class Question {
         <div class="flex items-center">
           <h2>${data.name}</h2>
         </div>`;
-        document.querySelector("#options").innerHTML = ``;
-        document.querySelector("#options-with-images").innerHTML = ``;
-        document.querySelector("#organized").innerHTML = ``;
-        document.querySelector("#unorganized").innerHTML = ``;
+        this.cleanerDiv();
         const { options } = data;
         options.map((obj) => {
           document.querySelector("#unorganized").innerHTML += `
@@ -81,9 +75,6 @@ class Question {
   }
 
   get() {
-    return this.random();
-  }
-  next() {
     return this.random();
   }
 
