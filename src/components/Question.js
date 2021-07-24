@@ -5,7 +5,7 @@ const { RESPONSE } = constants;
 class Question {
   constructor(category) {
     this.category = category;
-    this.loadQuestionInLocalStorages(this.category);
+    this.sendToLocalStorages();
   }
   length() {
     return this.find().length;
@@ -81,9 +81,11 @@ class Question {
       questionary.filter((question) => question.category === this.category);
     return questions;
   }
-  loadQuestionInLocalStorages() {
+  sendToLocalStorages() {
     const questions = this.find();
-    localStorage.setItem(this.category, JSON.stringify(questions));
+    if (questions.length > 0) {
+      localStorage.setItem(this.category, JSON.stringify(questions));
+    }
   }
   verify(question) {
     let response = localStorage.getItem(RESPONSE);

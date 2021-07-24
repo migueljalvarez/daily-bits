@@ -25,6 +25,7 @@ let quetionary = new Question(category);
 
 let question = quetionary.get();
 let organized = document.getElementById("organized");
+let checking = document.getElementById("check");
 
 const home = () => {
   localStorage.setItem(`${category}-complete`, "true");
@@ -44,8 +45,8 @@ const completeSelection = () => {
 const retry = (id, life) => {
   Notification.clean();
   if (id) {
-    setCheking(id, FAILED, REMOVE);
-    setCheking(id, SUCCESS, REMOVE);
+    setChecking(id, FAILED, REMOVE);
+    setChecking(id, SUCCESS, REMOVE);
   }
   live.update(life);
   document.querySelector("#life").innerHTML = live.get();
@@ -108,37 +109,6 @@ const nextQuestion = () => {
   load();
 };
 
-const check = () => {
-  if (quetionary.verify(question)) {
-    const successNotification = new Notification();
-    document.querySelector("#notification").innerHTML =
-      successNotification.getNotificationSuccess();
-  } else {
-    if (question.type === "3") {
-      const failedNotification = new Notification();
-      document.querySelector("#notification").innerHTML =
-        failedNotification.getNotificationFailed(question);
-    } else {
-      let { options } = question;
-      let option = options.find(
-        (option) => option.item === localStorage.getItem(RESPONSE)
-      );
-      let correctAnswer = options.find((option) => option.isTrue);
-      setCheking(option.id, FAILED, ADD);
-      const failedNotification = new Notification();
-      document.querySelector("#notification").innerHTML =
-        failedNotification.getNotificationFailed(correctAnswer);
-    }
-  }
-
-  document.getElementById("complete").onclick = function submit() {
-    let responses = parseInt(localStorage.getItem(TOTAL_RESPONSES));
-    localStorage.setItem(TOTAL_RESPONSES, responses ? responses + 1 : 1);
-    return complete(question);
-  };
-};
-document.getElementById("check").onclick = () => check();
-
 const setResponse = (question, id, responses) => {
   let { options } = question;
   let opt = options.find((opt) => opt.id === id);
@@ -163,7 +133,7 @@ const setResponse = (question, id, responses) => {
   }
 };
 
-const setCheking = (id, type, method) => {
+const setChecking = (id, type, method) => {
   if (question.type === "1") {
     setCustomClass(id, `option-select-${type}`, method);
     setCustomClass(id, `radio-${type}`, method);
@@ -174,13 +144,13 @@ const setCheking = (id, type, method) => {
 };
 
 const clickItem = (id) => {
-  setCheking(id, SUCCESS, ADD);
+  setChecking(id, SUCCESS, ADD);
   let opts = question.options.filter((opt) => opt.id !== id);
   for (const opt of opts) {
     // Remove Success
-    setCheking(opt.id, SUCCESS, REMOVE);
+    setChecking(opt.id, SUCCESS, REMOVE);
     // Remove Failed
-    setCheking(opt.id, FAILED, REMOVE);
+    setChecking(opt.id, FAILED, REMOVE);
   }
   document.querySelector("#check").removeAttribute("disabled");
   setResponse(question, id);
@@ -215,7 +185,6 @@ const load = () => {
   document.getElementById("bar").style.width = `${progress}%`;
   // load question
   if (question) {
-    console.log(question);
     let data = quetionary.findById(question.id);
     if (data.state) {
       question = quetionary.get();
@@ -277,6 +246,36 @@ const load = () => {
   }
 };
 window.onload = () => load();
+
+checking.onclick = () => {
+  if (quetionary.verify(question)) {
+    const successNotification = new Notification();
+    document.querySelector("#notification").innerHTML =
+      successNotification.getNotificationSuccess();
+  } else {
+    if (question.type === "3") {
+      const failedNotification = new Notification();
+      document.querySelector("#notification").innerHTML =
+        failedNotification.getNotificationFailed(question);
+    } else {
+      let { options } = question;
+      let option = options.find(
+        (option) => option.item === localStorage.getItem(RESPONSE)
+      );
+      let correctAnswer = options.find((option) => option.isTrue);
+      setChecking(option.id, FAILED, ADD);
+      const failedNotification = new Notification();
+      document.querySelector("#notification").innerHTML =
+        failedNotification.getNotificationFailed(correctAnswer);
+    }
+  }
+
+  document.getElementById("complete").onclick = () => {
+    let responses = parseInt(localStorage.getItem(TOTAL_RESPONSES));
+    localStorage.setItem(TOTAL_RESPONSES, responses ? responses + 1 : 1);
+    return complete(question);
+  };
+};
 
 document.getElementById("close").onclick = () => {
   cleaner.progress();
