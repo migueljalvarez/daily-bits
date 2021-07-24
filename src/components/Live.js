@@ -1,27 +1,32 @@
 import ProgressBar from "./ProgressBar.js";
 import constants from "../utils/constants.js";
+const { LIFE } = constants;
+
 class Live {
-  constructor(){}
-  static start() {
-    let life = localStorage.getItem("life")
-      ? localStorage.getItem("life")
-      : localStorage.setItem("life", constants.LIFE);
+  constructor(category) {
+    this.category = category;
+    this.progress = new ProgressBar(category);
+  }
+  start() {
+    let life = localStorage.getItem(`${this.category}-life`)
+      ? localStorage.getItem(`${this.category}-life`)
+      : localStorage.setItem(`${this.category}-life`, LIFE);
     return life;
   }
-  static get() {
-    let life = localStorage.getItem("life");
+  get() {
+    let life = localStorage.getItem(`${this.category}-life`);
     return life;
   }
-  static restart() {
-    localStorage.setItem("life", constants.LIFE);
+  restart() {
+    localStorage.setItem(`${this.category}-life`, LIFE);
     document.querySelector("#life").innerHTML = this.get();
-    return ProgressBar.reset();
+    return this.progress.reset();
   }
-  static update(life) {
-    localStorage.setItem("life", life);
+  update(life) {
+    localStorage.setItem(`${this.category}-life`, life);
   }
-  static discount() {
-    let life = localStorage.getItem("life");
+  discount() {
+    let life = localStorage.getItem(`${this.category}-life`);
     if (life > 0) {
       return life - 1;
     } else {

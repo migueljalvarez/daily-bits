@@ -1,4 +1,7 @@
 import questionary from "../utils/questionary.js";
+import constants from "../utils/constants.js";
+const { RESPONSE } = constants;
+
 class Question {
   constructor(category) {
     this.category = category;
@@ -18,12 +21,7 @@ class Question {
       return questions[random];
     }
   }
-  cleanerDiv() {
-    document.querySelector("#options-with-images").innerHTML = ``;
-    document.querySelector("#options").innerHTML = ``;
-    document.querySelector("#organized").innerHTML = ``;
-    document.querySelector("#unorganized").innerHTML = ``;
-  }
+
   build(data) {
     switch (data.type) {
       case "1":
@@ -32,7 +30,6 @@ class Question {
           <img src="../src/assets/svg/${data.avatar}.svg" alt="user" width="80">
           <h2>${data.name}</h2>
         </div>`;
-        this.cleanerDiv();
         data.options.forEach((option) => {
           document.querySelector("#options").innerHTML += `
             <div id=${option.id} class="option-select-default radio-default">
@@ -47,7 +44,6 @@ class Question {
         <div class="flex items-center">
           <h2>${data.name}</h2>
         </div>`;
-        this.cleanerDiv();
         data.options.forEach((option) => {
           document.querySelector("#options-with-images").innerHTML += `
           <div id=${option.id} class="flex flex-col option-image option-select-default">
@@ -62,8 +58,7 @@ class Question {
         <div class="flex items-center">
           <h2>${data.name}</h2>
         </div>`;
-        this.cleanerDiv();
-        const element = document.getElementById('organized');
+        const element = document.getElementById("organized");
         element.style.backgroundImage = "url(../src/assets/svg/separator.svg)";
         const { options } = data;
         options.map((obj) => {
@@ -91,7 +86,7 @@ class Question {
     localStorage.setItem(this.category, JSON.stringify(questions));
   }
   verify(question) {
-    let response = localStorage.getItem("response");
+    let response = localStorage.getItem(RESPONSE);
     let { options } = question;
     const option = options.find((option) => option.item === response);
     if (question.type === "3") {
@@ -133,7 +128,7 @@ class Question {
     localStorage.setItem(this.category, JSON.stringify(questions));
     return this.findById(question.id);
   }
-  static reset(category) {
+  reset(category) {
     if (localStorage.getItem(category)) {
       localStorage.removeItem(category);
       return true;

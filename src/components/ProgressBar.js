@@ -1,29 +1,32 @@
 import Question from "./Question.js";
-
+import constants from "../utils/constants.js";
+const { PROGRESS } = constants;
+let question = new Question();
 class ProgressBar {
-  constructor() {}
-  static load(portion) {
+  constructor(category) {
+    this.category = category;
+  }
+  load(portion) {
     let max = 100;
     let percent = max / portion;
-    let currentPercent = localStorage.getItem("progress")
-      ? parseFloat(localStorage.getItem("progress"))
+    let currentPercent = localStorage.getItem(`${this.category}-${PROGRESS}`)
+      ? parseFloat(localStorage.getItem(`${this.category}-${PROGRESS}`))
       : 0;
     currentPercent = parseFloat(currentPercent) + parseFloat(percent);
     document.getElementById("bar").style.width = `${currentPercent}%`;
     let progress = currentPercent;
-    localStorage.setItem("progress", progress);
+    localStorage.setItem(`${this.category}-${PROGRESS}`, progress);
   }
-  static getProgress() {
-    let progress = localStorage.getItem("progress")
-      ? parseFloat(localStorage.getItem("progress"))
+  getProgress() {
+    let progress = localStorage.getItem(`${this.category}-${PROGRESS}`)
+      ? parseFloat(localStorage.getItem(`${this.category}-${PROGRESS}`))
       : 0;
     return progress;
   }
-  static reset() {
-    let category = localStorage.getItem("categorySelected");
-    localStorage.setItem("progress", 0);
+  reset() {
+    localStorage.setItem(`${this.category}-${PROGRESS}`, 0);
     document.getElementById("bar").style.width = 0;
-    return Question.reset(category);
+    return question.reset(this.category);
   }
 }
 

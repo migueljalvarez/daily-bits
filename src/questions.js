@@ -2,6 +2,7 @@ import Live from "./components/Live.js";
 import Notification from "./components/Notification.js";
 import ProgressBar from "./components/ProgressBar.js";
 import Question from "./components/Question.js";
+import Cleaner from "./components/Cleaner.js";
 
 import constants from "./utils/constants.js";
 import time from "./utils/time.js";
@@ -12,32 +13,19 @@ const {
   FAILED,
   REMOVE,
   RESPONSE,
-  START_TIME,
   SUCCESS,
   TOTAL_RESPONSES,
 } = constants;
 
 let category = localStorage.getItem(CATEGORY);
+let cleaner = new Cleaner(category);
+let live = new Live(category);
+let progressBar = new ProgressBar(category);
 let quetionary = new Question(category);
+
 let question = quetionary.get();
 let organized = document.getElementById("organized");
 
-const setTime = (type) => {
-  let time;
-  switch (type) {
-    case "start":
-      time = localStorage.getItem(START_TIME)
-        ? parseInt(localStorage.getItem(START_TIME))
-        : Date.now();
-      break;
-    case "end":
-      time = Date.now();
-      break;
-    default:
-      break;
-  }
-  localStorage.setItem(`${type}-time`, time);
-};
 const home = () => {
   localStorage.setItem(`${category}-complete`, "true");
   window.location.href = "/public/home.html";
@@ -59,8 +47,8 @@ const retry = (id, life) => {
     setCheking(id, FAILED, REMOVE);
     setCheking(id, SUCCESS, REMOVE);
   }
-  Live.update(life);
-  document.querySelector("#life").innerHTML = Live.get();
+  live.update(life);
+  document.querySelector("#life").innerHTML = live.get();
   let responsesFailed = parseInt(localStorage.getItem(FAILED));
   localStorage.setItem(FAILED, responsesFailed ? responsesFailed + 1 : 1);
   document.querySelector("#check").setAttribute("disabled", true);
@@ -76,11 +64,12 @@ const complete = (data) => {
         SUCCESS,
         responsesSuccess ? responsesSuccess + 1 : 1
       );
-      ProgressBar.load(qty);
+      progressBar.load(qty);
+      cleaner.div();
       nextQuestion();
     }
   } else {
-    let life = Live.discount();
+    let life = live.discount();
     if (life > 0) {
       if (question.type === "3") {
         retry(null, life);
@@ -103,7 +92,7 @@ const complete = (data) => {
       document.querySelector("#notification").innerHTML =
         resetNotification.getNotification();
       document.getElementById("complete").onclick = function () {
-        if (Live.restart()) {
+        if (live.restart()) {
           Notification.clean();
           load();
         }
@@ -114,7 +103,7 @@ const complete = (data) => {
 
 const nextQuestion = () => {
   Notification.clean();
-  setTime("end");
+  time.set("end");
   time.calculate();
   load();
 };
@@ -148,7 +137,7 @@ const check = () => {
     return complete(question);
   };
 };
-document.getElementById("check").onclick = check;
+document.getElementById("check").onclick = () => check();
 
 const setResponse = (question, id, responses) => {
   let { options } = question;
@@ -216,26 +205,28 @@ const selectItem = (id) => {
 };
 
 const load = () => {
+  cleaner.div();
   // Load Number of Life
   document.querySelector("#check").setAttribute("disabled", true);
-  Live.start();
-  setTime("start");
-  document.querySelector("#life").innerHTML = Live.get();
-  let progress = ProgressBar.getProgress();
+  live.start();
+  time.set("start");
+  document.querySelector("#life").innerHTML = live.get();
+  let progress = progressBar.getProgress();
   document.getElementById("bar").style.width = `${progress}%`;
   // load question
   if (question) {
+    console.log(question);
     let data = quetionary.findById(question.id);
     if (data.state) {
       question = quetionary.get();
     }
     if (!question) {
-      setTime("end");
+      time.set("end");
       home();
     }
     quetionary.build(question);
   } else {
-    setTime("end");
+    time.set("end");
     home();
   }
 
@@ -285,4 +276,9 @@ const load = () => {
     closeHtml.onclick = () => selectItem("close_html");
   }
 };
-window.onload = load;
+window.onload = () => load();
+
+document.getElementById("close").onclick = () => {
+  cleaner.progress();
+  window.location.href = "/public/home.html";
+};

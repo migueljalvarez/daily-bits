@@ -14,6 +14,7 @@ export default {
   START_TIME: "start-time",
   SUCCESS: "success",
   TOTAL_RESPONSES: "total-responses",
+  PROGRESS: "progress",
   NOTIFICATION: {
     buttom: "Continuar",
     type: "default",
