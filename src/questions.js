@@ -7,15 +7,8 @@ import Cleaner from "./components/Cleaner.js";
 import constants from "./utils/constants.js";
 import time from "./utils/time.js";
 
-const {
-  ADD,
-  CATEGORY,
-  FAILED,
-  REMOVE,
-  RESPONSE,
-  SUCCESS,
-  TOTAL_RESPONSES,
-} = constants;
+const { ADD, CATEGORY, FAILED, REMOVE, RESPONSE, SUCCESS, TOTAL_RESPONSES } =
+  constants;
 
 let category = localStorage.getItem(CATEGORY);
 let cleaner = new Cleaner(category);
@@ -57,7 +50,7 @@ const retry = (id, life) => {
 
 const complete = (data) => {
   if (quetionary.verify(data)) {
-    let qty = quetionary.length();
+    let num = quetionary.length();
     let result = quetionary.setState(data);
     if (result.state) {
       let responsesSuccess = parseInt(localStorage.getItem(SUCCESS));
@@ -65,12 +58,14 @@ const complete = (data) => {
         SUCCESS,
         responsesSuccess ? responsesSuccess + 1 : 1
       );
-      progressBar.load(qty);
+      progressBar.load(num);
+      cleaner.response();
       cleaner.div();
       nextQuestion();
     }
   } else {
     let life = live.discount();
+    cleaner.response();
     if (life > 0) {
       if (question.type === "3") {
         retry(null, life);

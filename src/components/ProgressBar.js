@@ -6,9 +6,9 @@ class ProgressBar {
   constructor(category) {
     this.category = category;
   }
-  load(portion) {
+  load(num) {
     let max = 100;
-    let percent = max / portion;
+    let percent = max / num;
     let currentPercent = localStorage.getItem(`${this.category}-${PROGRESS}`)
       ? parseFloat(localStorage.getItem(`${this.category}-${PROGRESS}`))
       : 0;
