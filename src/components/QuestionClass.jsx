@@ -1,6 +1,57 @@
 import React from "react";
 import questionary from "../utils/questionary.js";
 import constants from "../utils/constants.js";
+import styled from "styled-components";
+
+const ContainerQuestions = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const Avatar = styled.img`
+  margin: 10px;
+`;
+const Title = styled.h2`
+  float: right;
+  width: -webkit-fill-available;
+  margin: 5px;
+`;
+const Options = styled.div``;
+
+const Item = styled.div`
+  background-color: #232e35;
+  margin: 10px auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 10px;
+  border-radius: 5px;
+  width: 328px;
+`;
+
+const OptionsWithImage = styled.div`
+  justify-content: space-between;
+  display: inline-block;
+  margin: 0 32px;
+`;
+
+const ItemWithImage = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: #16161a;
+  border: 2px solid var(--color-gray);
+  margin: 2px 2px;
+  width: 144px;
+  height: 200px;
+  float: left;
+  border-radius: 8px;
+`;
+const ItemImg = styled.img`
+  border-radius: 8px;
+`;
+const ItemText = styled.p`
+  text-align: center;
+  margin: 20px 0;
+`;
+const ItemLabel = styled.label``;
 
 const { RESPONSE } = constants;
 
@@ -8,6 +59,28 @@ class Question {
   constructor(category) {
     this.category = category;
     this.sendToLocalStorages();
+  }
+
+  handleSelect(e, data) {
+    const { options } = data;
+    options.map((opt) => {
+      if (opt.id !== e.target.id) {
+        document
+          .getElementById(opt.id)
+          .classList.remove("option-select-success");
+        document.getElementById(opt.id).classList.remove("radio-success");
+      } else {
+        document
+          .getElementById(e.target.id)
+          .classList.add("option-select-success");
+        document.getElementById(e.target.id).classList.add("radio-success");
+      }
+      const check = document.querySelector("#check");
+      if (check.attributes.getNamedItem('disabled')) {
+        check.attributes.removeNamedItem("disabled");
+      }
+      
+    });
   }
 
   find() {
@@ -39,48 +112,52 @@ class Question {
       case "1":
         return (
           <>
-            <div className="flex items-center">
-              <img
-                src={data.avatar}
+            <ContainerQuestions className="">
+              <Avatar
+                src={`../assets/svg/${data.avatar}.svg`}
                 alt="user"
                 width="80"
               />
-              <h2>{data.name}</h2>
-            </div>
-            <div id="options">
+              <Title>{data.name}</Title>
+            </ContainerQuestions>
+
+            <Options id="options">
               {data.options.map((opt) => (
-                <div
+                <Item
                   key={opt.id}
                   id={opt.id}
                   className="option-select-default radio-default"
+                  onClick={(e) => this.handleSelect(e, data)}
                 >
-                  <label>{opt.label}</label>
-                  <span id={opt.item} title={opt.item}></span>
-                </div>
+                  <ItemLabel>{opt.label}</ItemLabel>
+                </Item>
               ))}
-            </div>
+            </Options>
           </>
         );
       case "2":
         return (
           <>
-            <div className="flex items-center">
-              <h2>{data.name}</h2>
-            </div>
-            <div id="options-with-images">
+            <ContainerQuestions className="">
+              <Title>{data.name}</Title>
+            </ContainerQuestions>
+            <OptionsWithImage id="options-with-images">
               {data.options.map((opt) => (
-                <div
+                <ItemWithImage
                   key={opt.id}
                   id={opt.id}
-                  className="flex flex-col option-image option-select-default"
+                  className="option-select-default"
                 >
-                  <img src={opt.item} alt={opt.item} />
-                  <p id={opt.item} title={opt.item}>
+                  <ItemImg
+                    src={`../assets/svg/${opt.item}.svg`}
+                    alt={opt.item}
+                  />
+                  <ItemText id={opt.item} title={opt.item}>
                     {opt.label}
-                  </p>
-                </div>
+                  </ItemText>
+                </ItemWithImage>
               ))}
-            </div>
+            </OptionsWithImage>
           </>
         );
       case "3":

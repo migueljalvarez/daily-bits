@@ -3,6 +3,7 @@ import QuestionClass from "./QuestionClass";
 import heart from "../assets/svg/heart.svg";
 import close from "../assets/svg/close.svg";
 
+
 const Questions = ({ category }) => {
   const [categorie, setCategorie] = useState("html");
   const [question, setQuestion] = useState({});
