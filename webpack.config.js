@@ -6,8 +6,9 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 module.exports = {
   entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, "build"),
     filename: "bundle.js",
+    path: path.resolve(__dirname, "build"),
+    assetModuleFilename: 'assets/svg/[name][ext][query]'
   },
   resolve: {
     extensions: [".js", ".jsx"],
@@ -38,14 +39,15 @@ module.exports = {
       },
       {
         test: /\.(svg)$/,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              name: "assets/svg/[name].[ext]",
-            },
-          },
-        ],
+        type: 'asset/resource',
+        // use: [
+        //   {
+        //     loader: "file-loader",
+        //     options: {
+        //       name: "assets/svg/[name].[ext]",
+        //     },
+        //   },
+        // ],
       },
     ],
   },
