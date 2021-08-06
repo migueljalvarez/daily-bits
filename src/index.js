@@ -1,4 +1,5 @@
-window.onload = ()=>{
-  let redirect = window.location.href = "/public/index.html";
-  return setTimeout(redirect, 5000);
-}
+
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./containers/App.jsx";
+ReactDOM.render(<App />, document.getElementById("root"));

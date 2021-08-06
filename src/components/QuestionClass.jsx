@@ -1,5 +1,7 @@
+import React from "react";
 import questionary from "../utils/questionary.js";
 import constants from "../utils/constants.js";
+
 const { RESPONSE } = constants;
 
 class Question {
@@ -7,12 +9,22 @@ class Question {
     this.category = category;
     this.sendToLocalStorages();
   }
-  length() {
-    return this.find().length;
+
+  find() {
+    let questions =
+      JSON.parse(localStorage.getItem(this.category)) ||
+      questionary.filter((question) => question.category === this.category);
+    console.log(questions);
+    return questions;
   }
+
+  // length() {
+  //   return this.find().length;
+  // }
   // Retorna un elemento a alzar
   random() {
     let all = this.find();
+    // console.log("all", all);
     let questions = all.filter((option) => option.state !== true);
     if (questions.length === 0) {
       console.log("regresando al home...");
@@ -25,34 +37,52 @@ class Question {
   build(data) {
     switch (data.type) {
       case "1":
-        document.querySelector("#questions").innerHTML = `
-        <div class="flex items-center">
-          <img src="../src/assets/svg/${data.avatar}.svg" alt="user" width="80">
-          <h2>${data.name}</h2>
-        </div>`;
-        data.options.forEach((option) => {
-          document.querySelector("#options").innerHTML += `
-            <div id=${option.id} class="option-select-default radio-default">
-              <label>${option.label}</label>
-              <span id=${option.item} title=${option.item}></span>
+        return (
+          <>
+            <div className="flex items-center">
+              <img
+                src={data.avatar}
+                alt="user"
+                width="80"
+              />
+              <h2>{data.name}</h2>
             </div>
-          `;
-        });
-        break;
+            <div id="options">
+              {data.options.map((opt) => (
+                <div
+                  key={opt.id}
+                  id={opt.id}
+                  className="option-select-default radio-default"
+                >
+                  <label>{opt.label}</label>
+                  <span id={opt.item} title={opt.item}></span>
+                </div>
+              ))}
+            </div>
+          </>
+        );
       case "2":
-        document.querySelector("#questions").innerHTML = `
-        <div class="flex items-center">
-          <h2>${data.name}</h2>
-        </div>`;
-        data.options.forEach((option) => {
-          document.querySelector("#options-with-images").innerHTML += `
-          <div id=${option.id} class="flex flex-col option-image option-select-default">
-            <img src="../src/assets/svg/${option.item}.svg" alt=${option.item}>
-            <p id=${option.item} title=${option.item}>${option.label}</p>
-          </div>
-          `;
-        });
-        break;
+        return (
+          <>
+            <div className="flex items-center">
+              <h2>{data.name}</h2>
+            </div>
+            <div id="options-with-images">
+              {data.options.map((opt) => (
+                <div
+                  key={opt.id}
+                  id={opt.id}
+                  className="flex flex-col option-image option-select-default"
+                >
+                  <img src={opt.item} alt={opt.item} />
+                  <p id={opt.item} title={opt.item}>
+                    {opt.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </>
+        );
       case "3":
         document.querySelector("#questions").innerHTML = `
         <div class="flex items-center">
@@ -75,12 +105,6 @@ class Question {
     return this.random();
   }
 
-  find() {
-    let questions =
-      JSON.parse(localStorage.getItem(this.category)) ||
-      questionary.filter((question) => question.category === this.category);
-    return questions;
-  }
   sendToLocalStorages() {
     const questions = this.find();
     if (questions.length > 0) {

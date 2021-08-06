@@ -1,7 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&family=Open+Sans&display=swap");
-
-
-
+@import url(https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&family=Open+Sans&display=swap);
 :root {
   /* Colors */
   --color-black: #16161a;
@@ -12,7 +9,6 @@
   --color-white: #ffffff;
   --color-purple: #7f5af0;
   --color-purple-light: #a786df;
-  --check-default: "../assets/svg/check-default.svg";
 }
 *,
 *::before,
@@ -165,7 +161,7 @@ option {
   padding: 0.5em 2.5em 0.5em 0.9em;
   border: none;
   appearance: none;
-  background-image: url("../assets/svg/arrowDown.svg");
+  background-image: url(../6bcbf15fb8dbccd1bff5.svg);
   background-repeat: no-repeat;
   background-position: right;
 }
@@ -324,19 +320,19 @@ option {
 }
 
 .radio-default {
-  background-image: url("../assets/svg/check-default.svg");
+  background-image: url(../071472068da69efd198f.svg);
   background-repeat: no-repeat;
   background-position-x: 95%;
   background-position-y: 50%;
 }
 .radio-success {
-  background-image: url("../assets/svg/check-success.svg");
+  background-image: url(../846f2c3d677bc4f8f5ab.svg);
   background-repeat: no-repeat;
   background-position-x: 95%;
   background-position-y: 50%;
 }
 .radio-failed {
-  background-image: url("../assets/svg/check-failed.svg");
+  background-image: url(../4661dae904c9bb465d97.svg);
   background-repeat: no-repeat;
   background-position-x: 95%;
   background-position-y: 50%;
@@ -520,3 +516,4 @@ option {
   width: 68px;
   height: 40px;
 }
+

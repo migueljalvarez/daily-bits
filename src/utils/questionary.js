@@ -1,8 +1,19 @@
+import avatar1 from "../assets/svg/avatar1.svg";
+import avatar2 from "../assets/svg/avatar2.svg";
+import avatar3 from "../assets/svg/avatar3.svg";
+
+import angular from "../assets/svg/angular.svg";
+import vue from "../assets/svg/vue.svg";
+import kotlin from "../assets/svg/kotlin.svg";
+import windows from "../assets/svg/windows.svg";
+import express from "../assets/svg/express.svg";
+import mongo from "../assets/svg/mongo.svg";
+
 export default [
   {
     id: 1,
     name: "¿Qué etiqueta es semánticamente correcta para el contenido principal?",
-    avatar: "avatar1",
+    avatar: avatar1,
     type: "1",
     category: "html",
     state: false,
@@ -30,26 +41,26 @@ export default [
   {
     id: 2,
     name: "¿Qué etiqueta HTML nos sirve para incluir archivos de JavaScript?",
-    avatar: "avatar2",
+    avatar: avatar2,
     type: "1",
     category: "html",
     state: false,
     options: [
       {
         id: "first-item",
-        label: "&lt;br&gt;",
+        label: "<br>",
         item: "br",
         isTrue: false,
       },
       {
         id: "second-item",
-        label: "&lt;script&gt;",
+        label: "<script>",
         item: "script",
         isTrue: true,
       },
       {
         id: "third-item",
-        label: "&lt;styles&gt;",
+        label: "<styles>",
         item: "styles",
         isTrue: false,
       },
@@ -58,7 +69,7 @@ export default [
   {
     id: 3,
     name: "¿Qué significa DRY?",
-    avatar: "avatar3",
+    avatar: avatar3,
     type: "1",
     category: "html",
     state: false,
@@ -93,83 +104,83 @@ export default [
       {
         id: "first-item",
         label: "Angular",
-        item: "angular",
+        item: angular,
         isTrue: false,
       },
       {
         id: "second-item",
         label: "Vue.js",
-        item: "vue",
+        item: vue,
         isTrue: true,
       },
       {
         id: "third-item",
         label: "Windows",
-        item: "windows",
+        item: windows,
         isTrue: false,
       },
       {
         id: "fourth_item",
         label: "Kotlin",
-        item: "kotlin",
+        item: kotlin,
         isTrue: false,
       },
     ],
   },
-  {
-    id: 5,
-    name: "Organiza la estructura de un documento HTML5",
-    type: "3",
-    category: "html",
-    state: false,
-    options: [
-      {
-        name: "doctype",
-        className: "large",
-      },
-      {
-        name: "head",
-        className: "mid",
-      },
-      {
-        name: "body",
-        className: "mid",
-      },
-      {
-        name: "open_html",
-        className: "small",
-      },
-      {
-        name: "close_html",
-        className: "small",
-      },
-    ],
-    validatorItem: ["doctype", "open_html", "head", "body", "close_html"],
-    validationLabel: `1. &lt;!DOCTYPE html&gt; 2. &lt;html&gt; 3. &lt;head&gt; &lt;/head&gt; 4. &lt;body&gt; &lt;/body&gt; 5. &lt;/html&gt;`,
-  },
+  // {
+  //   id: 5,
+  //   name: "Organiza la estructura de un documento HTML5",
+  //   type: "3",
+  //   category: "html",
+  //   state: false,
+  //   options: [
+  //     {
+  //       name: "doctype",
+  //       className: "large",
+  //     },
+  //     {
+  //       name: "head",
+  //       className: "mid",
+  //     },
+  //     {
+  //       name: "body",
+  //       className: "mid",
+  //     },
+  //     {
+  //       name: "open_html",
+  //       className: "small",
+  //     },
+  //     {
+  //       name: "close_html",
+  //       className: "small",
+  //     },
+  //   ],
+  //   validatorItem: ["doctype", "open_html", "head", "body", "close_html"],
+  //   validationLabel: `1. <!DOCTYPE html> 2. <html> 3. <head> </head> 4. <body> </body> 5. </html>`,
+  // },
   {
     id: 6,
     name: "¿En que Etiquta de HTML debo incluir los estilos CSS?",
-    avatar: "avatar2",
+    avatar: avatar2,
     type: "1",
     category: "html",
     state: false,
     options: [
       {
         id: "first-item",
-        label: "&lt;script&gt;",
+        label: "<script>",
         item: "script",
         isTrue: false,
       },
       {
         id: "second-item",
-        label: "&lt;link&gt;",
+        label: "<link>",
         item: "link",
         isTrue: true,
       },
       {
         id: "third-item",
-        label: "&lt;styles&gt;",
+        label: "<styles>",
         item: "styles",
         isTrue: false,
       },
@@ -186,25 +197,25 @@ export default [
       {
         id: "first-item",
         label: "Vue.js",
-        item: "vue",
+        item: vue,
         isTrue: true,
       },
       {
         id: "second-item",
         label: "Angular",
-        item: "angular",
+        item: angular,
         isTrue: false,
       },
       {
         id: "third-item",
         label: "Express",
-        item: "express",
+        item: express,
         isTrue: false,
       },
       {
         id: "fourth_item",
         label: "Mongo",
-        item: "mongo",
+        item: mongo,
         isTrue: false,
       },
     ],
@@ -212,7 +223,7 @@ export default [
   {
     id: 8,
     name: "El ForOf itera sobre:",
-    avatar: "avatar3",
+    avatar: avatar3,
     type: "1",
     category: "js",
     state: false,
@@ -240,7 +251,7 @@ export default [
   {
     id: 9,
     name: "Si utilizo .find() obtengo un:",
-    avatar: "avatar2",
+    avatar: avatar2,
     type: "1",
     category: "js",
     state: false,
@@ -268,7 +279,7 @@ export default [
   {
     id: 9,
     name: "Como debo exportar una Clase",
-    avatar: "avatar1",
+    avatar: avatar1,
     type: "1",
     category: "js",
     state: false,
@@ -296,7 +307,7 @@ export default [
   {
     id: 10,
     name: "Seleccione el Tipo de Dato no Primitivo",
-    avatar: "avatar2",
+    avatar: avatar2,
     type: "1",
     category: "js",
     state: false,
@@ -324,7 +335,7 @@ export default [
   {
     id: 11,
     name: "Compo se reepresenta al Spread Syntax",
-    avatar: "avatar3",
+    avatar: avatar3,
     type: "1",
     category: "js",
     state: false,
