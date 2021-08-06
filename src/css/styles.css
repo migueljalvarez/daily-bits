@@ -238,7 +238,7 @@ option {
 /*  */
 
 /* progress bar */
-.progress-bar-container {
+/* .progress-bar-container {
   padding: 10px;
 }
 .progress {
@@ -258,7 +258,7 @@ option {
   height: 100%;
   background: #2cb67d;
   border-radius: 25px;
-}
+} */
 
 #life {
   margin: 0px 2px;
@@ -366,7 +366,7 @@ option {
 
 
 /* Button */
-#check {
+/* #check {
   border-radius: 16px;
   width: 328px;
   height: 50px;
@@ -384,7 +384,7 @@ option {
 #check:hover {
   background-color: var(--color-purple-light);
   box-shadow: 0 2px 1px 1px var(--color-purple);
-}
+} */
 
 /*  */
 

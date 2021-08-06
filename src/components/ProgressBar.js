@@ -1,4 +1,4 @@
-import Question from "./Question.js";
+import Question from "./QuestionClass";
 import constants from "../utils/constants.js";
 const { PROGRESS } = constants;
 let question = new Question();
@@ -13,7 +13,7 @@ class ProgressBar {
       ? parseFloat(localStorage.getItem(`${this.category}-${PROGRESS}`))
       : 0;
     currentPercent = parseFloat(currentPercent) + parseFloat(percent);
-    document.getElementById("bar").style.width = `${currentPercent}%`;
+    document.getElementById("progress").style.width = `${currentPercent}%`;
     let progress = currentPercent;
     localStorage.setItem(`${this.category}-${PROGRESS}`, progress);
   }
@@ -25,7 +25,7 @@ class ProgressBar {
   }
   reset() {
     localStorage.setItem(`${this.category}-${PROGRESS}`, 0);
-    document.getElementById("bar").style.width = 0;
+    document.getElementById("progress").style.width = 0;
     return question.reset(this.category);
   }
 }

@@ -15,7 +15,12 @@ const Title = styled.h2`
   width: -webkit-fill-available;
   margin: 5px;
 `;
-const Options = styled.div``;
+const Options = styled.div`
+  position: absolute;
+  bottom: 100px;
+  left: 0;
+  right: 0;
+`;
 
 const Item = styled.div`
   background-color: #232e35;
@@ -69,31 +74,33 @@ class Question {
           .getElementById(opt.id)
           .classList.remove("option-select-success");
         document.getElementById(opt.id).classList.remove("radio-success");
+        const notification = document.getElementById('notification');
+        if (notification) {
+          notification.classList.remove("show");
+        }
       } else {
         document
           .getElementById(e.target.id)
           .classList.add("option-select-success");
         document.getElementById(e.target.id).classList.add("radio-success");
+        localStorage.setItem(RESPONSE, opt.item);
       }
       const check = document.querySelector("#check");
       if (check.attributes.getNamedItem('disabled')) {
         check.attributes.removeNamedItem("disabled");
       }
-      
     });
   }
-
   find() {
     let questions =
       JSON.parse(localStorage.getItem(this.category)) ||
       questionary.filter((question) => question.category === this.category);
-    console.log(questions);
     return questions;
   }
 
-  // length() {
-  //   return this.find().length;
-  // }
+  length() {
+    return this.find().length;
+  }
   // Retorna un elemento a alzar
   random() {
     let all = this.find();
@@ -110,6 +117,7 @@ class Question {
   build(data) {
     switch (data.type) {
       case "1":
+        document.querySelector("#check").setAttribute("disabled", true);
         return (
           <>
             <ContainerQuestions className="">

@@ -6,12 +6,15 @@ class Live {
   constructor(category) {
     this.category = category;
     this.progress = new ProgressBar(category);
+    if (category){
+      this.start(category)
+    };
   }
-  start() {
-    let life = localStorage.getItem(`${this.category}-life`)
-      ? localStorage.getItem(`${this.category}-life`)
-      : localStorage.setItem(`${this.category}-life`, LIFE);
-    return life;
+  start(category) {
+    let life = localStorage.getItem(`${category}-life`)
+        ? localStorage.getItem(`${category}-life`)
+        : localStorage.setItem(`${category}-life`, LIFE);
+      return life;
   }
   get() {
     let life = localStorage.getItem(`${this.category}-life`);
