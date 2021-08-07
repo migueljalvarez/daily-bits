@@ -7,6 +7,16 @@ class Cleaner {
   response() {
     localStorage.removeItem(RESPONSE);
   }
+  selected(items) {
+    items.map((item) => {
+      const option = document.getElementById(item.id);
+      option.classList.remove("option-select-success");
+      option.classList.remove("radio-success");
+      option.classList.remove("option-select-failed");
+      option.classList.remove("radio-failed");
+    });
+    document.getElementById("check").classList.add("disabled", true);
+  }
   progress() {
     localStorage.removeItem(CATEGORY);
     localStorage.removeItem(RESPONSE);

@@ -17,6 +17,7 @@ export default {
   PROGRESS: "progress",
   NOTIFICATION: {
     buttom: "Continuar",
+    title: "Has Perdido, debes empezar de 0.",
     type: "default",
   },
   NOTIFICATION_FAILED: {

@@ -54,21 +54,18 @@ const LiveText = styled.p`
 
 const Questions = () => {
   const { category } = useParams();
-
   const [categorie, setCategorie] = useState(category);
   const [question, setQuestion] = useState({});
   const [live, setLive] = useState(0);
   const [notify, setNotify] = useState({});
+  const [progress, setProgress] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
 
   const lives = new Live(categorie);
-  const quest = new QuestionClass(categorie);
-  const cleaner = new Cleaner(categorie)
+  const questionary = new QuestionClass(categorie);
+  const clean = new Cleaner(categorie)
   const progressBar = new ProgressBarHelper();
-  const [questionary] = useState(quest);
-  const [clean] = useState(cleaner);
-  const [progress, setProgress] = useState(0);
-
+  
   useEffect(() => {
     setCategorie(category);
     setLive(lives.get());
@@ -76,20 +73,11 @@ const Questions = () => {
     setProgress(progressBar.getProgress(categorie));
   }, [live]);
 
-  const unSelect = (items) => {
-    items.map((item) => {
-      const option = document.getElementById(item.id);
-      option.classList.remove("option-select-success");
-      option.classList.remove("radio-success");
-      option.classList.remove("option-select-failed");
-      option.classList.remove("radio-failed");
-    });
-    document.getElementById("check").classList.add("disabled", true);
-  };
+
   const nextQuestion = () => {
     const { options } = question;
     setQuestion(questionary.get());
-    unSelect(options);
+    clean.selected(options);
   };
 
   const handleComplete = () => {
@@ -105,14 +93,13 @@ const Questions = () => {
   const handleContinue = () => {
     let count = lives.discount();
     const { options } = question;
-    unSelect(options);
+    clean.selected(options);
 
     if (count > 0) {
       setLive(count);
       setShowNotification(!showNotification);
     } else {
-      const { type, buttom } = NOTIFICATION;
-      let title = "Has Perdido, debes empezar de 0.";
+      const { type, title, buttom } = NOTIFICATION;
       setNotify({ type, title, buttom });
     }
   };
@@ -122,7 +109,6 @@ const Questions = () => {
     setLive(4)
     setQuestion(questionary.get())
     setShowNotification(!showNotification);
-    console.log("Reseting...");
   };
 
   const check = () => {
