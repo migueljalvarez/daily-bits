@@ -6,9 +6,6 @@ const {
   CATEGORY,
   DEFAULT,
   FAILED,
-  NOTIFICATION_FAILED,
-  NOTIFICATION_SUCCESS,
-  NOTIFICATION,
   SUCCESS,
 } = constants;
 let category = localStorage.getItem(CATEGORY);
@@ -157,7 +154,6 @@ const Notification = ({
           </>
         );
       case DEFAULT:
-        console.log("ENTRE A NOTIFICAR");
         return (
           <>
             <NotificationDefault
@@ -178,11 +174,5 @@ const Notification = ({
     }
   };
   return <>{buildNotification(notification)}</>;
-  // getNotification() {
-  //   const { type, buttom } = NOTIFICATION;
-  //   let title = this.title;
-  //   let notification = { type, title, buttom };
-  //   return this.buildNotification(notification);
-  // }
 };
 export default Notification;

@@ -3,6 +3,7 @@ import QuestionClass from "../components/Questions";
 import ProgressBar from "../components/ProgressBar";
 import ProgressBarHelper from "../helpers/ProgressBar";
 import Live from "../helpers/Live";
+import Cleaner from "../helpers/Cleaner";
 import heart from "../assets/svg/heart.svg";
 import close from "../assets/svg/close.svg";
 import Notification from "../components/Notification";
@@ -16,11 +17,8 @@ const {
   NOTIFICATION_SUCCESS,
   NOTIFICATION_FAILED,
   NOTIFICATION,
-  CATEGORY,
-  PROGRESS,
-  SUCCESS,
-  FAILED,
 } = constants;
+
 const ContainerHead = styled.div`
   display: flex;
   justify-content: center;
@@ -56,19 +54,18 @@ const LiveText = styled.p`
 
 const Questions = () => {
   const { category } = useParams();
-
   const [categorie, setCategorie] = useState(category);
   const [question, setQuestion] = useState({});
   const [live, setLive] = useState(0);
   const [notify, setNotify] = useState({});
+  const [progress, setProgress] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
 
   const lives = new Live(categorie);
-  const quest = new QuestionClass(categorie);
+  const questionary = new QuestionClass(categorie);
+  const clean = new Cleaner(categorie)
   const progressBar = new ProgressBarHelper();
-  const [questionary] = useState(quest);
-  const [progress, setProgress] = useState(0);
-
+  
   useEffect(() => {
     setCategorie(category);
     setLive(lives.get());
@@ -76,20 +73,11 @@ const Questions = () => {
     setProgress(progressBar.getProgress(categorie));
   }, [live]);
 
-  const unSelect = (items) => {
-    items.map((item) => {
-      const option = document.getElementById(item.id);
-      option.classList.remove("option-select-success");
-      option.classList.remove("radio-success");
-      option.classList.remove("option-select-failed");
-      option.classList.remove("radio-failed");
-    });
-    document.getElementById("check").classList.add("disabled", true);
-  };
+
   const nextQuestion = () => {
     const { options } = question;
     setQuestion(questionary.get());
-    unSelect(options);
+    clean.selected(options);
   };
 
   const handleComplete = () => {
@@ -105,21 +93,24 @@ const Questions = () => {
   const handleContinue = () => {
     let count = lives.discount();
     const { options } = question;
-    unSelect(options);
+    clean.selected(options);
 
     if (count > 0) {
       setLive(count);
       setShowNotification(!showNotification);
     } else {
-      const { type, buttom } = NOTIFICATION;
-      let title = "Has Perdido, debes empezar de 0.";
-      // setShowNotification(!showNotification);
+      const { type, title, buttom } = NOTIFICATION;
       setNotify({ type, title, buttom });
     }
   };
   const handleReset = () => {
-    console.log("Reseting...");
+    clean.progress()
+    setProgress(0)
+    setLive(4)
+    setQuestion(questionary.get())
+    setShowNotification(!showNotification);
   };
+
   const check = () => {
     if (questionary.verify(question)) {
       const { type, title, buttom } = NOTIFICATION_SUCCESS;
