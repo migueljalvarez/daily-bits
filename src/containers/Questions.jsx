@@ -3,6 +3,7 @@ import QuestionClass from "../components/Questions";
 import ProgressBar from "../components/ProgressBar";
 import ProgressBarHelper from "../helpers/ProgressBar";
 import Live from "../helpers/Live";
+import Cleaner from "../helpers/Cleaner";
 import heart from "../assets/svg/heart.svg";
 import close from "../assets/svg/close.svg";
 import Notification from "../components/Notification";
@@ -16,11 +17,8 @@ const {
   NOTIFICATION_SUCCESS,
   NOTIFICATION_FAILED,
   NOTIFICATION,
-  CATEGORY,
-  PROGRESS,
-  SUCCESS,
-  FAILED,
 } = constants;
+
 const ContainerHead = styled.div`
   display: flex;
   justify-content: center;
@@ -65,8 +63,10 @@ const Questions = () => {
 
   const lives = new Live(categorie);
   const quest = new QuestionClass(categorie);
+  const cleaner = new Cleaner(categorie)
   const progressBar = new ProgressBarHelper();
   const [questionary] = useState(quest);
+  const [clean] = useState(cleaner);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -113,13 +113,18 @@ const Questions = () => {
     } else {
       const { type, buttom } = NOTIFICATION;
       let title = "Has Perdido, debes empezar de 0.";
-      // setShowNotification(!showNotification);
       setNotify({ type, title, buttom });
     }
   };
   const handleReset = () => {
+    clean.progress()
+    setProgress(0)
+    setLive(4)
+    setQuestion(questionary.get())
+    setShowNotification(!showNotification);
     console.log("Reseting...");
   };
+
   const check = () => {
     if (questionary.verify(question)) {
       const { type, title, buttom } = NOTIFICATION_SUCCESS;
