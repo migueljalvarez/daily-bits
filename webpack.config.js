@@ -2,13 +2,15 @@ const path = require("path");
 
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
+const CopyPlugin = require("copy-webpack-plugin");
+var DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack-plugin");
 module.exports = {
   entry: "./src/index.js",
   output: {
     filename: "bundle.js",
     path: path.resolve(__dirname, "build"),
-    assetModuleFilename: 'assets/svg/[name][ext][query]'
+    assetModuleFilename: "assets/svg/[name][ext][query]",
+    publicPath: "/",
   },
   resolve: {
     extensions: [".js", ".jsx"],
@@ -38,16 +40,8 @@ module.exports = {
         ],
       },
       {
-        test: /\.(svg)$/,
-        type: 'asset/resource',
-        // use: [
-        //   {
-        //     loader: "file-loader",
-        //     options: {
-        //       name: "assets/svg/[name].[ext]",
-        //     },
-        //   },
-        // ],
+        test: /\.svg$/,
+        type: "asset",
       },
     ],
   },
@@ -59,6 +53,15 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "assets/[name].css",
     }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: "src/assets/svg/",
+          to: "assets/svg/[name][ext]",
+        },
+      ],
+    }),
+    // new DuplicatePackageCheckerPlugin()
   ],
   devServer: {
     contentBase: path.join(__dirname, "build"),
