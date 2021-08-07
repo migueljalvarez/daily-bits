@@ -1,118 +1,245 @@
-import React, { useState, useEffect } from "react";
-import QuestionClass from "./QuestionClass";
-import Live from "./Live";
-import Notification from "./Notification";
-import constants from "../utils/constants";
-import heart from "../assets/svg/heart.svg";
-import close from "../assets/svg/close.svg";
+import React from "react";
+import questionary from "../utils/questionary.js";
+import constants from "../utils/constants.js";
 import styled from "styled-components";
 
-const { RESPONSE } = constants;
-const ContainerProgressBar = styled.div`
+const ContainerQuestions = styled.div`
   display: flex;
-  justify-content: center;
-  padding: 10px;
+  align-items: center;
 `;
-const ProgressBar = styled.div`
-  position: relative;
-  float: left;
-  min-width: 0%;
-  height: 100%;
-  background: #2cb67d;
-  border-radius: 25px;
+const Avatar = styled.img`
+  margin: 10px;
 `;
-const Bar = styled.div`
-  margin: 5px auto;
-  padding: 0;
-  width: 75%;
-  height: 12px;
-  overflow: hidden;
-  background: #fff;
-  border-radius: 25px;
+const Title = styled.h2`
+  float: right;
+  width: -webkit-fill-available;
+  margin: 5px;
 `;
-const CheckButton = styled.button`
-  border-radius: 16px;
-  width: 328px;
-  height: 50px;
-  display: block;
-  margin: 10px auto;
-  color: var(--color-white);
-  text-transform: uppercase;
-  font-weight: bold;
-  background-color: var(--color-purple);
-  border: none;
+const Options = styled.div`
   position: absolute;
-  bottom: 0;
+  bottom: 100px;
   left: 0;
   right: 0;
-  &:disabled {
-    background-color: #d4caf3;
-  }
-  &:hover {
-    background-color: var(--color-purple-light);
-    box-shadow: 0 2px 1px 1px var(--color-purple);
-  }
 `;
 
-const Questions = ({ category }) => {
-  const [categorie, setCategorie] = useState("html");
-  const [question, setQuestion] = useState({});
-  const [live, setLive] = useState(0);
-  const [notify, setNotify] = useState(undefined);
+const Item = styled.div`
+  background-color: #232e35;
+  margin: 10px auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 10px;
+  border-radius: 5px;
+  width: 328px;
+`;
 
-  const quest = new QuestionClass(categorie);
-  const notification = new Notification();
-  const [questionary, setQuestionary] = useState(quest);
-  const lives = new Live(categorie);
+const OptionsWithImage = styled.div`
+  justify-content: space-between;
+  display: inline-block;
+  margin: 0 32px;
+`;
 
-  useEffect(() => {
-    setCategorie(category);
-    setLive(lives.get());
-    setQuestion(questionary.get());
-  }, []);
+const ItemWithImage = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: #16161a;
+  border: 2px solid var(--color-gray);
+  margin: 2px 2px;
+  width: 144px;
+  height: 200px;
+  float: left;
+  border-radius: 8px;
+`;
+const ItemImg = styled.img`
+  border-radius: 8px;
+`;
+const ItemText = styled.p`
+  text-align: center;
+  margin: 20px 0;
+`;
+const ItemLabel = styled.label``;
 
-  const check = () => {
-    const { options } = question;
-    if (questionary.verify(question)) {
-      let notify = notification.getNotificationSuccess();
-      setNotify(notify);
+const { RESPONSE } = constants;
+
+class Question {
+  constructor(category) {
+    this.category = category;
+    this.sendToLocalStorages();
+  }
+  
+  handleSelect(e, data) {
+    const { options } = data;
+    options.map((opt) => {
+      if (opt.id !== e.target.id) {
+        document
+          .getElementById(opt.id)
+          .classList.remove("option-select-success");
+        document.getElementById(opt.id).classList.remove("radio-success");
+      } else {
+        document
+          .getElementById(e.target.id)
+          .classList.add("option-select-success");
+        document.getElementById(e.target.id).classList.add("radio-success");
+        localStorage.setItem(RESPONSE, opt.item);
+      }
+      const check = document.querySelector("#check");
+      if (check.attributes.getNamedItem('disabled')) {
+        check.attributes.removeNamedItem("disabled");
+      }
+    });
+  }
+  find() {
+    let questions =
+      JSON.parse(localStorage.getItem(this.category)) ||
+      questionary.filter((question) => question.category === this.category);
+    return questions;
+  }
+
+  length() {
+    return this.find().length;
+  }
+  // Retorna un elemento a alzar
+  random() {
+    let all = this.find();
+    // console.log("all", all);
+    let questions = all.filter((option) => option.state !== true);
+    if (questions.length === 0) {
+      console.log("regresando al home...");
     } else {
-      let notify = notification.getNotificationFailed(
-        options.find((opt) => opt.isTrue)
-      );
-      let responses = localStorage.getItem(RESPONSE);
-      let option = options.find((opt) => opt.item === responses)
-      const itemSelect = document.getElementById(option.id);
-      itemSelect.classList.add('option-select-failed')
-      itemSelect.classList.add('radio-failed')
-      setNotify(notify);
+      const random = Math.floor(Math.random() * questions.length);
+      return questions[random];
     }
-  };
+  }
 
-  return (
-    <>
-      <ContainerProgressBar>
-        <span id="close">
-          <img src={close} alt="close" />
-        </span>
-        <Bar id="bar">
-          <ProgressBar id="progress" />
-        </Bar>
-        <span>
-          <img src={heart} alt="heart" />
-        </span>
-        <p id="life" className="count-life text-white">
-          {live}
-        </p>
-      </ContainerProgressBar>
+  build(data) {
+    switch (data.type) {
+      case "1":
+        document.querySelector("#check").setAttribute("disabled", true);
+        return (
+          <>
+            <ContainerQuestions className="">
+              <Avatar
+                src={`../assets/svg/${data.avatar}.svg`}
+                alt="user"
+                width="80"
+              />
+              <Title>{data.name}</Title>
+            </ContainerQuestions>
 
-      <div>{questionary.build(question)}</div>
-      <div>{notify}</div>
-      <CheckButton id="check" onClick={check}>
-        Comprobar
-      </CheckButton>
-    </>
-  );
-};
+            <Options id="options">
+              {data.options.map((opt) => (
+                <Item
+                  key={opt.id}
+                  id={opt.id}
+                  className="option-select-default radio-default"
+                  onClick={(e) => this.handleSelect(e, data)}
+                >
+                  <ItemLabel>{opt.label}</ItemLabel>
+                </Item>
+              ))}
+            </Options>
+          </>
+        );
+      case "2":
+        return (
+          <>
+            <ContainerQuestions className="">
+              <Title>{data.name}</Title>
+            </ContainerQuestions>
+            <OptionsWithImage id="options-with-images">
+              {data.options.map((opt) => (
+                <ItemWithImage
+                  key={opt.id}
+                  id={opt.id}
+                  className="option-select-default"
+                >
+                  <ItemImg
+                    src={`../assets/svg/${opt.item}.svg`}
+                    alt={opt.item}
+                  />
+                  <ItemText id={opt.item} title={opt.item}>
+                    {opt.label}
+                  </ItemText>
+                </ItemWithImage>
+              ))}
+            </OptionsWithImage>
+          </>
+        );
+      case "3":
+        document.querySelector("#questions").innerHTML = `
+        <div class="flex items-center">
+          <h2>${data.name}</h2>
+        </div>`;
+        const element = document.getElementById("organized");
+        element.style.backgroundImage = "url(../src/assets/svg/separator.svg)";
+        const { options } = data;
+        options.map((obj) => {
+          document.querySelector("#unorganized").innerHTML += `
+          <input id=${obj.name} class=${obj.className} value=${obj.name} style="background-image: url(../src/assets/svg/${obj.name}.svg);" />
+          `;
+        });
+      default:
+        break;
+    }
+  }
 
-export default Questions;
+  get() {
+    return this.random();
+  }
+
+  sendToLocalStorages() {
+    const questions = this.find();
+    if (questions.length > 0) {
+      localStorage.setItem(this.category, JSON.stringify(questions));
+    }
+  }
+  verify(question) {
+    let response = localStorage.getItem(RESPONSE);
+    let { options } = question;
+    const option = options.find((option) => option.item === response);
+    if (question.type === "3") {
+      var data = [5];
+      response = JSON.parse(response);
+      response.map((res, index) => {
+        if (res === question.validatorItem[index]) {
+          data.push(true);
+        } else {
+          data.push(false);
+        }
+      });
+      if (data.includes(false)) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      if (option.isTrue) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+  findById(id) {
+    let questions = this.find();
+    let data = questions.find((item) => item.id === id);
+    return data;
+  }
+  setState(question) {
+    const questions = this.find();
+    questions.map((q) => {
+      if (q.id === question.id) {
+        q.state = true;
+      }
+    });
+
+    localStorage.setItem(this.category, JSON.stringify(questions));
+    return this.findById(question.id);
+  }
+  reset(category) {
+    if (localStorage.getItem(category)) {
+      localStorage.removeItem(category);
+      return true;
+    }
+  }
+}
+export default Question;
