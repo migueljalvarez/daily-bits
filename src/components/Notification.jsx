@@ -13,7 +13,6 @@ const {
 } = constants;
 let category = localStorage.getItem(CATEGORY);
 
-
 const NotificationSuccess = styled.div`
   background-color: #acffcf;
   display: none;
@@ -74,7 +73,13 @@ const NotificationDefault = styled.div`
   bottom: -1000px;
   transition: all 1.4s ease;
 `;
-const BottonCompleteDefault = styled.input`
+const MessageTitleDefault = styled.p`
+  font-weight: bold;
+  margin-top: 15px;
+  margin-left: 15px;
+  color: #16161a;
+`;
+const BottonCompleteDefault = styled.button`
   border-radius: 16px;
   width: 328px;
   height: 50px;
@@ -101,12 +106,18 @@ const ResponseFailed = styled.p`
   color: #b81e3b;
 `;
 
-const Notification = ({ notification, isVisible, handleComplete, handleContinue }) => {
+const Notification = ({
+  notification,
+  isVisible,
+  handleComplete,
+  handleContinue,
+  handleReset,
+}) => {
   const [show, setShow] = useState(false);
   useEffect(() => {
     setShow(isVisible);
   }, [isVisible]);
-  
+
   const buildNotification = (notification) => {
     switch (notification.type) {
       case SUCCESS:
@@ -146,18 +157,19 @@ const Notification = ({ notification, isVisible, handleComplete, handleContinue 
           </>
         );
       case DEFAULT:
+        console.log("ENTRE A NOTIFICAR");
         return (
           <>
             <NotificationDefault
               id="notification"
               className={isVisible ? "show" : ""}
             >
-              <p id="message-title">{notification.title}</p>
-              <BottonCompleteDefault
-                id="complete"
-                type="submit"
-                value={notification.buttom}
-              />
+              <MessageTitleDefault id="message-title">
+                {notification.title}
+              </MessageTitleDefault>
+              <BottonCompleteDefault id="complete" onClick={handleReset}>
+                {notification.buttom}
+              </BottonCompleteDefault>
             </NotificationDefault>
           </>
         );

@@ -83,39 +83,39 @@ export default [
       },
     ],
   },
-  {
-    id: 4,
-    name: "¿Qué tecnologías pertenece al MEVN Stack?",
-    type: "2",
-    category: "html",
-    state: false,
-    options: [
-      {
-        id: "first-item",
-        label: "angular",
-        item: "angular",
-        isTrue: false,
-      },
-      {
-        id: "second-item",
-        label: "vue.js",
-        item: "vue",
-        isTrue: true,
-      },
-      {
-        id: "third-item",
-        label: "Windows",
-        item: "windows",
-        isTrue: false,
-      },
-      {
-        id: "fourth_item",
-        label: "Kotlin",
-        item: "kotlin",
-        isTrue: false,
-      },
-    ],
-  },
+  // {
+  //   id: 4,
+  //   name: "¿Qué tecnologías pertenece al MEVN Stack?",
+  //   type: "2",
+  //   category: "html",
+  //   state: false,
+  //   options: [
+  //     {
+  //       id: "first-item",
+  //       label: "angular",
+  //       item: "angular",
+  //       isTrue: false,
+  //     },
+  //     {
+  //       id: "second-item",
+  //       label: "vue.js",
+  //       item: "vue",
+  //       isTrue: true,
+  //     },
+  //     {
+  //       id: "third-item",
+  //       label: "Windows",
+  //       item: "windows",
+  //       isTrue: false,
+  //     },
+  //     {
+  //       id: "fourth_item",
+  //       label: "Kotlin",
+  //       item: "kotlin",
+  //       isTrue: false,
+  //     },
+  //   ],
+  // },
   // {
   //   id: 5,
   //   name: "Organiza la estructura de un documento HTML5",

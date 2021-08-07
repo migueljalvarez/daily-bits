@@ -9,14 +9,17 @@ import Notification from "../components/Notification";
 import constants from "../utils/constants";
 
 import styled from "styled-components";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const {
   RESPONSE,
   NOTIFICATION_SUCCESS,
   NOTIFICATION_FAILED,
+  NOTIFICATION,
   CATEGORY,
   PROGRESS,
+  SUCCESS,
+  FAILED,
 } = constants;
 const ContainerHead = styled.div`
   display: flex;
@@ -67,24 +70,56 @@ const Questions = () => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    setCategorie("html");
+    setCategorie(category);
     setLive(lives.get());
     setQuestion(questionary.get());
     setProgress(progressBar.getProgress(categorie));
-  }, []);
+  }, [live]);
+
+  const unSelect = (items) => {
+    items.map((item) => {
+      const option = document.getElementById(item.id);
+      option.classList.remove("option-select-success");
+      option.classList.remove("radio-success");
+      option.classList.remove("option-select-failed");
+      option.classList.remove("radio-failed");
+    });
+    document.getElementById("check").classList.add("disabled", true);
+  };
+  const nextQuestion = () => {
+    const { options } = question;
+    setQuestion(questionary.get());
+    unSelect(options);
+  };
 
   const handleComplete = () => {
     let num = questionary.length();
     let result = questionary.setState(question);
     if (result.state) {
       progressBar.load(num, categorie);
+      nextQuestion();
       setShowNotification(!showNotification);
     }
   };
-  const handleContinue = () => {
-    setShow(!show);
-  };
 
+  const handleContinue = () => {
+    let count = lives.discount();
+    const { options } = question;
+    unSelect(options);
+
+    if (count > 0) {
+      setLive(count);
+      setShowNotification(!showNotification);
+    } else {
+      const { type, buttom } = NOTIFICATION;
+      let title = "Has Perdido, debes empezar de 0.";
+      // setShowNotification(!showNotification);
+      setNotify({ type, title, buttom });
+    }
+  };
+  const handleReset = () => {
+    console.log("Reseting...");
+  };
   const check = () => {
     if (questionary.verify(question)) {
       const { type, title, buttom } = NOTIFICATION_SUCCESS;
@@ -131,6 +166,7 @@ const Questions = () => {
         isVisible={showNotification}
         handleComplete={handleComplete}
         handleContinue={handleContinue}
+        handleReset={handleReset}
       />
       <CheckButton id="check" onClick={check}>
         Comprobar

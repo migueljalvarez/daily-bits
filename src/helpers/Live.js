@@ -31,6 +31,8 @@ class Live {
   discount() {
     let life = localStorage.getItem(`${this.category}-life`);
     if (life > 0) {
+      
+      localStorage.setItem(`${this.category}-life`, life - 1)
       return life - 1;
     } else {
       return null;
