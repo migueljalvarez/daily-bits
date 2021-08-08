@@ -83,74 +83,74 @@ export default [
       },
     ],
   },
-  // {
-  //   id: 4,
-  //   name: "¿Qué tecnologías pertenece al MEVN Stack?",
-  //   type: "2",
-  //   category: "html",
-  //   state: false,
-  //   options: [
-  //     {
-  //       id: "first-item",
-  //       label: "angular",
-  //       item: "angular",
-  //       isTrue: false,
-  //     },
-  //     {
-  //       id: "second-item",
-  //       label: "vue.js",
-  //       item: "vue",
-  //       isTrue: true,
-  //     },
-  //     {
-  //       id: "third-item",
-  //       label: "Windows",
-  //       item: "windows",
-  //       isTrue: false,
-  //     },
-  //     {
-  //       id: "fourth_item",
-  //       label: "Kotlin",
-  //       item: "kotlin",
-  //       isTrue: false,
-  //     },
-  //   ],
-  // },
-  // {
-  //   id: 5,
-  //   name: "Organiza la estructura de un documento HTML5",
-  //   type: "3",
-  //   category: "html",
-  //   state: false,
-  //   options: [
-  //     {
-  //       name: "doctype",
-  //       className: "large",
-  //     },
-  //     {
-  //       name: "head",
-  //       className: "mid",
-  //     },
-  //     {
-  //       name: "body",
-  //       className: "mid",
-  //     },
-  //     {
-  //       name: "open_html",
-  //       className: "small",
-  //     },
-  //     {
-  //       name: "close_html",
-  //       className: "small",
-  //     },
-  //   ],
-  //   validatorItem: ["doctype", "open_html", "head", "body", "close_html"],
-  //   validationLabel: `1. <!DOCTYPE html> 2. <html> 3. <head> </head> 4. <body> </body> 5. </html>`,
-  // },
+  {
+    id: 4,
+    name: "¿Qué tecnologías pertenece al MEVN Stack?",
+    type: "2",
+    category: "html",
+    state: false,
+    options: [
+      {
+        id: "first-item",
+        label: "Angular",
+        item: "angular",
+        isTrue: false,
+      },
+      {
+        id: "second-item",
+        label: "Vue.js",
+        item: "vue",
+        isTrue: true,
+      },
+      {
+        id: "third-item",
+        label: "Windows",
+        item: "windows",
+        isTrue: false,
+      },
+      {
+        id: "fourth_item",
+        label: "Kotlin",
+        item: "kotlin",
+        isTrue: false,
+      },
+    ],
+  },
+  {
+    id: 5,
+    name: "Organiza la estructura de un documento HTML5",
+    type: "3",
+    category: "html",
+    state: false,
+    options: [
+      {
+        name: "doctype",
+        className: "large",
+      },
+      {
+        name: "head",
+        className: "mid",
+      },
+      {
+        name: "body",
+        className: "mid",
+      },
+      {
+        name: "open_html",
+        className: "small",
+      },
+      {
+        name: "close_html",
+        className: "small",
+      },
+    ],
+    validatorItem: ["doctype", "open_html", "head", "body", "close_html"],
+    validationLabel: `1. <!DOCTYPE html> 2. <html> 3. <head> </head> 4. <body> </body> 5. </html>`,
+  },
   {
     id: 6,
     name: "¿En que Etiquta de HTML debo incluir los estilos CSS?",
-    avatar: "avatar2",
+    avatar: "avatar1",
     type: "1",
     category: "html",
     state: false,
@@ -161,17 +161,18 @@ export default [
         item: "script",
         isTrue: false,
       },
+
       {
         id: "second-item",
-        label: "<link>",
-        item: "link",
-        isTrue: true,
-      },
-      {
-        id: "third-item",
         label: "<styles>",
         item: "styles",
         isTrue: false,
+      },
+      {
+        id: "third-item ",
+        label: "<link>",
+        item: "link",
+        isTrue: true,
       },
     ],
   },

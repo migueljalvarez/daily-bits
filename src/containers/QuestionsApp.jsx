@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useParams, useHistory } from "react-router-dom";
 import QuestionClass from "../components/Questions";
 import ProgressBar from "../components/ProgressBar";
 import ProgressBarHelper from "../helpers/ProgressBar";
@@ -9,15 +11,8 @@ import close from "../assets/svg/close.svg";
 import Notification from "../components/Notification";
 import constants from "../utils/constants";
 
-import styled from "styled-components";
-import { useParams } from "react-router-dom";
-
-const {
-  RESPONSE,
-  NOTIFICATION_SUCCESS,
-  NOTIFICATION_FAILED,
-  NOTIFICATION,
-} = constants;
+const { RESPONSE, NOTIFICATION_SUCCESS, NOTIFICATION_FAILED, NOTIFICATION } =
+  constants;
 
 const ContainerHead = styled.div`
   display: flex;
@@ -54,6 +49,7 @@ const LiveText = styled.p`
 
 const Questions = () => {
   const { category } = useParams();
+  const  history = useHistory();
   const [categorie, setCategorie] = useState(category);
   const [question, setQuestion] = useState({});
   const [live, setLive] = useState(0);
@@ -63,7 +59,7 @@ const Questions = () => {
 
   const lives = new Live(categorie);
   const questionary = new QuestionClass(categorie);
-  const clean = new Cleaner(categorie)
+  const clean = new Cleaner(categorie);
   const progressBar = new ProgressBarHelper();
   
   useEffect(() => {
@@ -71,13 +67,17 @@ const Questions = () => {
     setLive(lives.get());
     setQuestion(questionary.get());
     setProgress(progressBar.getProgress(categorie));
-  }, [live]);
-
+  }, []);
 
   const nextQuestion = () => {
     const { options } = question;
+    if (questionary.get().redirect) {
+      history.push('/')
+    }
     setQuestion(questionary.get());
-    clean.selected(options);
+    if (question.type !== "3") {
+      clean.selected(options);
+    }
   };
 
   const handleComplete = () => {
@@ -93,46 +93,62 @@ const Questions = () => {
   const handleContinue = () => {
     let count = lives.discount();
     const { options } = question;
-    clean.selected(options);
-
+    if (question.type !== "3") {
+      clean.selected(options);
+    } else {
+      document.getElementById("organized").innerHTML = "";
+      options.map((opt) => {
+        const element = document.getElementById(opt.name);
+        element.style.display = "inline-block";
+        element.style.backgroundImage = `url(../assets/svg/${opt.name}.svg)`;
+        element.removeAttribute("disabled");
+      });
+    }
     if (count > 0) {
       setLive(count);
       setShowNotification(!showNotification);
     } else {
-      const { type, title, buttom } = NOTIFICATION;
-      setNotify({ type, title, buttom });
+      setNotify({ ...NOTIFICATION });
     }
   };
   const handleReset = () => {
-    clean.progress()
-    setProgress(0)
-    setLive(4)
-    setQuestion(questionary.get())
+    clean.progress();
+    setProgress(0);
+    setLive(4);
+    setQuestion(questionary.get());
     setShowNotification(!showNotification);
   };
 
   const check = () => {
     if (questionary.verify(question)) {
-      const { type, title, buttom } = NOTIFICATION_SUCCESS;
       setShowNotification(!showNotification);
-      setNotify({ type, title, buttom });
+      setNotify({ ...NOTIFICATION_SUCCESS });
     } else {
-      const { type, title, buttom } = NOTIFICATION_FAILED;
       const { options } = question;
-      let correctAnswer = options.find((opt) => opt.isTrue);
-      setShowNotification(!showNotification);
-      setNotify({
-        type,
-        title,
-        buttom,
-        response: correctAnswer.label || correctAnswer.validationLabel,
-      });
-      let option = options.find(
-        (opt) => opt.item === localStorage.getItem(RESPONSE)
-      );
-      const itemSelect = document.getElementById(option.id);
-      itemSelect.classList.add("option-select-failed");
-      itemSelect.classList.add("radio-failed");
+      if (question.type === "3") {
+        setShowNotification(!showNotification);
+        setNotify({
+          ...NOTIFICATION_FAILED,
+          response: question.validationLabel,
+        });
+      } else {
+        let correctAnswer = options.find((opt) => opt.isTrue);
+        setShowNotification(!showNotification);
+        setNotify({
+          ...NOTIFICATION_FAILED,
+          response: correctAnswer.label,
+        });
+        let option = options.find(
+          (opt) => opt.item === localStorage.getItem(RESPONSE)
+        );
+        const itemSelect = document.getElementById(option.id);
+        if (question.type === "1") {
+          itemSelect.classList.add("option-select-failed");
+          itemSelect.classList.add("radio-failed");
+        } else if (question.type === "2") {
+          itemSelect.classList.add("option-select-failed");
+        }
+      }
     }
   };
 

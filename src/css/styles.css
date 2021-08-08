@@ -259,10 +259,10 @@ option {
   background: #2cb67d;
   border-radius: 25px;
 } */
-
+/* 
 #life {
   margin: 0px 2px;
-}
+} */
 
 /*  */
 /* questions */
@@ -319,10 +319,10 @@ option {
 }
 
 .option-select-success {
-  border: 2px solid var(--color-green);
+  border: 2px solid var(--color-green) !important;
 }
 .option-select-failed {
-  border: 2px solid var(--color-red);
+  border: 2px solid var(--color-red) !important;
 }
 
 .radio-default {
@@ -389,7 +389,7 @@ option {
 /*  */
 
 /* Notification */
-
+/* 
 #complete {
   border-radius: 16px;
   width: 328px;
@@ -400,13 +400,13 @@ option {
   text-transform: uppercase;
   font-weight: bold;
   border: none;
-}
+}*/
 .show {
   display: flex !important;
   bottom: 0px !important;
   z-index: 1 !important;
 }
-
+/*
 .notification-success {
   background-color: #acffcf;
 }
@@ -460,10 +460,10 @@ option {
 .complete-default {
   background-color: gray;
   box-shadow: 0 1px 1px 1px #4a4a64;
-}
+} */
 
 /* Organized */
-#organized {
+/* #organized {
   height: auto;
   min-height: 146px;
   padding: 0px 16px;
@@ -509,7 +509,7 @@ option {
 #unorganized input:focus-visible,
 #organized input:focus-visible {
   outline: none;
-}
+} */
 
 .large {
   width: 156px;
