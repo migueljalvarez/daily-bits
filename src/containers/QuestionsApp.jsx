@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useParams, useHistory } from "react-router-dom";
 import QuestionClass from "../components/Questions";
 import ProgressBar from "../components/ProgressBar";
 import ProgressBarHelper from "../helpers/ProgressBar";
@@ -8,9 +10,6 @@ import heart from "../assets/svg/heart.svg";
 import close from "../assets/svg/close.svg";
 import Notification from "../components/Notification";
 import constants from "../utils/constants";
-
-import styled from "styled-components";
-import { useParams } from "react-router-dom";
 
 const { RESPONSE, NOTIFICATION_SUCCESS, NOTIFICATION_FAILED, NOTIFICATION } =
   constants;
@@ -50,6 +49,7 @@ const LiveText = styled.p`
 
 const Questions = () => {
   const { category } = useParams();
+  const  history = useHistory();
   const [categorie, setCategorie] = useState(category);
   const [question, setQuestion] = useState({});
   const [live, setLive] = useState(0);
@@ -61,7 +61,7 @@ const Questions = () => {
   const questionary = new QuestionClass(categorie);
   const clean = new Cleaner(categorie);
   const progressBar = new ProgressBarHelper();
-
+  
   useEffect(() => {
     setCategorie(category);
     setLive(lives.get());
@@ -71,8 +71,13 @@ const Questions = () => {
 
   const nextQuestion = () => {
     const { options } = question;
+    if (questionary.get().redirect) {
+      history.push('/')
+    }
     setQuestion(questionary.get());
-    clean.selected(options);
+    if (question.type !== "3") {
+      clean.selected(options);
+    }
   };
 
   const handleComplete = () => {
@@ -97,7 +102,6 @@ const Questions = () => {
         element.style.display = "inline-block";
         element.style.backgroundImage = `url(../assets/svg/${opt.name}.svg)`;
         element.removeAttribute("disabled");
-        setShowNotification(!showNotification);
       });
     }
     if (count > 0) {

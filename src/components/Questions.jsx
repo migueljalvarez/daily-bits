@@ -218,6 +218,7 @@ class Question {
     let questions = all.filter((option) => option.state !== true);
     if (questions.length === 0) {
       console.log("regresando al home...");
+      return {redirect: true}
     } else {
       const random = Math.floor(Math.random() * questions.length);
       return questions[random];
