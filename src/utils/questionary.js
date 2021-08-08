@@ -150,7 +150,7 @@ export default [
   {
     id: 6,
     name: "¿En que Etiquta de HTML debo incluir los estilos CSS?",
-    avatar: "avatar1",
+    avatar: "avatar4",
     type: "1",
     category: "html",
     state: false,
