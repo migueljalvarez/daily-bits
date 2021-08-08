@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import questionary from "../utils/questionary.js";
 import constants from "../utils/constants.js";
 import styled from "styled-components";
@@ -133,14 +133,13 @@ const UnOrganizedButton = styled.button`
   }
 `;
 const { RESPONSE, ADD, REMOVE } = constants;
-const responses = [];
 
 class Question {
   constructor(category) {
     this.category = category;
     this.sendToLocalStorages();
+    this.responses = [];
   }
-
   setCustomClass(id, method, className) {
     method === ADD
       ? document.getElementById(id).classList.add(`${className.toString()}`)
@@ -177,10 +176,7 @@ class Question {
   }
   handleSelection(e, data) {
     const { id } = e.target;
-    responses.push(id);
-    if (responses.length === 5) {
-      localStorage.setItem(RESPONSE, JSON.stringify(responses));
-    }
+    this.responses.push(id);
     const element = document.getElementById(id);
     element.style.backgroundImage = "none";
     element.setAttribute("disabled", true);
@@ -198,6 +194,7 @@ class Question {
     `;
     let { children } = organizator;
     if (children.length === 5) {
+      localStorage.setItem(RESPONSE, JSON.stringify(this.responses));
       document.querySelector("#check").removeAttribute("disabled");
     }
   }
@@ -218,7 +215,7 @@ class Question {
     let questions = all.filter((option) => option.state !== true);
     if (questions.length === 0) {
       console.log("regresando al home...");
-      return {redirect: true}
+      return { redirect: true };
     } else {
       const random = Math.floor(Math.random() * questions.length);
       return questions[random];

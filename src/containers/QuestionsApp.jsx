@@ -95,6 +95,7 @@ const Questions = () => {
     const { options } = question;
     if (question.type !== "3") {
       clean.selected(options);
+      clean.response()
     } else {
       document.getElementById("organized").innerHTML = "";
       options.map((opt) => {
