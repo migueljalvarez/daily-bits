@@ -53,7 +53,7 @@ const BottonCompleteFailed = styled.button`
   height: 50px;
   display: block;
   margin: 10px auto;
-  color: #b81e3b;
+  color: #fff;
   text-transform: uppercase;
   font-weight: bold;
   border: none;

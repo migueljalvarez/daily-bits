@@ -7,13 +7,19 @@ const ContainerQuestions = styled.div`
   display: flex;
   align-items: center;
 `;
+const ContainerQuestionsWithPadding = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0px 10px 10px;
+`;
 const Avatar = styled.img`
   margin: 10px;
 `;
 const Title = styled.h2`
   float: right;
   width: -webkit-fill-available;
-  margin: 5px;
+  padding: 0 2px;
+  font-size: 23px;
 `;
 const Options = styled.div`
   position: absolute;
@@ -24,7 +30,7 @@ const Options = styled.div`
 
 const Item = styled.div`
   background-color: #232e35;
-  margin: 10px auto;
+  margin: 15px auto;
   display: flex;
   justify-content: space-between;
   padding: 15px 10px;
@@ -33,21 +39,22 @@ const Item = styled.div`
 `;
 
 const OptionsWithImage = styled.div`
-  justify-content: space-between;
   display: inline-block;
-  margin: 0 32px;
+  margin: -20px 20px;
+  padding: 0px 8px;
 `;
 
 const ItemWithImage = styled.div`
   display: flex;
   flex-direction: column;
   background-color: #16161a;
-  border: 2px solid var(--color-gray);
-  margin: 2px 2px;
+  border: 2px solid #94a1b2;
+  margin: 4px 4px;
   width: 144px;
   height: 200px;
   float: left;
   border-radius: 8px;
+  box-shadow: 0 4px 2px -2px #94a1b2;
 `;
 const ItemImg = styled.img`
   border-radius: 8px;
@@ -58,34 +65,141 @@ const ItemText = styled.p`
 `;
 const ItemLabel = styled.label``;
 
-const { RESPONSE } = constants;
+const ContainerCover = styled.div`
+  display: block;
+  background: transparent;
+  width: 144px;
+  height: 200px;
+  z-index: 1;
+  position: absolute;
+  border-radius: 8px;
+`;
+const ContainerOrganized = styled.div`
+  height: auto;
+  min-height: 146px;
+  padding: 0px 16px;
+  & button {
+    margin-bottom: 20px;
+    margin-top: 15px;
+    margin-left: 0px;
+    margin-right: 8px;
+    display: inline-block;
+    border-radius: 14px;
+    color: transparent;
+    padding: 0 20px;
+    content: "";
+    background-position: center;
+    background-color: #72757e;
+    background-repeat: no-repeat;
+    background-size: auto;
+    border: none;
+    box-shadow: 0 1px 1px 2px #72757e;
+    &:focus-visible {
+      outline: none;
+    }
+  }
+`;
+const ContainerUnOrganized = styled.div`
+  margin: 10px auto;
+  display: inline-block;
+  justify-content: center;
+  padding: 0px 16px;
+  bottom: 100px;
+  position: absolute;
+  width: 360px;
+  height: fit-content;
+  & button {
+    margin: 5px 3px;
+    &:focus-visible {
+      outline: none;
+    }
+  }
+`;
+
+const UnOrganizedButton = styled.button`
+  display: inline-block;
+  border-radius: 14px;
+  color: transparent;
+  padding: 0 20px;
+  content: "";
+  background-position: center;
+  background-color: #72757e;
+  background-repeat: no-repeat;
+  background-size: auto;
+  border: none;
+  box-shadow: 0 1px 1px 2px #72757e;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+const { RESPONSE, ADD, REMOVE } = constants;
+const responses = [];
 
 class Question {
   constructor(category) {
     this.category = category;
     this.sendToLocalStorages();
   }
-  
+
+  setCustomClass(id, method, className) {
+    method === ADD
+      ? document.getElementById(id).classList.add(`${className.toString()}`)
+      : document.getElementById(id).classList.remove(`${className.toString()}`);
+  }
+
   handleSelect(e, data) {
     const { options } = data;
     options.map((opt) => {
-      if (opt.id !== e.target.id) {
-        document
-          .getElementById(opt.id)
-          .classList.remove("option-select-success");
-        document.getElementById(opt.id).classList.remove("radio-success");
-      } else {
-        document
-          .getElementById(e.target.id)
-          .classList.add("option-select-success");
-        document.getElementById(e.target.id).classList.add("radio-success");
-        localStorage.setItem(RESPONSE, opt.item);
+      if (data.type === "1") {
+        if (opt.id === e.target.id) {
+          this.setCustomClass(e.target.id, ADD, "option-select-success");
+          this.setCustomClass(e.target.id, ADD, "radio-success");
+          localStorage.setItem(RESPONSE, opt.item);
+        } else {
+          this.setCustomClass(opt.id, REMOVE, "option-select-success");
+          this.setCustomClass(opt.id, REMOVE, "radio-success");
+        }
       }
-      const check = document.querySelector("#check");
-      if (check.attributes.getNamedItem('disabled')) {
-        check.attributes.removeNamedItem("disabled");
+      if (data.type === "2") {
+        if (opt.item === e.target.id) {
+          this.setCustomClass(opt.id, ADD, "option-select-success");
+          localStorage.setItem(RESPONSE, opt.item);
+        } else {
+          this.setCustomClass(opt.id, REMOVE, "option-select-success");
+          this.setCustomClass(opt.id, REMOVE, "radio-success");
+        }
       }
     });
+    const check = document.querySelector("#check");
+    if (check.attributes.getNamedItem("disabled")) {
+      check.attributes.removeNamedItem("disabled");
+    }
+  }
+  handleSelection(e, data) {
+    const { id } = e.target;
+    responses.push(id);
+    if (responses.length === 5) {
+      localStorage.setItem(RESPONSE, JSON.stringify(responses));
+    }
+    const element = document.getElementById(id);
+    element.style.backgroundImage = "none";
+    element.setAttribute("disabled", true);
+    const { options } = data;
+    const opt = options.find((opt) => opt.name === id);
+    const organizator = document.querySelector("#organized");
+    organizator.innerHTML += `
+    <button
+        id=${opt.name}
+        class=${opt.className}
+        style="background-image: url(../assets/svg/${opt.name}.svg);"
+      >
+        ${opt.name}
+      </button>
+    `;
+    let { children } = organizator;
+    if (children.length === 5) {
+      document.querySelector("#check").removeAttribute("disabled");
+    }
   }
   find() {
     let questions =
@@ -111,9 +225,13 @@ class Question {
   }
 
   build(data) {
+    const checking = document.querySelector("#check");
+    if (checking) {
+      checking.setAttribute("disabled", true);
+    }
+    const { options } = data;
     switch (data.type) {
       case "1":
-        document.querySelector("#check").setAttribute("disabled", true);
         return (
           <>
             <ContainerQuestions className="">
@@ -126,7 +244,7 @@ class Question {
             </ContainerQuestions>
 
             <Options id="options">
-              {data.options.map((opt) => (
+              {options.map((opt) => (
                 <Item
                   key={opt.id}
                   id={opt.id}
@@ -142,11 +260,12 @@ class Question {
       case "2":
         return (
           <>
-            <ContainerQuestions className="">
+            <ContainerQuestionsWithPadding className="">
               <Title>{data.name}</Title>
-            </ContainerQuestions>
+            </ContainerQuestionsWithPadding>
+
             <OptionsWithImage id="options-with-images">
-              {data.options.map((opt) => (
+              {options.map((opt) => (
                 <ItemWithImage
                   key={opt.id}
                   id={opt.id}
@@ -156,27 +275,45 @@ class Question {
                     src={`../assets/svg/${opt.item}.svg`}
                     alt={opt.item}
                   />
-                  <ItemText id={opt.item} title={opt.item}>
-                    {opt.label}
-                  </ItemText>
+                  <ItemText title={opt.item}>{opt.label}</ItemText>
+                  <ContainerCover
+                    id={opt.item}
+                    onClick={(e) => this.handleSelect(e, data)}
+                  ></ContainerCover>
                 </ItemWithImage>
               ))}
             </OptionsWithImage>
           </>
         );
       case "3":
-        document.querySelector("#questions").innerHTML = `
-        <div class="flex items-center">
-          <h2>${data.name}</h2>
-        </div>`;
-        const element = document.getElementById("organized");
-        element.style.backgroundImage = "url(../src/assets/svg/separator.svg)";
-        const { options } = data;
-        options.map((obj) => {
-          document.querySelector("#unorganized").innerHTML += `
-          <input id=${obj.name} class=${obj.className} value=${obj.name} style="background-image: url(../src/assets/svg/${obj.name}.svg);" />
-          `;
-        });
+        return (
+          <>
+            <ContainerQuestionsWithPadding className="">
+              <Title>{data.name}</Title>
+            </ContainerQuestionsWithPadding>
+            <ContainerOrganized
+              id="organized"
+              style={{
+                backgroundImage: "url(../assets/svg/separator.svg)",
+              }}
+            />
+            <ContainerUnOrganized id="unorganized">
+              {options.map((opt, index) => (
+                <UnOrganizedButton
+                  id={opt.name}
+                  key={index}
+                  className={opt.className}
+                  onClick={(e) => this.handleSelection(e, data)}
+                  style={{
+                    backgroundImage: `url(../assets/svg/${opt.name}.svg)`,
+                  }}
+                >
+                  {opt.name}
+                </UnOrganizedButton>
+              ))}
+            </ContainerUnOrganized>
+          </>
+        );
       default:
         break;
     }
