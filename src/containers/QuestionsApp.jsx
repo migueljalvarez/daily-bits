@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { useParams, useHistory } from "react-router-dom";
 import QuestionClass from "../components/Questions";
 import ProgressBar from "../components/ProgressBar";
@@ -11,45 +10,18 @@ import close from "../assets/svg/close.svg";
 import Notification from "../components/Notification";
 import constants from "../utils/constants";
 
-const { RESPONSE, NOTIFICATION_SUCCESS, NOTIFICATION_FAILED, NOTIFICATION } =
+import { CheckButton, ContainerHead, LiveText } from "../styles/styleQuestion";
+const { 
+  NOTIFICATION_FAILED, 
+  NOTIFICATION_SUCCESS, 
+  NOTIFICATION,
+  RESPONSE, 
+ } =
   constants;
-
-const ContainerHead = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-`;
-const CheckButton = styled.button`
-  border-radius: 16px;
-  width: 328px;
-  height: 50px;
-  display: block;
-  margin: 10px auto;
-  color: var(--color-white);
-  text-transform: uppercase;
-  font-weight: bold;
-  background-color: var(--color-purple);
-  border: none;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  &:disabled {
-    background-color: #d4caf3;
-  }
-  &:hover {
-    background-color: var(--color-purple-light);
-    box-shadow: 0 2px 1px 1px var(--color-purple);
-  }
-`;
-const LiveText = styled.p`
-  color: #fff;
-  margin: 0px 2px;
-`;
 
 const Questions = () => {
   const { category } = useParams();
-  const  history = useHistory();
+  const history = useHistory();
   const [categorie, setCategorie] = useState(category);
   const [question, setQuestion] = useState({});
   const [live, setLive] = useState(0);
@@ -61,7 +33,7 @@ const Questions = () => {
   const questionary = new QuestionClass(categorie);
   const clean = new Cleaner(categorie);
   const progressBar = new ProgressBarHelper();
-  
+
   useEffect(() => {
     setCategorie(category);
     setLive(lives.get());
@@ -72,7 +44,7 @@ const Questions = () => {
   const nextQuestion = () => {
     const { options } = question;
     if (questionary.get().redirect) {
-      history.push('/')
+      history.push("/");
     }
     setQuestion(questionary.get());
     if (question.type !== "3") {
@@ -95,6 +67,7 @@ const Questions = () => {
     const { options } = question;
     if (question.type !== "3") {
       clean.selected(options);
+      clean.response();
     } else {
       document.getElementById("organized").innerHTML = "";
       options.map((opt) => {
