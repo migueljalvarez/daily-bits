@@ -30,7 +30,6 @@ const Register = () => {
         const {form} = data;
 
         if(form.verificar === form.password){
-            console.log("Si")
         }
         
 
