@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import { DivLogin, Header, Logo, Form, Label, DivLink, Input, ALink } from '../styles/styleLogin';
-import ButtonLogin from '../components/ButtonLogin';
+import { Link } from 'react-router-dom';
+import { DivAuth, Header, Logo, Button, Form, Label, DivLink, Input } from '../styles/styleAuth';
 
 const Login = () => {
 
@@ -24,8 +24,12 @@ const Login = () => {
         e.preventDefault();
     }
 
+    const iniciarSesion = (e) =>{
+        
+    }
+
     return (
-        <DivLogin>
+        <DivAuth>
             <Header>
                 <Logo src="../assets/svg/logo.svg" alt="Logo" />
                 <h1>Iniciar sesión</h1>
@@ -41,15 +45,18 @@ const Login = () => {
                     <Input onChange={handleChange} type="password" name="password" id="inputPassword" placeholder="Ingrese su contraseña" />
                 </Label>
 
-                <ButtonLogin credencial={data} />
+                <Button type="submit"
+                onClick={iniciarSesion}>
+                Iniciar sesión
+                </Button>
             </Form>
 
             <DivLink>
-                <ALink href="/">¿Olvidaste tu contraseña?</ALink><br /><br />
-                <p>¿No tienes una cuenta? <ALink href="/">Registrate</ALink></p>
+                <Link to="" style={{color: "#26b67d" }}>¿Olvidaste tu contraseña?</Link><br /><br />
+                <p>¿No tienes una cuenta? <Link to="/register" style={{color: "#26b67d" }}>Registrate</Link></p>
             </DivLink>
 
-        </DivLogin>
+        </DivAuth>
     );
 
 };

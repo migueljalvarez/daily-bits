@@ -2,7 +2,7 @@ import React from "react";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import Questions from "../containers/QuestionsApp";
 import Example from "../containers/Example";
-import Login from "../containers/Login";
+import Login from "../components/Login";
 import Register from "../components/Register";
 
 const Routers = () => {

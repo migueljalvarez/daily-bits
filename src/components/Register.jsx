@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
-import { DivRegister, Header, Button, Logo, Form, Label, DivLink, Input, ALink } from '../styles/styleRegister';
+import { Link } from 'react-router-dom';
+import { DivAuth, Header, Button, Logo, Form, Label, DivLink, Input, ALink } from '../styles/styleAuth';
 
 const Register = () => {
 
@@ -36,7 +37,7 @@ const Register = () => {
     }
 
     return (
-        <DivRegister>
+        <DivAuth>
             <Header>
                 <Logo src="../assets/svg/logo.svg" alt="Logo" />
                 <h1>Registrate</h1>
@@ -72,10 +73,10 @@ const Register = () => {
             </Form>
 
             <DivLink>
-                <p>¿Ya tienes una cuenta? <ALink href="/">Inicia sesión</ALink></p>
+                <p>¿Ya tienes una cuenta? <Link style={{color: "#26b67d" }} to="/login">Inicia sesión</Link></p>
             </DivLink>
 
-        </DivRegister>
+        </DivAuth>
     );
 
 };
