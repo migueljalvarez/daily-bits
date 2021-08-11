@@ -19,6 +19,9 @@
   },
   "homepage": "https://github.com/migueljalvarez/daily-bits#readme",
   "dependencies": {
+   
+    "axios": "^0.21.1",
+    "history": "^4.10.1",
     "path": "^0.12.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -29,8 +32,10 @@
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/eslint-parser": "^7.15.0",
+    "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-react": "^7.14.5",
+    "@babel/runtime": "^7.14.8",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.2.0",
@@ -38,8 +43,8 @@
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
     "mini-css-extract-plugin": "^2.2.0",
-    "webpack": "^5.48.0",
     "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^3.11.2",
+    "webpack": "^5.48.0"
   }
 }
