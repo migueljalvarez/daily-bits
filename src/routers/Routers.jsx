@@ -4,6 +4,7 @@ import Questions from "../containers/QuestionsApp";
 import Example from "../containers/Example";
 import Home from "../components/Home";
 import Statitics from "../components/Statitics";
+import Profile from "../components/Profile";
 
 const Routers = () => {
   return (
@@ -13,8 +14,8 @@ const Routers = () => {
         <Route exact path="/" component={Example} />
         
         <Route exact path="/home" component={Home} />
-
         <Route exact path="/statitics" component={Statitics} />
+        <Route exact path="/profile" component={Profile} />
       </Switch>
     </Router>
   );
