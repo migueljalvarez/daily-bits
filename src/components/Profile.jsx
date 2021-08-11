@@ -1,8 +1,10 @@
 import React from 'react'
 import { Email, Image, User, ContainerInfo, Title, LogoutBtn } from '../styles/styleProfile'
+import Footer from './Footer'
 
 const Profile = () => {
     return (
+        <div>
         <main>
             <Title>Perfil</Title>
             <ContainerInfo>
@@ -14,6 +16,9 @@ const Profile = () => {
 
             </ContainerInfo>
         </main>
+
+        <Footer />
+        </div>
     )
 }
 

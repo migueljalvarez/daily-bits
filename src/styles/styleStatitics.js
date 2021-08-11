@@ -21,6 +21,12 @@ export const Times = styled.p`
     font-weight: bold;
     align-self: center;
     font-size: 16px;
+
+    color: var(--color-white);
+`
+
+export const TimesSvg = styled.svg`
+    fill: var(--color-gray);
 `
 
 export const Response = styled.p`
@@ -28,6 +34,12 @@ export const Response = styled.p`
     font-weight: bold;
     align-self: center;
     font-size: 16px;
+
+    color: var(--color-white);
+`
+
+export const ResponseSvg = styled.svg`
+    stroke: var(--color-gray);
 `
 
 export const ResponseSuccess = styled.p`
@@ -35,6 +47,8 @@ export const ResponseSuccess = styled.p`
     font-weight: bold;
     align-self: center;
     font-size: 16px;
+
+    color: var(--color-white);
 `
 
 export const ResponseFailed = styled.p`
@@ -42,6 +56,8 @@ export const ResponseFailed = styled.p`
     font-weight: bold;
     align-self: center;
     font-size: 16px;
+
+    color: var(--color-white);
 `
 
 export const Span = styled.span`
@@ -58,4 +74,20 @@ export const Select = styled.select`
     background-repeat: no-repeat;
     background-position: right;
 
+`
+
+export const CountTimes = styled.p`
+    color: var(--color-white);
+`
+
+export const CountResponse = styled.p`
+    color: var(--color-white);
+`
+
+export const CountResponseSuccess = styled.p`
+    color: var(--color-green);
+`
+
+export const CountResponseFailed = styled.p`
+    color: var(--color-red);
 `
