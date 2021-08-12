@@ -101,7 +101,7 @@ const Login = () => {
         <br />
         <p>
           ¿No tienes una cuenta?{" "}
-          <Link to="/register" style={{ color: "#26b67d" }}>
+          <Link to="/auth/register" style={{ color: "#26b67d" }}>
             Registrate
           </Link>
         </p>
