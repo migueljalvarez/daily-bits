@@ -1,25 +1,41 @@
-import React from 'react'
-import { Email, Image, User, ContainerInfo, Title, LogoutBtn } from '../styles/styleProfile'
-import Footer from './Footer'
+import React from "react";
+import { AuthConsumer } from "../context/AuthContext";
+import {
+  Email,
+  Image,
+  User,
+  ContainerInfo,
+  Title,
+  LogoutBtn,
+} from "../styles/styleProfile";
+import Footer from "./Footer";
 
 const Profile = () => {
-    return (
-        <div>
-        <main>
+  return (
+    <div>
+      <AuthConsumer>
+        {({ user }) => (
+          <main>
             <Title>Perfil</Title>
             <ContainerInfo>
-                <Image src="https://avatars.githubusercontent.com/u/18540272?v=4" alt="Miguel Alvarez" />
-                <User>Miguel Alvarez</User>
-                <Email>ing.migueljalvarez@gmai.com</Email>
-                <br />
-                <LogoutBtn type="button" value="Cerrar sesión" />
-
+              <Image
+                src={user.imageUrl}
+                alt="Miguel Alvarez"
+              />
+              <User>
+                {user.name} {user.lastname}
+              </User>
+              <Email>{user.email}</Email>
+              <br />
+              <LogoutBtn type="button" value="Cerrar sesión" />
             </ContainerInfo>
-        </main>
+          </main>
+        )}
+      </AuthConsumer>
 
-        <Footer />
-        </div>
-    )
-}
+      <Footer />
+    </div>
+  );
+};
 
-export default Profile
+export default Profile;

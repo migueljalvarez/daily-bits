@@ -1,8 +1,7 @@
 import React, { createContext, useReducer } from "react";
+const AuthContext = createContext({ isAuthenticated: false, user: {} });
 
-export const AuthContext = createContext();
 const initialState = {
-  isAuthenticated: false,
   user: null,
   token: null,
 };
@@ -13,6 +12,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         isAuthenticated: true,
+        user: action.payload.user,
         token: action.payload.token,
       };
     case "logout":
@@ -22,12 +22,12 @@ const reducer = (state, action) => {
   }
 };
 
-export const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <AuthContext.Provider
       value={{
-        state,
+        ...state,
         dispatch,
       }}
     >
@@ -35,4 +35,5 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-
+const AuthConsumer = AuthContext.Consumer;
+export { AuthProvider, AuthConsumer, AuthContext };
