@@ -1,8 +1,8 @@
 export const fileUpload = async (file) =>{
  
-    const cloudUrl = '	https://api.cloudinary.com/v1_1/dfdibw2mk/upload';
+    const cloudUrl = 'https://api.cloudinary.com/v1_1/dfdibw2mk/image/upload';
     const formData = new FormData();
-    formData.append('upload_preset','profile-img');
+    formData.append('upload_preset','daily-bits-api');
     formData.append('file',file);
     
     try{

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from "react-router-dom";
 import { fileUpload } from '../helpers/fileUpload';
 import {
     DivAuth,
@@ -14,13 +14,13 @@ import {
 } from '../styles/styleAuth';
 
 const Register = () => {
-
+    const history = useHistory();
     const [form, setForm] = useState({
         name: "",
         lastname: "",
         email: "",
         password: "",
-        image: ""
+        imageUrl: ""
     });
 
     const handleChange = (e) => {
@@ -37,27 +37,30 @@ const Register = () => {
 
     const register = async () => {
         try {
-            const url = `http://localhost:5000/api/signup`;
-            await axios.post(url, form);
+            const url = 'http://localhost:5000/api/signup';
+            const resultado = await axios.post(url, form);
+            
+            if(resultado.status === 201){
+                history.push("/auth/login");
+            }
 
         } catch (error) {
+            console.log(form)
             return error;
+
         }
     };
 
-    const handlePictureClick = () =>{
-        document.querySelector('#fileSelector').click();
-    }
-
     const handleFileChange = (e) =>{
+    
         const file = e.target.files[0];
 
         fileUpload(file).then(response =>{
-            document.getElementById('image').value = response;
+            document.getElementById('fileSelector').filename = response;
 
             setForm({
                 ...form,
-                image: response
+                imageUrl: response
             });
         }).catch(error =>{
             throw error;
@@ -86,9 +89,19 @@ const Register = () => {
                     <Input
                         onChange={handleChange}
                         type="text"
-                        name="lastaname"
+                        name="lastname"
                         id="lastname"
                         placeholder="Ingresa tu apellido" />
+                </Label>
+
+                <Label htmlFor="fileSelector">
+                    <input
+                        type="file"
+                        name="file"
+                        id="fileSelector"
+                        onChange={handleFileChange}
+                         />
+                    
                 </Label>
 
                 <Label htmlFor="inputEmail">
@@ -111,16 +124,7 @@ const Register = () => {
                         placeholder="Ingresa una contraseña" />
                 </Label>
 
-                <Label htmlFor="fileSelector">
-                    <Input
-                        type="file"
-                        name="file"
-                        id="fileSelector"
-                        onChange={handleFileChange} />
-                    <button
-                    onClick={() => handlePictureClick}>Imagen</button>
-                    <input type="text" name="image" id="image" readOnly/>
-                </Label>
+                
 
 
 
@@ -130,7 +134,7 @@ const Register = () => {
             </Form>
 
             <DivLink>
-                <p>¿Ya tienes una cuenta? <Link style={{ color: "#26b67d" }} to="/login">Inicia sesión</Link></p>
+                <p>¿Ya tienes una cuenta? <Link style={{ color: "#26b67d" }} to="/auth/login">Inicia sesión</Link></p>
             </DivLink>
 
         </DivAuth>
