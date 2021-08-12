@@ -9,7 +9,6 @@ export const DivAuth = styled.div`
     align-items: center;
     justify-content: center;
 
-
     color: white;
 `
 
@@ -55,6 +54,10 @@ export const Button = styled.button`
 
     max-width: 256px;
 
+    background-color: var(--color-green);
+    color: var(--color-withe);
+    font-weight: 800;
+
     &:hover {
     cursor: pointer;
     }
@@ -62,6 +65,12 @@ export const Button = styled.button`
 
 export const Header = styled.header`
     text-align: center;
+
+    padding-top: 10px;
+
+    &>h1{
+        margin: 10px 0px;
+    }
 `
 
 export const DivLink = styled.div`
@@ -69,4 +78,32 @@ export const DivLink = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+`
+
+export const DivFile = styled.div`
+    display: flex;
+    width: 100%;
+
+    margin: 10px 0px;
+
+    max-width: 500px;
+`
+
+export const InputFile = styled.input`
+    padding: 10px;
+    width: 30%;
+    border-radius: 6px;
+    border: none;
+
+    background-color: var(--color-green);
+    color: var(--color-withe);
+
+    min-width: 120px;
+
+    &:hover {
+    cursor: pointer;
+    }
+`
+export const TextFile = styled.input`
+    width: 70%;
 `

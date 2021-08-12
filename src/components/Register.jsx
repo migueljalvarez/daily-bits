@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { Link, useHistory } from "react-router-dom";
-import { fileUpload } from '../helpers/fileUpload';
+import { useForm } from '../hooks/useForm';
 import {
     DivAuth,
     Header,
@@ -10,12 +10,16 @@ import {
     Form,
     Label,
     DivLink,
-    Input
+    Input,
+    DivFile,
+    InputFile,
+    TextFile
 } from '../styles/styleAuth';
+import Notification from "./Notification";
 
 const Register = () => {
     const history = useHistory();
-    const [form, setForm] = useState({
+    const [form, handleChange, handleFileChange, handleClickFile, reset] = useForm({
         name: "",
         lastname: "",
         email: "",
@@ -23,12 +27,11 @@ const Register = () => {
         imageUrl: ""
     });
 
-    const handleChange = (e) => {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value
-        });
-    };
+    const{name, lastname, email, password, imageUrl} = form;
+
+    const [showNotification, setShowNotification] = useState(false);
+    const [notify, setNotify] = useState({});
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -37,35 +40,28 @@ const Register = () => {
 
     const register = async () => {
         try {
-            const url = 'http://localhost:5000/api/signup';
+            const url = 'https://daily-bits-fake-api.herokuapp.com/signup';
             const resultado = await axios.post(url, form);
-            
-            if(resultado.status === 201){
+
+            if (resultado.status === 201) {
                 history.push("/auth/login");
             }
 
         } catch (error) {
-            console.log(form)
-            return error;
+
+            setNotify({
+                title: "Ha ocurrido un error. Intentalo de nuevo",
+                type: "failed",
+                buttom: "Continuar",
+            });
+            setShowNotification(!showNotification);
 
         }
     };
 
-    const handleFileChange = (e) =>{
-    
-        const file = e.target.files[0];
-
-        fileUpload(file).then(response =>{
-            document.getElementById('fileSelector').filename = response;
-
-            setForm({
-                ...form,
-                imageUrl: response
-            });
-        }).catch(error =>{
-            throw error;
-        });
-    }
+    const handleContinue = () => {
+        setShowNotification(!showNotification);
+    };
 
     return (
         <DivAuth>
@@ -77,6 +73,7 @@ const Register = () => {
                 <Label htmlFor="nombre">
                     Nombre
                     <Input
+                        value={name}
                         onChange={handleChange}
                         type="text"
                         name="name"
@@ -87,6 +84,7 @@ const Register = () => {
                 <Label htmlFor="apellido">
                     Apellido
                     <Input
+                        value={lastname}
                         onChange={handleChange}
                         type="text"
                         name="lastname"
@@ -94,19 +92,22 @@ const Register = () => {
                         placeholder="Ingresa tu apellido" />
                 </Label>
 
-                <Label htmlFor="fileSelector">
+                <DivFile>
                     <input
                         type="file"
-                        name="file"
+                        name={imageUrl}
                         id="fileSelector"
                         onChange={handleFileChange}
-                         />
-                    
-                </Label>
+                        style = {{display: 'none'}}
+                    />
+                    <InputFile onClick={ handleClickFile} type="button" value="Imagen de Perfil" />
+                    <TextFile type="text" name="image" id="image" readOnly />
+                </DivFile>
 
                 <Label htmlFor="inputEmail">
                     Correo electrónico
                     <Input
+                        value={email}
                         onChange={handleChange}
                         type="email"
                         name="email"
@@ -117,6 +118,7 @@ const Register = () => {
                 <Label htmlFor="inputPassword">
                     Contraseña
                     <Input
+                        value={password}
                         onChange={handleChange}
                         type="password"
                         name="password"
@@ -124,7 +126,7 @@ const Register = () => {
                         placeholder="Ingresa una contraseña" />
                 </Label>
 
-                
+
 
 
 
@@ -136,6 +138,12 @@ const Register = () => {
             <DivLink>
                 <p>¿Ya tienes una cuenta? <Link style={{ color: "#26b67d" }} to="/auth/login">Inicia sesión</Link></p>
             </DivLink>
+
+            <Notification
+                notification={notify}
+                isVisible={showNotification}
+                handleContinue={() => handleContinue()}
+            />
 
         </DivAuth>
     );
