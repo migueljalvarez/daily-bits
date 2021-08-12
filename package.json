@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack serve --mode development --open",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "predeploy":"npm run build",
+    "deploy": "gh-pages -d build"
+
   },
   "repository": {
     "type": "git",
@@ -17,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/migueljalvarez/daily-bits/issues"
   },
-  "homepage": "https://github.com/migueljalvarez/daily-bits#readme",
+  "homepage":"https://migueljalvarez.github.io/daily-bits", 
   "dependencies": {
     "axios": "^0.21.1",
     "history": "^4.10.1",
@@ -41,6 +44,7 @@
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.2.0",
     "file-loader": "^6.2.0",
+    "gh-pages": "^3.2.3",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
     "mini-css-extract-plugin": "^2.2.0",
