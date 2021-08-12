@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import {
   DivAuth,
   Header,
@@ -12,6 +12,7 @@ import {
 } from "../styles/styleAuth";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
+import Notification from "./Notification";
 
 const Login = () => {
   const history = useHistory();
@@ -20,12 +21,8 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const [isLogged, setIsLogged] = useState(false);
-  useEffect(() => {
-    if (isLogged) {
-      history.push("/");
-    }
-  }, [isLogged]);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notify, setNotify] = useState({});
   const handleChange = (e) => {
     setCredentials({
       ...credentials,
@@ -33,6 +30,9 @@ const Login = () => {
     });
   };
 
+  const handleContinue = () => {
+    setShowNotification(!showNotification);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     login()
@@ -41,22 +41,24 @@ const Login = () => {
           type: "login",
           payload: {
             token: data.accessToken,
+            user: data.user,
           },
         });
-        setIsLogged(true);
+        history.push("/");
       })
       .catch((error) => {
-        console.log(error);
+        setNotify({
+          title: "Usuario o contraseña inconrrectos",
+          type: "failed",
+          buttom: "Continuar",
+        });
+        setShowNotification(!showNotification);
       });
   };
   const login = async () => {
-    try {
-      const url = `http://localhost:5000/api/login`;
-      const { data } = await axios.post(url, credentials);
-      return data;
-    } catch (error) {
-      return error;
-    }
+    const url = `http://localhost:5000/api/login`;
+    const { data } = await axios.post(url, credentials);
+    return data;
   };
 
   return (
@@ -104,6 +106,11 @@ const Login = () => {
           </Link>
         </p>
       </DivLink>
+      <Notification
+        notification={notify}
+        isVisible={showNotification}
+        handleContinue={() => handleContinue()}
+      />
     </DivAuth>
   );
 };

@@ -19,9 +19,9 @@
   },
   "homepage": "https://github.com/migueljalvarez/daily-bits#readme",
   "dependencies": {
-   
     "axios": "^0.21.1",
     "history": "^4.10.1",
+    "jsonwebtoken": "^8.5.1",
     "path": "^0.12.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -43,8 +43,8 @@
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
     "mini-css-extract-plugin": "^2.2.0",
+    "webpack": "^5.48.0",
     "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2",
-    "webpack": "^5.48.0"
+    "webpack-dev-server": "^3.11.2"
   }
 }
