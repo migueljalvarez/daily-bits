@@ -56,7 +56,7 @@ const Login = () => {
       });
   };
   const login = async () => {
-    const url = `http://localhost:5000/api/login`;
+    const url = `https://daily-bits-fake-api.herokuapp.com/login`;
     const { data } = await axios.post(url, credentials);
     return data;
   };

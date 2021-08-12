@@ -1,7 +1,14 @@
 import React, { createContext, useReducer } from "react";
-const AuthContext = createContext({ isAuthenticated: false, user: {} });
+
+const AuthContext = createContext({
+  isAuthenticated: false,
+  user: {},
+});
+
+const getAuthorization = () => (localStorage.getItem("token") ? true : false);
 
 const initialState = {
+  isAuthenticated: getAuthorization(),
   user: null,
   token: null,
 };
