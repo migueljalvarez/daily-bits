@@ -9,6 +9,7 @@ import QuestionRouter from "./QuestionRouter";
 import { PublicRouter } from "./PublicRouter";
 import { PrivateRouter } from "./PrivateRouter";
 import { AuthProvider } from "../context/AuthContext";
+import { StatiticsProvider } from "../context/StatiticsContex";
 
 const Routers = () => {
   return (
@@ -18,7 +19,9 @@ const Routers = () => {
           <PublicRouter path="/auth" component={AuthRouter} />
           <PrivateRouter path="/questions" component={QuestionRouter} />
           <PrivateRouter exact path="/" component={Home} />
-          <PrivateRouter exact path="/statitics" component={Statitics} />
+          <StatiticsProvider>
+            <PrivateRouter exact path="/statitics" component={Statitics} />
+          </StatiticsProvider>
           <PrivateRouter exact path="/profile" component={Profile} />
           <Redirect to="/" />
         </Switch>
