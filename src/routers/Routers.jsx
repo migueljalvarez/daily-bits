@@ -10,14 +10,14 @@ import { PublicRouter } from "./PublicRouter";
 import { PrivateRouter } from "./PrivateRouter";
 import { AuthProvider } from "../context/AuthContext";
 import { StatiticsProvider } from "../context/StatiticsContex";
-import Test from "../components/Test";
+import Splash from "../components/Splash";
 
 const Routers = () => {
   return (
     <AuthProvider>
       <Router basename='/'>
         <Switch>
-          <PublicRouter exact path="/" component={Test} />
+          <PublicRouter exact path="/" component={Splash} />
           <PublicRouter path="/auth" component={AuthRouter} />
           <PrivateRouter path="/questions" component={QuestionRouter} />
           <PrivateRouter exact path="/home" component={Home} />
