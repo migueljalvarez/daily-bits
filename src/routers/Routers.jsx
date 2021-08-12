@@ -10,20 +10,22 @@ import { PublicRouter } from "./PublicRouter";
 import { PrivateRouter } from "./PrivateRouter";
 import { AuthProvider } from "../context/AuthContext";
 import { StatiticsProvider } from "../context/StatiticsContex";
+import Test from "../components/Test";
 
 const Routers = () => {
   return (
     <AuthProvider>
-      <Router>
+      <Router basename='/'>
         <Switch>
+          <PublicRouter exact path="/" component={Test} />
           <PublicRouter path="/auth" component={AuthRouter} />
           <PrivateRouter path="/questions" component={QuestionRouter} />
-          <PrivateRouter exact path="/" component={Home} />
+          <PrivateRouter exact path="/home" component={Home} />
+          <PrivateRouter exact path="/profile" component={Profile} />
           <StatiticsProvider>
             <PrivateRouter exact path="/statitics" component={Statitics} />
           </StatiticsProvider>
-          <PrivateRouter exact path="/profile" component={Profile} />
-          <Redirect to="/" />
+          <Redirect to="/home" />
         </Switch>
       </Router>
     </AuthProvider>
