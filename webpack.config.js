@@ -10,7 +10,7 @@ module.exports = {
     filename: "bundle.js",
     path: path.resolve(__dirname, "build"),
     assetModuleFilename: "assets/svg/[name][ext][query]",
-    publicPath: "./",
+    publicPath: "/daily-bits/",
   },
   resolve: {
     extensions: [".js", ".jsx"],
