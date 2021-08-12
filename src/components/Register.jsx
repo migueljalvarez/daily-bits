@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import { fileUpload } from '../helpers/fileUpload';
 import {
     DivAuth,
     Header,
@@ -14,34 +15,54 @@ import {
 
 const Register = () => {
 
-    const [credentials, setCredentials] = useState({
+    const [form, setForm] = useState({
         name: "",
         lastname: "",
         email: "",
-        password: ""
+        password: "",
+        image: ""
     });
 
     const handleChange = (e) => {
-        setCredentials({
-            ...credentials,
+        setForm({
+            ...form,
             [e.target.name]: e.target.value
         });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        register()
-      };
+        register();
+    };
 
-      const register = async () => {
+    const register = async () => {
         try {
-          const url = `http://localhost:5000/api/register`;
-          await axios.post(url, credentials);
+            const url = `http://localhost:5000/api/signup`;
+            await axios.post(url, form);
 
         } catch (error) {
-          return error;
+            return error;
         }
-      };
+    };
+
+    const handlePictureClick = () =>{
+        document.querySelector('#fileSelector').click();
+    }
+
+    const handleFileChange = (e) =>{
+        const file = e.target.files[0];
+
+        fileUpload(file).then(response =>{
+            document.getElementById('image').value = response;
+
+            setForm({
+                ...form,
+                image: response
+            });
+        }).catch(error =>{
+            throw error;
+        });
+    }
 
     return (
         <DivAuth>
@@ -90,7 +111,18 @@ const Register = () => {
                         placeholder="Ingresa una contraseña" />
                 </Label>
 
-                 
+                <Label htmlFor="fileSelector">
+                    <Input
+                        type="file"
+                        name="file"
+                        id="fileSelector"
+                        onChange={handleFileChange} />
+                    <button
+                    onClick={() => handlePictureClick}>Imagen</button>
+                    <input type="text" name="image" id="image" readOnly/>
+                </Label>
+
+
 
                 <Button type="submit">
                     Registrarme
