@@ -350,7 +350,6 @@ export default [
       },
     ],
   },
-<<<<<<< HEAD
   // de aqui pa aba estan las preguntas de css.
   {
     id: 13,
@@ -358,15 +357,6 @@ export default [
     avatar: "avatar1",
     type: "1",
     category: "css",
-=======
-
-  {
-    id: 13,
-    name: "Indica la forma correcta de declarar una media query en un archivo CSS:",
-    avatar: "1",
-    type: "1",
-    category: "CSS",
->>>>>>> 3290149919c50e23d5d0fc6cdb769e173e5c8737
     state: false,
     options: [
       {
@@ -389,22 +379,12 @@ export default [
       },
     ],
   },
-<<<<<<< HEAD
   {
     id: 14,
     name: "Indica la respuesta correcta para generar un efecto de transición:",
     avatar: "avatar2",
     type: "1",
     category: "css",
-=======
-
-  {
-    id: 14,
-    name: "Indica la respuesta correcta para generar un efecto de transición:",
-    avatar: "2",
-    type: "1",
-    category: "CSS",
->>>>>>> 3290149919c50e23d5d0fc6cdb769e173e5c8737
     state: false,
     options: [
       {
@@ -427,22 +407,12 @@ export default [
       },
     ],
   },
-<<<<<<< HEAD
   {
     id: 15,
     name: "¿Para qué se utiliza la regla @keyframe?",
     avatar: "avatar3",
     type: "1",
     category: "css",
-=======
-
-  {
-    id: 15,
-    name: "¿Para qué se utiliza la regla @keyframe?",
-    avatar: "3",
-    type: "1",
-    category: "CSS",
->>>>>>> 3290149919c50e23d5d0fc6cdb769e173e5c8737
     state: false,
     options: [
       {
@@ -465,32 +435,18 @@ export default [
       },
     ],
   },
-<<<<<<< HEAD
   {
     id: 16,
     name: "La propiedad <resize> sirve para:",
     avatar: "avatar3",
     type: "1",
     category: "css",
-=======
-
-  {
-    id: 16,
-    name: "La propiedad <resize> sirve para:",
-    avatar: "3",
-    type: "1",
-    category: "CSS",
->>>>>>> 3290149919c50e23d5d0fc6cdb769e173e5c8737
     state: false,
     options: [
       {
         id: "first-item",
-<<<<<<< HEAD
         label:
           "Hacer que un elemento pueda ser modificable en su tamaño por el usuario",
-=======
-        label: "Hacer que un elemento pueda ser modificable en su tamaño por el usuario",
->>>>>>> 3290149919c50e23d5d0fc6cdb769e173e5c8737
         item: "elemento-modificable",
         istrue: true,
       },
@@ -511,15 +467,9 @@ export default [
   {
     id: 17,
     name: "Cambiar el tamaño un objeto en CSS3:",
-<<<<<<< HEAD
     avatar: "avatar2",
     type: "1",
     category: "css",
-=======
-    avatar: "2",
-    type: "1",
-    category: "CSS",
->>>>>>> 3290149919c50e23d5d0fc6cdb769e173e5c8737
     state: false,
     options: [
       {
@@ -547,11 +497,7 @@ export default [
     name: "¿Cuál de estás opciones es considerada un lenguaje de hojas de estilo?",
     avatar: "avatar1",
     type: "3",
-<<<<<<< HEAD
     category: "css",
-=======
-    category: "CSS",
->>>>>>> 3290149919c50e23d5d0fc6cdb769e173e5c8737
     state: false,
     options: [
       {
