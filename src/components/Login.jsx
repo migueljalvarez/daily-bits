@@ -44,7 +44,7 @@ const Login = () => {
             user: data.user,
           },
         });
-        history.push("/");
+        history.push("/home");
       })
       .catch((error) => {
         setNotify({
