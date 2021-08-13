@@ -1,0 +1,1 @@
+export const getAuthorization = () => (localStorage.getItem("token") ? true : false);
