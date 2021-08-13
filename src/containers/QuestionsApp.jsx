@@ -11,7 +11,7 @@ import close from "../assets/svg/close.svg";
 import Notification from "../components/Notification";
 import constants from "../utils/constants";
 
-import { CheckButton, ContainerHead, LiveText } from "../styles/styleQuestion";
+import { CheckButton, ContainerHead, LiveText, Img } from "../styles/styleQuestion";
 import time from "../utils/time";
 import { createdOrUpdateStatitics } from "../helpers/statiticsInfo";
 const {
