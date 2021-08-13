@@ -1,5 +1,6 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
+
 import QuestionClass from "../components/Questions";
 import ProgressBar from "../components/ProgressBar";
 import ProgressBarHelper from "../helpers/ProgressBar";
@@ -10,9 +11,18 @@ import close from "../assets/svg/close.svg";
 import Notification from "../components/Notification";
 import constants from "../utils/constants";
 
-import { CheckButton, ContainerHead, LiveText, Img } from "../styles/styleQuestion";
-const { NOTIFICATION_FAILED, NOTIFICATION_SUCCESS, NOTIFICATION, RESPONSE } =
-  constants;
+import { CheckButton, ContainerHead, LiveText } from "../styles/styleQuestion";
+import time from "../utils/time";
+import { createdOrUpdateStatitics } from "../helpers/statiticsInfo";
+const {
+  NOTIFICATION_FAILED,
+  NOTIFICATION_SUCCESS,
+  NOTIFICATION,
+  RESPONSE,
+  SUCCESS,
+  FAILED,
+  TOTAL_RESPONSES,
+} = constants;
 
 const Questions = () => {
   const { category } = useParams();
@@ -30,6 +40,7 @@ const Questions = () => {
   const clean = new Cleaner(categorie);
   const progressBar = new ProgressBarHelper();
 
+  time.set("start");
   useEffect(() => {
     setCategorie(category);
     setLive(lives.get());
@@ -39,7 +50,8 @@ const Questions = () => {
   const nextQuestion = () => {
     const { options } = question;
     if (questionary.get().redirect) {
-      history.push("/");
+      time.set("end");
+      createdOrUpdateStatitics().then(() => history.goBack());
     }
     setQuestion(questionary.get());
     if (question.type !== "3") {
@@ -52,6 +64,13 @@ const Questions = () => {
     let result = questionary.setState(question);
     if (result.state) {
       progressBar.load(num, categorie);
+      let responsesSuccess = parseInt(localStorage.getItem(SUCCESS));
+      localStorage.setItem(
+        SUCCESS,
+        responsesSuccess ? responsesSuccess + 1 : 1
+      );
+      let responses = parseInt(localStorage.getItem(TOTAL_RESPONSES));
+      localStorage.setItem(TOTAL_RESPONSES, responses ? responses + 1 : 1);
       nextQuestion();
       setShowNotification(!showNotification);
     }
@@ -59,6 +78,10 @@ const Questions = () => {
 
   const handleContinue = () => {
     let count = lives.discount();
+    let responsesFailed = parseInt(localStorage.getItem(FAILED));
+    localStorage.setItem(FAILED, responsesFailed ? responsesFailed + 1 : 1);
+    let responses = parseInt(localStorage.getItem(TOTAL_RESPONSES));
+    localStorage.setItem(TOTAL_RESPONSES, responses ? responses + 1 : 1);
     const { options } = question;
     if (question.type !== "3") {
       clean.selected(options);

@@ -82,7 +82,7 @@ const Statitics = () => {
                   Respuestas contestadas
                 </Response>
                 <CountResponse id="count-response">
-                  {statitics.totalReponse}
+                  {statitics.totalResponse}
                 </CountResponse>
               </StatiticsContainer>
               <StatiticsContainer>

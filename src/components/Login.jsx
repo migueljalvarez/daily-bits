@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   DivAuth,
@@ -16,7 +16,7 @@ import Notification from "./Notification";
 
 const Login = () => {
   const history = useHistory();
-  const { dispatch } = React.useContext(AuthContext);
+  const { dispatch } = useContext(AuthContext);
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -44,7 +44,7 @@ const Login = () => {
             user: data.user,
           },
         });
-        history.push("/");
+        history.push("/home");
       })
       .catch((error) => {
         setNotify({

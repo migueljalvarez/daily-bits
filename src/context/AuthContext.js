@@ -1,16 +1,15 @@
 import React, { createContext, useReducer } from "react";
+import { getAuthorization } from "../helpers/getAuthorization";
 
 const AuthContext = createContext({
   isAuthenticated: false,
   user: {},
 });
 
-const getAuthorization = () => (localStorage.getItem("token") ? true : false);
-
 const initialState = {
   isAuthenticated: getAuthorization(),
-  user: null,
-  token: null,
+  user:null,
+  token:null,
 };
 const reducer = (state, action) => {
   switch (action.type) {
@@ -23,7 +22,8 @@ const reducer = (state, action) => {
         token: action.payload.token,
       };
     case "logout":
-      break;
+      localStorage.removeItem("token")
+      return initialState
     default:
       break;
   }

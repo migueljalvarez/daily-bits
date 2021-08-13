@@ -11,7 +11,7 @@ const initialState = {
 const reducer = (state, action) => {
   return {
     ...state,
-    totalReponse: action.payload.totalReponse,
+    totalResponse: action.payload.totalResponse,
     successResponses: action.payload.successResponses,
     failedResponses: action.payload.failedResponses,
     hours: action.payload.hours,
