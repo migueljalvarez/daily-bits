@@ -1,36 +1,67 @@
-import React from 'react'
-import { TextHeader, ContainerCategories, LogoImg, Categories } from '../styles/styleHome'
-import Footer from './Footer'
+import React, { useEffect, useState } from "react";
+import { getProgressApi } from "../helpers/progressInfo";
+import {
+  TextHeader,
+  ContainerCategories,
+  LogoImg,
+  Categories,
+} from "../styles/styleHome";
+import CircularProgress from "./CircularProgress";
+import Footer from "./Footer";
 
 const Home = () => {
-    return (
-        <div>
-            <main>
-                <TextHeader>
-                    Practica tus conocimientos en la categoria que prefieras.
-                </TextHeader>
-                <ContainerCategories>
-                    <Categories id="html" to="/questions/html" >
-                        <LogoImg id="html-image" src="../assets/svg/html.svg" alt="html" />
-                        <p>HTML</p>
-                    </Categories>
-                </ContainerCategories>
-                <ContainerCategories>
-                    <Categories id="css" to="/questions/css" >
-                        <LogoImg id="css-image" src="../assets/svg/css.svg" alt="css" />
-                        <p>CSS</p>
-                    </Categories>
-                    <Categories id="js" to="/questions/js">
-                        <LogoImg id="js-image" src="../assets/svg/js.svg" alt="js" />
-                        <p>JS</p>
-                    </Categories>
-                </ContainerCategories>
-            </main>
+  const [htmlProggres, setHtmlProgress] = useState(0);
+  const [cssProgress, setCssProgress] = useState(0);
+  const [jsProgress, setJsProgress] = useState(0);
 
-            <Footer />
-        </div>
+  const loadProgress = (data) => {
+    localStorage.setItem("html-progress", data?.htmlProgress || htmlProggres);
+    localStorage.setItem("css-progress", data?.cssProgress || cssProgress);
+    localStorage.setItem("js-progress", data?.jsProgress || jsProgress);
+    setHtmlProgress(parseFloat(localStorage.getItem('html-progress')));
+    setCssProgress(parseFloat(localStorage.getItem('css-progress')));
+    setJsProgress(parseFloat(localStorage.getItem('js-progress')));
+  };
+  getProgressApi().then((data) => {
+    loadProgress(data);
+  });
+  useEffect(() => {}, []);
+  return (
+    <div>
+      <main>
+        <TextHeader>
+          Practica tus conocimientos en la categoria que prefieras.
+        </TextHeader>
+        <ContainerCategories>
+          <Categories id="html" to="/questions/html">
+            <CircularProgress percentage={htmlProggres}>
+              <LogoImg
+                id="html-image"
+                src="../assets/svg/html.svg"
+                alt="html"
+              />
+            </CircularProgress>
+            <p>HTML</p>
+          </Categories>
+        </ContainerCategories>
+        <ContainerCategories>
+          <Categories id="css" to="/questions/css">
+            <CircularProgress percentage={cssProgress}>
+              <LogoImg id="css-image" src="../assets/svg/css.svg" alt="css" />
+            </CircularProgress>
+            <p>CSS</p>
+          </Categories>
+          <Categories id="js" to="/questions/js">
+            <CircularProgress percentage={jsProgress}>
+              <LogoImg id="js-image" src="../assets/svg/js.svg" alt="js" />
+            </CircularProgress>
+            <p>JS</p>
+          </Categories>
+        </ContainerCategories>
+      </main>
+      <Footer />
+    </div>
+  );
+};
 
-    )
-}
-
-export default Home
+export default Home;

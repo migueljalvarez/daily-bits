@@ -25,6 +25,7 @@ class Cleaner {
     localStorage.removeItem(`${this.category}-complete`);
     localStorage.removeItem(`${this.category}-life`);
   }
+  
   div() {
     document.querySelector("#options-with-images").innerHTML = ``;
     document.querySelector("#options").innerHTML = ``;

@@ -38,6 +38,7 @@ const Profile = () => {
         token: null 
       }
     });
+    localStorage.clear()
   };
   return (
     <div>

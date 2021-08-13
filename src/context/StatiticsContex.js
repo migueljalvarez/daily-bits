@@ -1,7 +1,7 @@
 import React, { createContext, useReducer } from "react";
 const StatiticsContex = createContext({ statitics: {} });
 const initialState = {
-  totalReponse: 0,
+  totalResponse: 0,
   successResponses: 0,
   failedResponses: 0,
   hours: 0,
@@ -9,15 +9,20 @@ const initialState = {
   id: 0,
 };
 const reducer = (state, action) => {
-  return {
-    ...state,
-    totalResponse: action.payload.totalResponse,
-    successResponses: action.payload.successResponses,
-    failedResponses: action.payload.failedResponses,
-    hours: action.payload.hours,
-    userId: action.payload.userId,
-    id: action.payload.id,
-  };
+  switch (action.type) {
+    case 'GET':
+      return {
+        ...state,
+        totalResponse: action.payload.totalResponse,
+        successResponses: action.payload.successResponses,
+        failedResponses: action.payload.failedResponses,
+        hours: action.payload.hours,
+        userId: action.payload.userId,
+        id: action.payload.id,
+      };
+    default:
+      return state
+  }
 };
 
 const StatiticsProvider = ({ children }) => {
