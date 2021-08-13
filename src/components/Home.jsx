@@ -25,6 +25,16 @@ const Home = () => {
                         <p>JS</p>
                     </Categories>
                 </ContainerCategories>
+                <ContainerCategories>
+                    <Categories id="figma" >
+                        <LogoImg id="figma-image" src="../assets/svg/figma.svg" alt="figma" />
+                        <p>FIGMA</p>
+                    </Categories>
+                    <Categories id="ux">
+                        <LogoImg id="ux-image" src="../assets/svg/ux.svg" alt="ux" />
+                        <p>UX</p>
+                    </Categories>
+                </ContainerCategories>
             </main>
 
             <Footer />

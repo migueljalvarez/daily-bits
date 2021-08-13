@@ -14,6 +14,8 @@ export const StatiticsContainer = styled.div`
     border-radius: 10px;
     border: solid 2px var(--color-gray);
     margin: 15px auto;
+
+    max-width: 820px;
 `
 
 export const Times = styled.p`
