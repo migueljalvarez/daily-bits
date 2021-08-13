@@ -267,7 +267,7 @@ export default [
     ],
   },
   {
-    id: 9,
+    id: 10,
     name: "Como debo exportar una Clase",
     avatar: "avatar1",
     type: "1",
@@ -295,7 +295,7 @@ export default [
     ],
   },
   {
-    id: 10,
+    id: 11,
     name: "Seleccione el Tipo de Dato no Primitivo",
     avatar: "avatar2",
     type: "1",
@@ -323,7 +323,7 @@ export default [
     ],
   },
   {
-    id: 11,
+    id: 12,
     name: "Compo se reepresenta al Spread Syntax",
     avatar: "avatar3",
     type: "1",
@@ -346,6 +346,184 @@ export default [
         id: "third-item",
         label: "||",
         item: "or",
+        isTrue: false,
+      },
+    ],
+  },
+
+  {
+    id: 13,
+    name: "Indica la forma correcta de declarar una media query en un archivo CSS:",
+    avatar: "1",
+    type: "1",
+    category: "CSS",
+    state: false,
+    options: [
+      {
+        id: "first-item",
+        label: "@media-screen (max-width: 480px)",
+        item: "media-sceen",
+        istrue: false,
+      },
+      {
+        id: "second-item",
+        label: "@media-query only screen and (max-width: 480px)",
+        item: "media-query-only",
+        istrue: false,
+      },
+      {
+        id: "third-item",
+        label: "@media only screen and (max-width: 480px)",
+        item: "media-only-screen",
+        istrue: true,
+      },
+    ],
+  },
+
+  {
+    id: 14,
+    name: "Indica la respuesta correcta para generar un efecto de transición:",
+    avatar: "2",
+    type: "1",
+    category: "CSS",
+    state: false,
+    options: [
+      {
+        id: "first-item",
+        label: "transition: height .8s;",
+        item: "transition",
+        istrue: true,
+      },
+      {
+        id: "second-item",
+        label: "transition-height: .8s;",
+        item: "transition-height",
+        istrue: false,
+      },
+      {
+        id: "third-item",
+        label: "transform: transition(height, .8s);",
+        item: "transform-transition",
+        istrue: false,
+      },
+    ],
+  },
+
+  {
+    id: 15,
+    name: "¿Para qué se utiliza la regla @keyframe?",
+    avatar: "3",
+    type: "1",
+    category: "CSS",
+    state: false,
+    options: [
+      {
+        id: "first-item",
+        label: "Rotación",
+        item: "rotacion",
+        istrue: false,
+      },
+      {
+        id: "second-item",
+        label: "Animación",
+        item: "animacion",
+        istrue: true,
+      },
+      {
+        id: "third-item",
+        label: "Importar fuente",
+        item: "importar-fuente",
+        istrue: false,
+      },
+    ],
+  },
+
+  {
+    id: 16,
+    name: "La propiedad <resize> sirve para:",
+    avatar: "3",
+    type: "1",
+    category: "CSS",
+    state: false,
+    options: [
+      {
+        id: "first-item",
+        label: "Hacer que un elemento pueda ser modificable en su tamaño por el usuario",
+        item: "elemento-modificable",
+        istrue: true,
+      },
+      {
+        id: "second-item",
+        label: "Hacer que el elemento cambie su tamaño indicado",
+        item: "elemento-cambie",
+        istrue: false,
+      },
+      {
+        id: "third-item",
+        label: "No existe dicha propiedad",
+        item: "no-existe-propiedad",
+        istrue: false,
+      },
+    ],
+  },
+  {
+    id: 17,
+    name: "Cambiar el tamaño un objeto en CSS3:",
+    avatar: "2",
+    type: "1",
+    category: "CSS",
+    state: false,
+    options: [
+      {
+        id: "first-item",
+        label: "scale: 1.2;",
+        item: "scale",
+        istrue: false,
+      },
+      {
+        id: "second-item",
+        label: "transform: scale 1.2;",
+        item: "transform",
+        istrue: false,
+      },
+      {
+        id: "third-item",
+        label: "transform: scale(1,2);",
+        item: "transform-scale",
+        istrue: true,
+      },
+    ],
+  },
+  {
+    id: 18,
+    name: "¿Cuál de estás opciones es considerada un lenguaje de hojas de estilo?",
+    avatar: "avatar1",
+    type: "3",
+    category: "CSS",
+    state: false,
+    options: [
+      {
+        id: "first-item",
+        label: "Grunt",
+        item: "grunt",
+        istrue: false,
+      },
+      {
+        id: "second-item",
+        label: "TypeScript",
+        item: "typescript",
+        istrue: false,
+      },
+      {
+        id: "third-item",
+        label: "SASS",
+        item: "sass",
+        istrue: true,
+      },
+      {
+        id: "fourth_item",
+        label: "Ionic",
+        item: "ionic",
         isTrue: false,
       },
     ],
