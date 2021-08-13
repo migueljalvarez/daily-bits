@@ -27,6 +27,10 @@ export const BottonCompleteSuccess = styled.button`
   border: none;
   background-color: #2cb67d;
   box-shadow: 0 1px 1px 1px #0f915b;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 export const NotificationFailed = styled.div`
   transition: all 1.4s ease;
@@ -49,6 +53,10 @@ export const BottonCompleteFailed = styled.button`
   border: none;
   background-color: #ef4565;
   box-shadow: 0 1px 1px 1px #b81e3b;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 export const NotificationDefault = styled.div`
   background-color: #ffffff;
@@ -58,6 +66,10 @@ export const NotificationDefault = styled.div`
   width: 100%;
   bottom: -1000px;
   transition: all 1.4s ease;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 export const MessageTitleDefault = styled.p`
   font-weight: bold;

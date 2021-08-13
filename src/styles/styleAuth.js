@@ -9,7 +9,7 @@ export const DivAuth = styled.div`
     align-items: center;
     justify-content: center;
 
-    color: white;
+    color: var(--color-white);
 `
 
 export const Logo = styled.img`
@@ -33,7 +33,7 @@ export const Input = styled.input`
 `
 
 export const ALink = styled.a`
-    color: #26b67d;
+    color: var(--color-green);
 `
 
 export const Form = styled.form`
@@ -55,7 +55,7 @@ export const Button = styled.button`
     max-width: 256px;
 
     background-color: var(--color-green);
-    color: var(--color-withe);
+    color: var(--color-white);
     font-weight: 800;
 
     &:hover {
@@ -96,7 +96,7 @@ export const InputFile = styled.input`
     border: none;
 
     background-color: var(--color-green);
-    color: var(--color-withe);
+    color: var(--color-white);
 
     min-width: 120px;
 

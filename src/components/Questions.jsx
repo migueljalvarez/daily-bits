@@ -179,7 +179,7 @@ class Question {
             <ContainerOrganized
               id="organized"
               style={{
-                backgroundImage: "url(../assets/svg/separator.svg)",
+                backgroundImage: "url(../assets/svg/separator.svg)"
               }}
             />
             <ContainerUnOrganized id="unorganized">

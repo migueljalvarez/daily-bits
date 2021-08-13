@@ -10,7 +10,7 @@ export const FooterDiv = styled.footer`
     bottom: 0;
     left: 0;
     right: 0;
-    justify-content: space-between;
+    justify-content: space-around;
 `
 
 export const Ir = styled(Link)`
@@ -23,6 +23,12 @@ export const Ir = styled(Link)`
 
     display: flex;
     align-items: center;
+
+    &:hover path,
+    &:hover {
+        fill: var(--color-green) !important;
+        color: var(--color-green) !important;
+    }
 `
 
 export const Icon = styled.svg`

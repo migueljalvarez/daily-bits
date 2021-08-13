@@ -26,6 +26,7 @@ export const LogoutBtn = styled.input`
 `
 
 export const User = styled.h3`
+    margin-top: 20px !important;
     margin-block-start: unset;
     margin-block-end: unset;
 `

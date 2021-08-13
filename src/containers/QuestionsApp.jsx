@@ -10,7 +10,7 @@ import close from "../assets/svg/close.svg";
 import Notification from "../components/Notification";
 import constants from "../utils/constants";
 
-import { CheckButton, ContainerHead, LiveText } from "../styles/styleQuestion";
+import { CheckButton, ContainerHead, LiveText, Img } from "../styles/styleQuestion";
 const { NOTIFICATION_FAILED, NOTIFICATION_SUCCESS, NOTIFICATION, RESPONSE } =
   constants;
 
@@ -124,7 +124,7 @@ const Questions = () => {
     <>
       <ContainerHead>
         <span id="close">
-          <img src={close} alt="close" />
+          <Img src={close} alt="close" />
         </span>
         <ProgressBar percent={progress} />
         <span>

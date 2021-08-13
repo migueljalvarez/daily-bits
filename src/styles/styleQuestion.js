@@ -3,6 +3,9 @@ import styled from "styled-components";
 export const ContainerQuestions = styled.div`
   display: flex;
   align-items: center;
+
+  max-width: 500px;
+  margin: auto;
 `;
 export const ContainerQuestionsWithPadding = styled.div`
   display: flex;
@@ -17,6 +20,7 @@ export const Title = styled.h2`
   width: -webkit-fill-available;
   padding: 0 2px;
   font-size: 23px;
+  text-align: center;
 `;
 export const Options = styled.div`
   position: absolute;
@@ -32,11 +36,19 @@ export const Item = styled.div`
   padding: 15px 10px;
   border-radius: 5px;
   width: 328px;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 export const OptionsWithImage = styled.div`
-  display: inline-block;
+  display: grid;
   margin: -20px 20px;
   padding: 0px 8px;
+  grid-template-columns: 144px 144px;
+  justify-content: center;
+
+  gap: 4px 8px;
 `;
 export const ItemWithImage = styled.div`
   display: flex;
@@ -49,6 +61,10 @@ export const ItemWithImage = styled.div`
   float: left;
   border-radius: 8px;
   box-shadow: 0 4px 2px -2px #94a1b2;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 export const ItemImg = styled.img`
   border-radius: 8px;
@@ -72,6 +88,11 @@ export const ContainerOrganized = styled.div`
   height: auto;
   min-height: 146px;
   padding: 0px 16px;
+  background-repeat: no-repeat;
+  width: 350px;
+
+  margin: auto;
+
   & button {
     margin-bottom: 20px;
     margin-top: 15px;
@@ -99,6 +120,8 @@ export const ContainerUnOrganized = styled.div`
   justify-content: center;
   padding: 0px 16px;
   bottom: 100px;
+  left: 50%;
+  margin-left: -180px;
   position: absolute;
   width: 360px;
   height: fit-content;
@@ -153,9 +176,16 @@ export const CheckButton = styled.button`
   &:hover {
     background-color: var(--color-purple-light);
     box-shadow: 0 2px 1px 1px var(--color-purple);
+    cursor: pointer;
   }
 `;
 export const LiveText = styled.p`
   color: #fff;
   margin: 0px 2px;
+`;
+
+export const Img = styled.img`
+  &:hover {
+    cursor: pointer;
+  }
 `;
