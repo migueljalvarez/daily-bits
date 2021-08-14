@@ -10,6 +10,7 @@ import {
   DivLink,
   Input,
   Separator,
+  InputGoogle
 } from "../styles/styleAuth";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
@@ -68,8 +69,16 @@ const Login = () => {
         <Logo src="../assets/svg/logo.svg" alt="Logo" />
         <h1>Iniciar sesión</h1>
       </Header>
-      <Separator />
+
+
+
       <Form action="" onSubmit={handleSubmit}>
+
+        <InputGoogle>
+          <img src="../assets/svg/google.svg" alt="google" />
+          Continuar con Google</InputGoogle>
+        <Separator />
+
         <Label htmlFor="inputEmail">
           Correo electrónico
           <Input

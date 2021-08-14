@@ -111,4 +111,32 @@ export const TextFile = styled.input`
 export const Separator = styled.hr`
     width: 100%;
     max-width: 480px;
+
+    margin: 16px;
+`
+
+export const InputGoogle = styled.div`
+    padding: 10px;
+    width: 100%;
+    max-width: 480px;
+    border-radius: 6px;
+    border: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--color-red);
+    color: var(--color-white);
+
+    font-size: 14px;
+    font-weight: bold;
+    
+    &:hover {
+    cursor: pointer;
+    }
+
+    & > *{
+        margin: 0px 10px;
+    }
 `

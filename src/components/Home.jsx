@@ -61,12 +61,16 @@ const Home = () => {
         </ContainerCategories>
         <ContainerCategories>
           <Categories id="figma" to="">
-            <LogoImg id="figma-image" src="../assets/svg/figma.svg" alt="figma" />
-            <p>FIGMA</p>
+            <CircularProgress percentage="0">
+              <LogoImg id="figma-image" src="../assets/svg/figma.svg" alt="figma" />
+              <p>FIGMA</p>
+            </CircularProgress>
           </Categories>
           <Categories id="ux" to="">
-            <LogoImg id="ux-image" src="../assets/svg/ux.svg" alt="ux" />
-            <p>UX</p>
+            <CircularProgress percentage="0">
+              <LogoImg id="ux-image" src="../assets/svg/ux.svg" alt="ux" />
+              <p>UX</p>
+            </CircularProgress>
           </Categories>
         </ContainerCategories>
       </main>
