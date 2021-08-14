@@ -356,7 +356,7 @@ export default [
     name: "Declarar una media query en un archivo CSS:",
     avatar: "avatar1",
     type: "1",
-    category: "CSS",
+    category: "css",
     state: false,
     options: [
       {
@@ -385,7 +385,7 @@ export default [
     name: "Indica la respuesta correcta para generar un efecto de transición:",
     avatar: "avatar2",
     type: "1",
-    category: "CSS",
+    category: "css",
     state: false,
     options: [
       {

@@ -25,6 +25,7 @@ const Statitics = () => {
     try {
       getStatiticsInfo().then((data) => {
         dispatch({
+          type: 'GET',
           payload: { ...data },
         });
       });

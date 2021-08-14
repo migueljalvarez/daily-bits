@@ -21,7 +21,6 @@ const Profile = () => {
   };
   const { dispatch } = useContext(AuthContext);
   const [user, setUser] = useState(initialState);
-  const history = useHistory();
   useEffect(() => {
     let mount = false;
     if (!mount) {
@@ -34,8 +33,12 @@ const Profile = () => {
   const handleClick = () => {
     dispatch({
       type: "logout",
+      payload: {
+        user: null, 
+        token: null 
+      }
     });
-    history.push('/auth/login');
+    localStorage.clear()
   };
   return (
     <div>

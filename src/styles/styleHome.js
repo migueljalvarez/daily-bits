@@ -18,7 +18,7 @@ export const LogoImg = styled.img`
     margin: 0 auto;
     width: 95px;
     padding: 5px;
-    border: var(--color-white) solid 9px;
+    border: transparent solid 9px;
     border-radius: 50%;
   `
 

@@ -36,9 +36,9 @@ const createdOrUpdateStatitics = async () => {
     const newData = {
       userId: user.id,
       hours: time.calculate(),
-      failedResponses: parseInt(localStorage.getItem(FAILED)),
-      successResponses: parseInt(localStorage.getItem(SUCCESS)),
-      totalResponse: parseInt(localStorage.getItem(TOTAL_RESPONSES)),
+      failedResponses: parseInt(localStorage.getItem(FAILED)) || 0,
+      successResponses: parseInt(localStorage.getItem(SUCCESS)) || 0,
+      totalResponse: parseInt(localStorage.getItem(TOTAL_RESPONSES)) ||0,
     };
     const url = `${baseUrl}`;
     const { data } = await axios.post(url, newData);

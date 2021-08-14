@@ -11,9 +11,18 @@ import close from "../assets/svg/close.svg";
 import Notification from "../components/Notification";
 import constants from "../utils/constants";
 
-import { CheckButton, ContainerHead, LiveText } from "../styles/styleQuestion";
+import {
+  CheckButton,
+  ContainerHead,
+  LiveText,
+  Img,
+} from "../styles/styleQuestion";
 import time from "../utils/time";
 import { createdOrUpdateStatitics } from "../helpers/statiticsInfo";
+import {
+  createOrUpdateProggressApi,
+  getProgressApi,
+} from "../helpers/progressInfo";
 const {
   NOTIFICATION_FAILED,
   NOTIFICATION_SUCCESS,
@@ -40,18 +49,48 @@ const Questions = () => {
   const clean = new Cleaner(categorie);
   const progressBar = new ProgressBarHelper();
 
-  time.set("start");
   useEffect(() => {
     setCategorie(category);
-    setLive(lives.get());
-    setProgress(progressBar.getProgress(categorie));
+    getProgressApi().then((data) => {
+      if (data?.startTime < Date.now()) {
+        localStorage.setItem("start-time", data.startTime);
+      } else {
+        time.set("start");
+      }
+      if (categorie === "html") {
+        data?.htmlComplete
+          ? localStorage.setItem(`html-complete`, true)
+          : localStorage.setItem(`html-complete`, false);
+      }
+      if (categorie === "css") {
+        data?.cssComplete
+          ? localStorage.setItem(`css-complete`, true)
+          : localStorage.setItem(`css-complete`, false);
+      }
+      if (categorie === "js") {
+        data?.jsComplete
+          ? localStorage.setItem(`js-complete`, true)
+          : localStorage.setItem(`js-complete`, false);
+      }
+    });
+    if (!JSON.parse(localStorage.getItem(`${categorie}-complete`))) {
+      setLive(lives.get());
+      setProgress(progressBar.getProgress(categorie));
+    } else {
+      history.goBack();
+    }
   }, [question]);
 
   const nextQuestion = () => {
     const { options } = question;
     if (questionary.get().redirect) {
       time.set("end");
-      createdOrUpdateStatitics().then(() => history.goBack());
+      createdOrUpdateStatitics().then(() =>
+        createOrUpdateProggressApi().then(() => {
+          clean.progress();
+          history.goBack();
+        })
+      );
     }
     setQuestion(questionary.get());
     if (question.type !== "3") {
