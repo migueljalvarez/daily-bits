@@ -1,5 +1,3 @@
-# Modelo de README para Github.
-    
 # 💎 Daily Bits
 
 
@@ -39,4 +37,6 @@ ejemplo de cómo instalar lo que requiero si es muy específico
 
 ## 🌟 Autores
 
+* **Miguel Alvarez**  - [@migueljalvarez](https://github.com/migueljalvarez)
+* **Giselle Arte**  - [@Gisellea198](https://github.com/Gisellea198)
 * **Omar Palenzuela**  - [@OJPalenzuela](https://github.com/OJPalenzuela)
