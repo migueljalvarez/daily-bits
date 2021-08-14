@@ -1,7 +1,19 @@
 import { getUserInfo } from "./userInfo";
 import axios from "axios";
+import constants from "../utils/constants";
 const baseUrl = "https://daily-bits-fake-api.herokuapp.com/progress";
-
+const {
+  CSS_COMPLETE,
+  CSS_LIFE,
+  CSS_PROGRESS,
+  HTML_COMPLETE,
+  HTML_LIFE,
+  HTML_PROGRESS,
+  JS_COMPLETE,
+  JS_LIFE,
+  JS_PROGRESS,
+  START_TIME,
+} = constants;
 const getProgressApi = async () => {
   const [user] = await getUserInfo();
   const url = `${baseUrl}?userId=${user.id}`;
@@ -15,16 +27,16 @@ const createOrUpdateProggressApi = async () => {
     startTime:
       progress?.startTime < Date.now()
         ? progress.startTime
-        : JSON.parse(localStorage.getItem("start-time")),
-    htmlComplete: JSON.parse(localStorage.getItem("html-complete")) || false,
-    cssComplete: JSON.parse(localStorage.getItem("css-complete")) || false,
-    jsComplete: JSON.parse(localStorage.getItem("js-complete")) || false,
-    htmlLife: JSON.parse(localStorage.getItem("html-life")),
-    cssLife: JSON.parse(localStorage.getItem("css-life")),
-    jsLife: JSON.parse(localStorage.getItem("js-life")),
-    htmlProgress: JSON.parse(localStorage.getItem("html-progress")),
-    cssProgreess: JSON.parse(localStorage.getItem("css-progress")),
-    jsProgress: JSON.parse(localStorage.getItem("js-progress")),
+        : JSON.parse(localStorage.getItem(START_TIME)),
+    htmlComplete: JSON.parse(localStorage.getItem(HTML_COMPLETE)) || false,
+    cssComplete: JSON.parse(localStorage.getItem(CSS_COMPLETE)) || false,
+    jsComplete: JSON.parse(localStorage.getItem(JS_COMPLETE)) || false,
+    htmlLife: JSON.parse(localStorage.getItem(HTML_LIFE)) || 0,
+    cssLife: JSON.parse(localStorage.getItem(CSS_LIFE)) || 0,
+    jsLife: JSON.parse(localStorage.getItem(JS_LIFE)) || 0,
+    htmlProgress: JSON.parse(localStorage.getItem(HTML_PROGRESS)),
+    cssProgress: JSON.parse(localStorage.getItem(CSS_PROGRESS)),
+    jsProgress: JSON.parse(localStorage.getItem(JS_PROGRESS)),
     userId: user.id,
   };
   if (progress) {

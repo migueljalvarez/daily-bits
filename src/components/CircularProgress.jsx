@@ -14,8 +14,9 @@ const CircularProgress = (props) => {
           value={percentage}
           styles={buildStyles({
             pathColor: "#2abd80",
-            trailColor: "#ffffff",
-            strokeLinecap: 'butt',
+            trailColor: "#DDDDDD",
+            rotation: 0.5,
+            pathTransitionDuration: 2.5,
           })}
         />
       </div>
