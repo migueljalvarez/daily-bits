@@ -11,7 +11,7 @@ const initialState = {
   user:null,
   token:null,
 };
-const reducer = (state, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "login":
       localStorage.setItem("token", JSON.stringify(action.payload.token));
@@ -23,9 +23,14 @@ const reducer = (state, action) => {
       };
     case "logout":
       localStorage.removeItem("token")
-      return initialState
+      return {
+        ...state,
+        isAuthenticated: false,
+        user: action.payload.user,
+        token: action.payload.token,
+      }
     default:
-      break;
+      return state
   }
 };
 
