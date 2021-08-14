@@ -9,6 +9,7 @@ import {
   Label,
   DivLink,
   Input,
+  Separator,
 } from "../styles/styleAuth";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
@@ -67,6 +68,7 @@ const Login = () => {
         <Logo src="../assets/svg/logo.svg" alt="Logo" />
         <h1>Iniciar sesión</h1>
       </Header>
+      <Separator />
       <Form action="" onSubmit={handleSubmit}>
         <Label htmlFor="inputEmail">
           Correo electrónico

@@ -19,7 +19,7 @@ export const Logo = styled.img`
 
 export const Label = styled.label`
     width: 100%;
-    max-width: 500px;
+    max-width: 480px;
 `
 
 
@@ -86,7 +86,7 @@ export const DivFile = styled.div`
 
     margin: 10px 0px;
 
-    max-width: 500px;
+    max-width: 480px;
 `
 
 export const InputFile = styled.input`
@@ -106,4 +106,9 @@ export const InputFile = styled.input`
 `
 export const TextFile = styled.input`
     width: 70%;
+`
+
+export const Separator = styled.hr`
+    width: 100%;
+    max-width: 480px;
 `
