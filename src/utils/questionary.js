@@ -353,8 +353,8 @@ export default [
 
   {
     id: 13,
-    name: "Indica la forma correcta de declarar una media query en un archivo CSS:",
-    avatar: "1",
+    name: "Declarar una media query en un archivo CSS:",
+    avatar: "avatar1",
     type: "1",
     category: "CSS",
     state: false,
@@ -362,19 +362,19 @@ export default [
       {
         id: "first-item",
         label: "@media-screen (max-width: 480px)",
-        item: "media-sceen",
+        item: "media_sceen",
         istrue: false,
       },
       {
         id: "second-item",
         label: "@media-query only screen and (max-width: 480px)",
-        item: "media-query-only",
+        item: "media_query_only",
         istrue: false,
       },
       {
         id: "third-item",
         label: "@media only screen and (max-width: 480px)",
-        item: "media-only-screen",
+        item: "media_only_screen",
         istrue: true,
       },
     ],
@@ -383,7 +383,7 @@ export default [
   {
     id: 14,
     name: "Indica la respuesta correcta para generar un efecto de transición:",
-    avatar: "2",
+    avatar: "avatar2",
     type: "1",
     category: "CSS",
     state: false,
@@ -397,13 +397,13 @@ export default [
       {
         id: "second-item",
         label: "transition-height: .8s;",
-        item: "transition-height",
+        item: "transition_height",
         istrue: false,
       },
       {
         id: "third-item",
         label: "transform: transition(height, .8s);",
-        item: "transform-transition",
+        item: "transform_transition",
         istrue: false,
       },
     ],
@@ -432,7 +432,7 @@ export default [
       {
         id: "third-item",
         label: "Importar fuente",
-        item: "importar-fuente",
+        item: "importar_fuente",
         istrue: false,
       },
     ],
@@ -441,27 +441,27 @@ export default [
   {
     id: 16,
     name: "La propiedad <resize> sirve para:",
-    avatar: "3",
+    avatar: "avatar3",
     type: "1",
     category: "CSS",
     state: false,
     options: [
       {
         id: "first-item",
-        label: "Hacer que un elemento pueda ser modificable en su tamaño por el usuario",
-        item: "elemento-modificable",
+        label: "Modificar un elemento en su tamaño por el usuario",
+        item: "elemento_modificable",
         istrue: true,
       },
       {
         id: "second-item",
         label: "Hacer que el elemento cambie su tamaño indicado",
-        item: "elemento-cambie",
+        item: "elemento_cambie",
         istrue: false,
       },
       {
         id: "third-item",
         label: "No existe dicha propiedad",
-        item: "no-existe-propiedad",
+        item: "no_existe_propiedad",
         istrue: false,
       },
     ],
@@ -469,7 +469,7 @@ export default [
   {
     id: 17,
     name: "Cambiar el tamaño un objeto en CSS3:",
-    avatar: "2",
+    avatar: "avatar2",
     type: "1",
     category: "CSS",
     state: false,
@@ -489,7 +489,7 @@ export default [
       {
         id: "third-item",
         label: "transform: scale(1,2);",
-        item: "transform-scale",
+        item: "transform_scale",
         istrue: true,
       },
     ],
@@ -498,7 +498,7 @@ export default [
     id: 18,
     name: "¿Cuál de estás opciones es considerada un lenguaje de hojas de estilo?",
     avatar: "avatar1",
-    type: "3",
+    type: "2",
     category: "CSS",
     state: false,
     options: [
