@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { getProgressApi } from "../helpers/progressInfo";
 import {
   TextHeader,
@@ -8,6 +8,8 @@ import {
 } from "../styles/styleHome";
 import CircularProgress from "./CircularProgress";
 import Footer from "./Footer";
+import constants from "../utils/constants";
+const { HTML_PROGRESS, CSS_PROGRESS, JS_PROGRESS } = constants;
 
 const Home = () => {
   const [htmlProggres, setHtmlProgress] = useState(0);
@@ -15,17 +17,18 @@ const Home = () => {
   const [jsProgress, setJsProgress] = useState(0);
 
   const loadProgress = (data) => {
-    localStorage.setItem("html-progress", data?.htmlProgress || htmlProggres);
-    localStorage.setItem("css-progress", data?.cssProgress || cssProgress);
-    localStorage.setItem("js-progress", data?.jsProgress || jsProgress);
-    setHtmlProgress(parseFloat(localStorage.getItem('html-progress')));
-    setCssProgress(parseFloat(localStorage.getItem('css-progress')));
-    setJsProgress(parseFloat(localStorage.getItem('js-progress')));
+    localStorage.setItem(HTML_PROGRESS, data?.htmlProgress || htmlProggres);
+    localStorage.setItem(CSS_PROGRESS, data?.cssProgress || cssProgress);
+    localStorage.setItem(JS_PROGRESS, data?.jsProgress || jsProgress);
+    setHtmlProgress(parseFloat(localStorage.getItem(HTML_PROGRESS)));
+    setCssProgress(parseFloat(localStorage.getItem(CSS_PROGRESS)));
+    setJsProgress(parseFloat(localStorage.getItem(JS_PROGRESS)));
   };
+
   getProgressApi().then((data) => {
     loadProgress(data);
   });
-  useEffect(() => {}, []);
+
   return (
     <div>
       <main>
