@@ -18,7 +18,8 @@ import {
   Title,
   UnOrganizedButton,
 } from "../styles/styleQuestion";
-
+import { getUserInfo } from "../helpers/userInfo.js";
+import axios from "axios";
 const { RESPONSE, ADD, REMOVE } = constants;
 
 class Question {
@@ -26,6 +27,7 @@ class Question {
     this.category = category;
     this.sendToLocalStorages();
     this.responses = [];
+    this.baseUrl = "https://daily-bits-fake-api.herokuapp.com";
   }
   setCustomClass(id, method, className) {
     method === ADD
@@ -178,7 +180,7 @@ class Question {
             <ContainerOrganized
               id="organized"
               style={{
-                backgroundImage: "url(../assets/svg/separator.svg)"
+                backgroundImage: "url(../assets/svg/separator.svg)",
               }}
             />
             <ContainerUnOrganized id="unorganized">
@@ -208,10 +210,23 @@ class Question {
   }
 
   sendToLocalStorages() {
-    const questions = this.find();
-    if (questions.length > 0) {
-      localStorage.setItem(this.category, JSON.stringify(questions));
-    }
+    getUserInfo().then((data) => {
+      const [user] = data;
+      const userId = user.id;
+      const url = `${this.baseUrl}/questions?userId=${userId}&category=${this.category}`;
+      const questionsApi = axios.get(url).then((result) => {
+        const { data } = result;
+        return data;
+      });
+      if (questionsApi.length > 0) {
+        localStorage.setItem(this.category, JSON.stringify(questionsApi));
+      } else {
+        const questions = this.find();
+        if (questions.length > 0) {
+          localStorage.setItem(this.category, JSON.stringify(questions));
+        }
+      }
+    });
   }
   verify(question) {
     let response = localStorage.getItem(RESPONSE);

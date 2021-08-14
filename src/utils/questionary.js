@@ -350,6 +350,7 @@ export default [
       },
     ],
   },
+  
   {
     id: 13,
     name: "¿Cuáles de las siguientes declaraciones son propiedades o atributos?",
