@@ -36,7 +36,8 @@ export const ALink = styled.a`
     color: var(--color-green);
 `
 
-export const Form = styled.form`
+export const DivForm = styled.div`
+    margin: 12px 0px;
 
     display: flex;
     flex-direction: column;
@@ -45,7 +46,17 @@ export const Form = styled.form`
 
     width: 90%;
 `
-export const Button = styled.button`
+
+export const Form = styled.form`
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+`
+export const InputSubmit = styled.input`
     padding: 10px;
     width: 100%;
     border-radius: 6px;
@@ -115,7 +126,7 @@ export const Separator = styled.hr`
     margin: 16px;
 `
 
-export const InputGoogle = styled.div`
+export const ButtonGoogle = styled.button`
     padding: 10px;
     width: 100%;
     max-width: 480px;
@@ -133,7 +144,7 @@ export const InputGoogle = styled.div`
     font-weight: bold;
     
     &:hover {
-    cursor: pointer;
+        cursor: pointer;
     }
 
     & > *{

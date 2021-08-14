@@ -60,13 +60,13 @@ const Home = () => {
           </Categories>
         </ContainerCategories>
         <ContainerCategories>
-          <Categories id="figma" to="">
+          <Categories id="figma" to="/home">
             <CircularProgress percentage="0">
               <LogoImg id="figma-image" src="../assets/svg/figma.svg" alt="figma" />
               <p>FIGMA</p>
             </CircularProgress>
           </Categories>
-          <Categories id="ux" to="">
+          <Categories id="ux" to="/home">
             <CircularProgress percentage="0">
               <LogoImg id="ux-image" src="../assets/svg/ux.svg" alt="ux" />
               <p>UX</p>

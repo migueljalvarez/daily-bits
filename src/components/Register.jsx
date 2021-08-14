@@ -5,7 +5,7 @@ import { useForm } from '../hooks/useForm';
 import {
     DivAuth,
     Header,
-    Button,
+    InputSubmit,
     Logo,
     Form,
     Label,
@@ -130,9 +130,7 @@ const Register = () => {
 
 
 
-                <Button type="submit">
-                    Registrarme
-                </Button>
+                <InputSubmit type="submit" value="Registrarme" />
             </Form>
 
             <DivLink>
