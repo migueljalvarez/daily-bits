@@ -98,7 +98,6 @@ class Question {
   // Retorna un elemento a alzar
   random() {
     let all = this.find();
-    // console.log("all", all);
     let questions = all.filter((option) => option.state !== true);
     if (questions.length === 0) {
       console.log("regresando al home...");

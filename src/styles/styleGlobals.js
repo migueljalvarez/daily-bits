@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import "../css/font.css";
+import "../assets/css/font.css";
 const GlobalStyle = createGlobalStyle`
 :root {
   /* Colors */
