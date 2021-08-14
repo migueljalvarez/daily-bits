@@ -23,6 +23,7 @@ import {
   createOrUpdateProggressApi,
   getProgressApi,
 } from "../helpers/progressInfo";
+import { createOrUpdateQuestionApi } from "../helpers/progressQuestionInfo";
 const {
   NOTIFICATION_FAILED,
   NOTIFICATION_SUCCESS,
@@ -181,11 +182,18 @@ const Questions = () => {
       }
     }
   };
-
+  const handleClose = async () => {
+    await createdOrUpdateStatitics();
+    await createOrUpdateProggressApi();
+    await createOrUpdateQuestionApi(categorie);
+    clean.progress();
+    history.goBack();
+  };
+  
   return (
     <>
       <ContainerHead>
-        <span id="close">
+        <span id="close" onClick={async () => await handleClose()}>
           <Img src={close} alt="close" />
         </span>
         <ProgressBar percent={progress} />
