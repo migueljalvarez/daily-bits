@@ -4,7 +4,7 @@
 Las lecciones de Daily Bits se adaptan a tu estilo de aprendizaje. Los ejercicios están diseñados a tu medida para ayudarte a aprender y repasar tus conocimientos de programación y diseño.
 
 
-Puedes verlo aquí: <link_para_ver>
+Puedes verlo aquí: [Daily Bits](https://daily-bits-react.netlify.app/)
 
 ## Requerimientos
 
