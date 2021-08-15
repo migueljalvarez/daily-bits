@@ -1,36 +1,38 @@
 # 💎 Daily Bits
 
-
 Las lecciones de Daily Bits se adaptan a tu estilo de aprendizaje. Los ejercicios están diseñados a tu medida para ayudarte a aprender y repasar tus conocimientos de programación y diseño.
 
 
-#### Puedes ver nustro despliegue aquí: [Daily Bits Web](https://daily-bits-react.netlify.app/)
-#### Puedes ver el código en nuestro repositorio: [Daily Bits Repositorio](https://github.com/migueljalvarez/daily-bits)
+ Puedes ver nustro despliegue aquí: [Daily Bits Web](https://daily-bits-react.netlify.app/)
+ Puedes ver el código en nuestro repositorio: [Daily Bits Repositorio](https://github.com/migueljalvarez/daily-bits)
 
 ## Requerimientos
 
-<qué requiere tu programa>
-
-```shell
-ejemplo de cómo instalar lo que requiero si es muy específico
-```
+Para poder ejecutar la aplicación en local debes instalar [NodeJs](https://nodejs.org)
 
 ## 🔥 Instalación
 
+En la carpeta de la aplicación teniendo previamente instalado [NodeJs](https://nodejs.org) ejecuta el siguiente comando en tu terminal para instalar los módulos necesarios
+
 ```shell
-<escribe aquí cómo lo ejecuto>
-<aquí si necesito ejecutar otra cosa>
+npm install
+```
+
+Teniendo los módulos instalados es momento de iniciar la aplicacion. Para ello ejecuta el comando:
+
+```shell
+npm start
 ```
 
 ## 🔍 Vistas 
 
 ### 💻 Desktop
 
-![Optional Text](../src/assets/svg/logo.svg)
+![Desktop](./src/assets/view/desktop.png)
 
 ### 📱 Mobile
 
-<imagen aquí>
+![Mobile](./src/assets/view/mobile.png)
 
 ## 📌 Stack
 
