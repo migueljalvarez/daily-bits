@@ -28,9 +28,9 @@ const createOrUpdateProggressApi = async () => {
       progress?.startTime < Date.now()
         ? progress.startTime
         : JSON.parse(localStorage.getItem(START_TIME)),
-    htmlComplete: JSON.parse(localStorage.getItem(HTML_COMPLETE)) || false,
-    cssComplete: JSON.parse(localStorage.getItem(CSS_COMPLETE)) || false,
-    jsComplete: JSON.parse(localStorage.getItem(JS_COMPLETE)) || false,
+    htmlComplete: JSON.parse(localStorage.getItem(HTML_COMPLETE)),
+    cssComplete: JSON.parse(localStorage.getItem(CSS_COMPLETE)),
+    jsComplete: JSON.parse(localStorage.getItem(JS_COMPLETE)),
     htmlLife: JSON.parse(localStorage.getItem(HTML_LIFE)) || 0,
     cssLife: JSON.parse(localStorage.getItem(CSS_LIFE)) || 0,
     jsLife: JSON.parse(localStorage.getItem(JS_LIFE)) || 0,

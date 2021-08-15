@@ -20,7 +20,11 @@ import {
 } from "../styles/styleQuestion";
 import { getUserInfo } from "../helpers/userInfo.js";
 import axios from "axios";
+import { createOrUpdateProggressApi } from "../helpers/progressInfo.js";
 const { RESPONSE, ADD, REMOVE } = constants;
+import time from "../utils/time"
+import { createdOrUpdateStatitics } from "../helpers/statiticsInfo.js";
+import Cleaner from "../helpers/Cleaner.js";
 
 class Question {
   constructor(category) {
@@ -28,6 +32,7 @@ class Question {
     this.sendToLocalStorages();
     this.responses = [];
     this.baseUrl = "https://daily-bits-fake-api.herokuapp.com";
+    this.clean = new Cleaner(category)
   }
   setCustomClass(id, method, className) {
     method === ADD
@@ -103,7 +108,9 @@ class Question {
     let questions = all.filter((option) => option.state !== true);
     if (questions.length === 0) {
       console.log("regresando al home...");
-      return { redirect: true };
+      time.set("end")
+      localStorage.setItem(`${this.category}-complete`, true);
+      return { redirect: true };      
     } else {
       const random = Math.floor(Math.random() * questions.length);
       return questions[random];
@@ -214,18 +221,23 @@ class Question {
       const [user] = data;
       const userId = user.id;
       const url = `${this.baseUrl}/questions?userId=${userId}&category=${this.category}`;
-      const questionsApi = axios.get(url).then((result) => {
-        const { data } = result;
-        return data;
-      });
-      if (questionsApi.length > 0) {
-        localStorage.setItem(this.category, JSON.stringify(questionsApi));
-      } else {
-        const questions = this.find();
-        if (questions.length > 0) {
-          localStorage.setItem(this.category, JSON.stringify(questions));
-        }
-      }
+      axios
+        .get(url)
+        .then((result) => {
+          const data = result.data.find(
+            (quest) => quest.category === this.category
+          );
+
+          if (data.questions.length > 0) {
+            localStorage.setItem(this.category, JSON.stringify(data.questions));
+          }
+        })
+        .catch(() => {
+          const questions = this.find();
+          if (questions.length > 0) {
+            localStorage.setItem(this.category, JSON.stringify(questions));
+          }
+        });
     });
   }
   verify(question) {

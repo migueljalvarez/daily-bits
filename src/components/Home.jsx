@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { getProgressApi } from "../helpers/progressInfo";
 import {
   TextHeader,
@@ -9,10 +9,18 @@ import {
 import CircularProgress from "./CircularProgress";
 import Footer from "./Footer";
 import constants from "../utils/constants";
-const { HTML_PROGRESS, CSS_PROGRESS, JS_PROGRESS } = constants;
+import { StatiticsContex } from "../context/StatiticsContex";
+import { getStatiticsInfo } from "../helpers/statiticsInfo";
+const {
+  HTML_PROGRESS,
+  CSS_PROGRESS,
+  JS_PROGRESS,
+  HTML_COMPLETE,
+  CSS_COMPLETE,
+  JS_COMPLETE,
+} = constants;
 
 const Home = () => {
-
   const [htmlProggres, setHtmlProgress] = useState(0);
   const [cssProgress, setCssProgress] = useState(0);
   const [jsProgress, setJsProgress] = useState(0);
@@ -21,6 +29,9 @@ const Home = () => {
     localStorage.setItem(HTML_PROGRESS, data?.htmlProgress || htmlProggres);
     localStorage.setItem(CSS_PROGRESS, data?.cssProgress || cssProgress);
     localStorage.setItem(JS_PROGRESS, data?.jsProgress || jsProgress);
+    localStorage.setItem(HTML_COMPLETE, false);
+    localStorage.setItem(CSS_COMPLETE, false);
+    localStorage.setItem(JS_COMPLETE, false);
     setHtmlProgress(parseFloat(localStorage.getItem(HTML_PROGRESS)));
     setCssProgress(parseFloat(localStorage.getItem(CSS_PROGRESS)));
     setJsProgress(parseFloat(localStorage.getItem(JS_PROGRESS)));
@@ -29,7 +40,23 @@ const Home = () => {
   getProgressApi().then((data) => {
     loadProgress(data);
   });
-  
+
+  const { dispatch } = useContext(StatiticsContex);
+  useEffect(() => {
+    let unmouted = true;
+    if (unmouted) {
+      try {
+        getStatiticsInfo().then((data) => {
+          dispatch({
+            type: "GET",
+            payload: { ...data },
+          });
+        });
+      } catch (error) {}
+    }
+    return () => (unmouted = false);
+  }, []);
+
   return (
     <div>
       <main>
@@ -65,7 +92,11 @@ const Home = () => {
         <ContainerCategories>
           <Categories id="figma" to="/home">
             <CircularProgress percentage="0">
-              <LogoImg id="figma-image" src="../assets/svg/figma.svg" alt="figma" />
+              <LogoImg
+                id="figma-image"
+                src="../assets/svg/figma.svg"
+                alt="figma"
+              />
               <p>FIGMA</p>
             </CircularProgress>
           </Categories>

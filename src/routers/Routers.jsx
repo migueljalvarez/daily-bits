@@ -15,14 +15,15 @@ import Splash from "../components/Splash";
 const Routers = () => {
   return (
     <AuthProvider>
-      <Router basename='/'>
+      <Router basename="/">
         <Switch>
           <PublicRouter exact path="/" component={Splash} />
           <PublicRouter path="/auth" component={AuthRouter} />
           <PrivateRouter path="/questions" component={QuestionRouter} />
-          <PrivateRouter exact path="/home" component={Home} />
-          <PrivateRouter exact path="/profile" component={Profile} />
           <StatiticsProvider>
+            <PrivateRouter exact path="/home" component={Home} />
+            <PrivateRouter exact path="/profile" component={Profile} />
+
             <PrivateRouter exact path="/statitics" component={Statitics} />
           </StatiticsProvider>
           <Redirect to="/home" />
