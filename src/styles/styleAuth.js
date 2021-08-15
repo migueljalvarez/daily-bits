@@ -19,7 +19,7 @@ export const Logo = styled.img`
 
 export const Label = styled.label`
     width: 100%;
-    max-width: 500px;
+    max-width: 480px;
 `
 
 
@@ -36,7 +36,8 @@ export const ALink = styled.a`
     color: var(--color-green);
 `
 
-export const Form = styled.form`
+export const DivForm = styled.div`
+    margin: 12px 0px;
 
     display: flex;
     flex-direction: column;
@@ -45,7 +46,17 @@ export const Form = styled.form`
 
     width: 90%;
 `
-export const Button = styled.button`
+
+export const Form = styled.form`
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+`
+export const InputSubmit = styled.input`
     padding: 10px;
     width: 100%;
     border-radius: 6px;
@@ -86,7 +97,7 @@ export const DivFile = styled.div`
 
     margin: 10px 0px;
 
-    max-width: 500px;
+    max-width: 480px;
 `
 
 export const InputFile = styled.input`
@@ -106,4 +117,37 @@ export const InputFile = styled.input`
 `
 export const TextFile = styled.input`
     width: 70%;
+`
+
+export const Separator = styled.hr`
+    width: 100%;
+    max-width: 480px;
+
+    margin: 16px;
+`
+
+export const ButtonGoogle = styled.button`
+    padding: 10px;
+    width: 100%;
+    max-width: 480px;
+    border-radius: 6px;
+    border: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--color-red);
+    color: var(--color-white);
+
+    font-size: 14px;
+    font-weight: bold;
+    
+    &:hover {
+        cursor: pointer;
+    }
+
+    & > *{
+        margin: 0px 10px;
+    }
 `

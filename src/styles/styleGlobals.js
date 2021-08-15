@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import "../css/font.css";
+import "../assets/css/font.css";
 const GlobalStyle = createGlobalStyle`
 :root {
   /* Colors */
@@ -17,7 +17,10 @@ const GlobalStyle = createGlobalStyle`
 *::after {
   box-sizing: border-box;
 }
-
+html {
+  min-height: 100%;
+  position: relative;
+}
 body {
   margin: unset;
   padding: unset;

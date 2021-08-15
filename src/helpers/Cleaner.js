@@ -1,5 +1,6 @@
 import constants from "../utils/constants.js";
-const {CATEGORY, RESPONSE, PROGRESS,} = constants;
+const { CATEGORY, RESPONSE, PROGRESS, SUCCESS, FAILED, TOTAL_RESPONSES } =
+  constants;
 class Cleaner {
   constructor(category) {
     this.category = category;
@@ -20,11 +21,15 @@ class Cleaner {
   progress() {
     localStorage.removeItem(CATEGORY);
     localStorage.removeItem(RESPONSE);
+    localStorage.removeItem(SUCCESS);
+    localStorage.removeItem(FAILED);
+    localStorage.removeItem(TOTAL_RESPONSES);
     localStorage.removeItem(`${this.category}`);
     localStorage.removeItem(`${this.category}-${PROGRESS}`);
     localStorage.removeItem(`${this.category}-complete`);
     localStorage.removeItem(`${this.category}-life`);
   }
+
   div() {
     document.querySelector("#options-with-images").innerHTML = ``;
     document.querySelector("#options").innerHTML = ``;

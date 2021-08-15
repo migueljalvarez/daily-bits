@@ -11,17 +11,31 @@ import close from "../assets/svg/close.svg";
 import Notification from "../components/Notification";
 import constants from "../utils/constants";
 
-import { CheckButton, ContainerHead, LiveText, Img } from "../styles/styleQuestion";
+import {
+  CheckButton,
+  ContainerHead,
+  LiveText,
+  Img,
+} from "../styles/styleQuestion";
 import time from "../utils/time";
 import { createdOrUpdateStatitics } from "../helpers/statiticsInfo";
+import {
+  createOrUpdateProggressApi,
+  getProgressApi,
+} from "../helpers/progressInfo";
+import { createOrUpdateQuestionApi } from "../helpers/progressQuestionInfo";
 const {
+  CSS_COMPLETE,
+  FAILED,
+  HTML_COMPLETE,
+  JS_COMPLETE,
   NOTIFICATION_FAILED,
   NOTIFICATION_SUCCESS,
   NOTIFICATION,
   RESPONSE,
   SUCCESS,
-  FAILED,
   TOTAL_RESPONSES,
+  START_TIME,
 } = constants;
 
 const Questions = () => {
@@ -40,18 +54,44 @@ const Questions = () => {
   const clean = new Cleaner(categorie);
   const progressBar = new ProgressBarHelper();
 
-  time.set("start");
   useEffect(() => {
     setCategorie(category);
-    setLive(lives.get());
-    setProgress(progressBar.getProgress(categorie));
+
+    getProgressApi().then((data) => {
+      if (data?.startTime < Date.now()) {
+        localStorage.setItem(START_TIME, data.startTime);
+      } else {
+        time.set("start");
+      }
+      if (categorie === "html") {
+        localStorage.setItem(HTML_COMPLETE, data?.htmlComplete || false);
+      }
+      if (categorie === "css") {
+        localStorage.setItem(CSS_COMPLETE, data?.cssComplete || false);
+      }
+      if (categorie === "js") {
+        localStorage.setItem(JS_COMPLETE, data?.jsComplete || false);
+      }
+    });
+    console.log(JSON.parse(localStorage.getItem(`${categorie}-complete`)));
+    if (JSON.parse(localStorage.getItem(`${categorie}-complete`))) {
+      history.goBack();
+    } else {
+      setLive(lives.get());
+      setProgress(progressBar.getProgress(categorie));
+    }
   }, [question]);
 
   const nextQuestion = () => {
     const { options } = question;
     if (questionary.get().redirect) {
-      time.set("end");
-      createdOrUpdateStatitics().then(() => history.goBack());
+      return Promise.all([
+        createdOrUpdateStatitics(),
+        createOrUpdateProggressApi(),
+      ]).then((data) => {
+        clean.progress()
+        history.goBack();
+      });
     }
     setQuestion(questionary.get());
     if (question.type !== "3") {
@@ -142,11 +182,18 @@ const Questions = () => {
       }
     }
   };
+  const handleClose = async () => {
+    await createdOrUpdateStatitics();
+    await createOrUpdateProggressApi();
+    await createOrUpdateQuestionApi(categorie);
+    clean.progress();
+    history.goBack();
+  };
 
   return (
     <>
       <ContainerHead>
-        <span id="close">
+        <span id="close" onClick={async () => await handleClose()}>
           <Img src={close} alt="close" />
         </span>
         <ProgressBar percent={progress} />

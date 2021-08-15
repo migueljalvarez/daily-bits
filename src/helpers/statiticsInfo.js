@@ -16,32 +16,24 @@ const getStatiticsInfo = async () => {
 
 const createdOrUpdateStatitics = async () => {
   let statitics = await getStatiticsInfo();
+  let currentData = {
+    hours: statitics?.hours + time.calculate(),
+    failedResponses: parseInt(localStorage.getItem(FAILED)) || 0,
+    successResponses: parseInt(localStorage.getItem(SUCCESS)) || 0,
+    totalResponse: parseInt(localStorage.getItem(TOTAL_RESPONSES)) || 0,
+  };
   if (statitics) {
-    let currentData = {
-      ...statitics,
-      hours: statitics.hours + time.calculate(),
-      failedResponses:
-        statitics.failedResponses + parseInt(localStorage.getItem(FAILED)),
-      successResponses:
-        statitics.successResponses + parseInt(localStorage.getItem(SUCCESS)),
-      totalResponse:
-        statitics.totalResponse +
-        parseInt(localStorage.getItem(TOTAL_RESPONSES)),
-    };
     const url = `${baseUrl}/${statitics.id}`;
     const { data } = await axios.patch(url, currentData);
     return data;
   } else {
     const [user] = await getUserInfo();
-    const newData = {
+    const url = `${baseUrl}`;
+    const { data } = await axios.post(url, {
+      ...currentData,
       userId: user.id,
       hours: time.calculate(),
-      failedResponses: parseInt(localStorage.getItem(FAILED)),
-      successResponses: parseInt(localStorage.getItem(SUCCESS)),
-      totalResponse: parseInt(localStorage.getItem(TOTAL_RESPONSES)),
-    };
-    const url = `${baseUrl}`;
-    const { data } = await axios.post(url, newData);
+    });
     return data;
   }
 };

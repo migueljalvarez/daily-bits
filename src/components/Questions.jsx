@@ -18,14 +18,21 @@ import {
   Title,
   UnOrganizedButton,
 } from "../styles/styleQuestion";
-
+import { getUserInfo } from "../helpers/userInfo.js";
+import axios from "axios";
+import { createOrUpdateProggressApi } from "../helpers/progressInfo.js";
 const { RESPONSE, ADD, REMOVE } = constants;
+import time from "../utils/time"
+import { createdOrUpdateStatitics } from "../helpers/statiticsInfo.js";
+import Cleaner from "../helpers/Cleaner.js";
 
 class Question {
   constructor(category) {
     this.category = category;
     this.sendToLocalStorages();
     this.responses = [];
+    this.baseUrl = "https://daily-bits-fake-api.herokuapp.com";
+    this.clean = new Cleaner(category)
   }
   setCustomClass(id, method, className) {
     method === ADD
@@ -98,11 +105,12 @@ class Question {
   // Retorna un elemento a alzar
   random() {
     let all = this.find();
-    // console.log("all", all);
     let questions = all.filter((option) => option.state !== true);
     if (questions.length === 0) {
       console.log("regresando al home...");
-      return { redirect: true };
+      time.set("end")
+      localStorage.setItem(`${this.category}-complete`, true);
+      return { redirect: true };      
     } else {
       const random = Math.floor(Math.random() * questions.length);
       return questions[random];
@@ -179,7 +187,7 @@ class Question {
             <ContainerOrganized
               id="organized"
               style={{
-                backgroundImage: "url(../assets/svg/separator.svg)"
+                backgroundImage: "url(../assets/svg/separator.svg)",
               }}
             />
             <ContainerUnOrganized id="unorganized">
@@ -209,10 +217,28 @@ class Question {
   }
 
   sendToLocalStorages() {
-    const questions = this.find();
-    if (questions.length > 0) {
-      localStorage.setItem(this.category, JSON.stringify(questions));
-    }
+    getUserInfo().then((data) => {
+      const [user] = data;
+      const userId = user.id;
+      const url = `${this.baseUrl}/questions?userId=${userId}&category=${this.category}`;
+      axios
+        .get(url)
+        .then((result) => {
+          const data = result.data.find(
+            (quest) => quest.category === this.category
+          );
+
+          if (data.questions.length > 0) {
+            localStorage.setItem(this.category, JSON.stringify(data.questions));
+          }
+        })
+        .catch(() => {
+          const questions = this.find();
+          if (questions.length > 0) {
+            localStorage.setItem(this.category, JSON.stringify(questions));
+          }
+        });
+    });
   }
   verify(question) {
     let response = localStorage.getItem(RESPONSE);
