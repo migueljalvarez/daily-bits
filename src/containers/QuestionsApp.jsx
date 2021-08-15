@@ -25,13 +25,17 @@ import {
 } from "../helpers/progressInfo";
 import { createOrUpdateQuestionApi } from "../helpers/progressQuestionInfo";
 const {
+  CSS_COMPLETE,
+  FAILED,
+  HTML_COMPLETE,
+  JS_COMPLETE,
   NOTIFICATION_FAILED,
   NOTIFICATION_SUCCESS,
   NOTIFICATION,
   RESPONSE,
   SUCCESS,
-  FAILED,
   TOTAL_RESPONSES,
+  START_TIME,
 } = constants;
 
 const Questions = () => {
@@ -52,46 +56,42 @@ const Questions = () => {
 
   useEffect(() => {
     setCategorie(category);
+
     getProgressApi().then((data) => {
       if (data?.startTime < Date.now()) {
-        localStorage.setItem("start-time", data.startTime);
+        localStorage.setItem(START_TIME, data.startTime);
       } else {
         time.set("start");
       }
       if (categorie === "html") {
-        data?.htmlComplete
-          ? localStorage.setItem(`html-complete`, true)
-          : localStorage.setItem(`html-complete`, false);
+        localStorage.setItem(HTML_COMPLETE, data?.htmlComplete || false);
       }
       if (categorie === "css") {
-        data?.cssComplete
-          ? localStorage.setItem(`css-complete`, true)
-          : localStorage.setItem(`css-complete`, false);
+        localStorage.setItem(CSS_COMPLETE, data?.cssComplete || false);
       }
       if (categorie === "js") {
-        data?.jsComplete
-          ? localStorage.setItem(`js-complete`, true)
-          : localStorage.setItem(`js-complete`, false);
+        localStorage.setItem(JS_COMPLETE, data?.jsComplete || false);
       }
     });
-    if (!JSON.parse(localStorage.getItem(`${categorie}-complete`))) {
+    console.log(JSON.parse(localStorage.getItem(`${categorie}-complete`)));
+    if (JSON.parse(localStorage.getItem(`${categorie}-complete`))) {
+      history.goBack();
+    } else {
       setLive(lives.get());
       setProgress(progressBar.getProgress(categorie));
-    } else {
-      history.goBack();
     }
   }, [question]);
 
   const nextQuestion = () => {
     const { options } = question;
     if (questionary.get().redirect) {
-      time.set("end");
-      createdOrUpdateStatitics().then(() =>
-        createOrUpdateProggressApi().then(() => {
-          clean.progress();
-          history.goBack();
-        })
-      );
+      return Promise.all([
+        createdOrUpdateStatitics(),
+        createOrUpdateProggressApi(),
+      ]).then((data) => {
+        clean.progress()
+        history.goBack();
+      });
     }
     setQuestion(questionary.get());
     if (question.type !== "3") {
@@ -189,7 +189,7 @@ const Questions = () => {
     clean.progress();
     history.goBack();
   };
-  
+
   return (
     <>
       <ContainerHead>

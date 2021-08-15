@@ -324,7 +324,7 @@ export default [
   },
   {
     id: 12,
-    name: "Compo se reepresenta al Spread Syntax",
+    name: "Como se reepresenta al Spread Syntax",
     avatar: "avatar3",
     type: "1",
     category: "js",
