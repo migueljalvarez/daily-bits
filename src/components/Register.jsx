@@ -13,7 +13,8 @@ import {
     Input,
     DivFile,
     InputFile,
-    TextFile
+    TextFile,
+    DivForm
 } from '../styles/styleAuth';
 import Notification from "./Notification";
 
@@ -69,6 +70,7 @@ const Register = () => {
                 <Logo src="../assets/svg/logo.svg" alt="Logo" />
                 <h1>Registrate</h1>
             </Header>
+            <DivForm>
             <Form action="" onSubmit={handleSubmit}>
                 <Label htmlFor="nombre">
                     Nombre
@@ -132,7 +134,7 @@ const Register = () => {
 
                 <InputSubmit type="submit" value="Registrarme" />
             </Form>
-
+            </DivForm>
             <DivLink>
                 <p>¿Ya tienes una cuenta? <Link style={{ color: "#26b67d" }} to="/auth/login">Inicia sesión</Link></p>
             </DivLink>
